@@ -1,0 +1,54 @@
+@charset "utf-8";
+
+.accordion-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggleIcon {
+  display: block;
+  width: 15px;
+  height: 15px;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+}
+
+.accordion-title.is-open .toggleIcon {
+  transform: rotate(180deg);
+}
+
+.toggleIcon::before {
+  content: "";
+  display: inline-block;
+  height: 2px;
+  width: 9px;
+  position: absolute;
+}
+
+.toggleIcon::after {
+  content: "";
+  display: inline-block;
+  height: 2px;
+  width: 9px;
+  transform: translateY(50%) rotate(-45deg);
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-top: 2px solid #000;
+  border-right: 2px solid #000;
+}
+
+.accordion_item {
+  display: none;
+  padding: 10px 20px;
+}
+
+.sort {
+  margin: 10px;
+  width: 150px;
+}
+
+#checksAll {
+  margin-left: 5px;
+}

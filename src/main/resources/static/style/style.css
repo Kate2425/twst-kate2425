@@ -1,0 +1,192 @@
+@charset "utf-8";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.5; /* 行の高さや行間 */
+}
+
+fieldset {
+  margin: 10px;
+  padding: 5px;
+}
+
+legend {
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+h1 {
+  color: #000000; /*文字色*/
+}
+
+ul {
+  list-style: none; /*list-styleを非表示*/
+  padding: 0px;
+}
+
+span {
+  margin: 5px;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0085cc;
+  text-decoration: underline;
+  transition: all 0.5s;
+}
+
+input:disabled {
+  background: #ccc;
+}
+
+.btn {
+  border: 1px solid;
+  text-align: center;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.submit {
+  display: inline-block;
+  border-radius: 5px;
+  padding: 3px 6px;
+  /* transition: 0.3s; */
+  /* box-shadow: 2px 2px #d3d3d3; */
+}
+
+.semicircle {
+  display: inline-block;
+  border-radius: 200px;
+  border: 1px solid;
+  padding: 3px 12px;
+  margin: 10px 0;
+}
+
+.circle {
+  display: flex;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  margin: 10px 0;
+}
+
+.btn:hover {
+  transform: scale(0.9, 0.9);
+}
+
+.light-blue-purple {
+  background: #6fa1ff;
+  color: #fff;
+}
+
+.light-red-purple {
+  background: #ff70a2;
+  color: #fff;
+}
+
+.light-green {
+  background: #5acc6b;
+  color: #fff;
+}
+
+.checkbox-icon {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  -webkit-appearance: none;
+  appearance: none; /*デフォルトのスタイルを削除*/
+  border: solid 1px #808080;
+  border-radius: 4px;
+}
+
+.checkbox-icon::before {
+  position: absolute;
+  /* inset:0; */
+  display: inline-block;
+  content: "";
+  opacity: 0; /*透明*/
+  width: 100%;
+  height: 100%;
+  mask-image: url("/svg/check.svg");
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  background-color: #ffffff;
+  margin-right: 0.5rem;
+}
+
+.checkbox-icon:checked {
+  background: #0059ff; /* vivid-blue-purple */
+  border-color: #0059ff; /* vivid-blue-purple */
+}
+
+.checkbox-icon:checked::before {
+  opacity: 1;
+}
+
+.checkbox {
+  padding: 2px;
+  line-height: 1.5;
+}
+
+.radio-icon {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  -webkit-appearance: none;
+  appearance: none; /*デフォルトのスタイルを削除*/
+  border: solid 1px #808080;
+  border-radius: 50%;
+}
+
+.radio-icon::before {
+  position: absolute;
+  /* inset:0; */
+  display: inline-block;
+  content: "";
+  opacity: 0; /*透明*/
+  width: 100%;
+  height: 100%;
+  mask-image: url("/svg/check.svg");
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  background-color: #ffffff;
+  margin-right: 0.5rem;
+}
+
+.radio-icon:checked {
+  background: #0059ff; /* vivid-blue-purple */
+  border-color: #0059ff; /* vivid-blue-purple */
+}
+
+.radio-icon:checked::before {
+  opacity: 1;
+}
+
+.wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.fire {
+  color: red;
+}
+
+.water {
+  color: blue;
+}
+
+.leaf {
+  color: green;
+}

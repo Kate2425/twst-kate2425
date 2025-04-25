@@ -1,0 +1,89 @@
+@charset "utf-8";
+
+table {
+  border-collapse: collapse; /* 表のセル間の隙間 */
+  background-color: #dcdcdc;
+  margin: 10px; /*0 auto;*/
+  padding: 5px; /*0;*/
+  width: max-content; /*最大幅*/
+  table-layout: fixed; /*列幅を均等*/
+}
+
+table th {
+  font-size: 0.8em;
+}
+
+table tr {
+  /* background-color: #e6f2f5; */
+  padding: 0.35em;
+  border-bottom: 2px solid #fff;
+}
+
+table td {
+  width: 70px;
+}
+
+table th,
+table td {
+  padding: 1em 10px 1em 1em;
+  border-right: 2px solid #fff;
+}
+
+table tbody th {
+  background: #50b5c7;
+  color: #fff;
+}
+
+.column {
+  white-space: nowrap; /*折り返しなし*/
+}
+
+#tableName {
+  width: 70px;
+}
+
+/* @media screen and (max-width: 600px) {
+  table {
+    border: 0;
+    width: 100%;
+  }
+
+  table th {
+    background-color: #167f92;
+    display: block;
+    border-right: none;
+  }
+
+  table tr {
+    display: block;
+    margin-bottom: 0.625em;
+  }
+  
+  table td {
+    border-bottom: 1px solid #bbb;
+    display: block;
+    font-size: 0.8em;
+    text-align: right;
+    position: relative;
+    padding: 0.625em 0.625em 0.625em 4em;
+    border-right: none;
+  }
+
+  table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    position: absolute;
+    left: 10px;
+    color: #167f92;
+  }
+  table td:last-child {
+    border-bottom: 0;
+  }
+  table tbody th {
+    color: #fff;
+  }
+} */
+/* table td {
+  border: 1px dashed gray;
+  padding: 3px 10px;  上下3px 左右10pxの余白
+} */
