@@ -19,7 +19,7 @@ COPY /src .
 
 # アプリケーションのビルド
 COPY src .
-RUN mvn -B  clean package -DskipTests
+RUN ./mvnw -B  clean package -DskipTests
 
 # # 本番用の軽量なJREベースイメージを使用
 # FROM openjdk:17-jdk-slim
