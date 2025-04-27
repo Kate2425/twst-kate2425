@@ -12,7 +12,7 @@ COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
 # プロジェクトのソースコードをコピー
-COPY /src .
+COPY / .
 
  # JAR ファイルを作成（テストはスキップ）
  RUN mvn clean package -DskipTests
