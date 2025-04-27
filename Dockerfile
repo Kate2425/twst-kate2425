@@ -12,13 +12,16 @@ COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
 # プロジェクトのソースコードをコピー
-COPY / .
+COPY /src .
 
  # JAR ファイルを作成（テストはスキップ）
- RUN mvn clean package -DskipTests
+#  RUN mvn clean package -DskipTests
+
+# アプリケーションのJARファイルをコピー
+COPY --from=build /target/*.jar /myapp/twst-0.0.1-SNAPSHOT.jar
   
  # ホットリロードを有効にする環境変数を設定
  ENV JAVA_OPTS="-Dspring.devtools.restart.enabled=true -Dspring.devtools.livereload.enabled=true"
  
  # アプリケーションの起動
- ENTRYPOINT ["java", "-jar", "target/twst-0.0.1-SNAPSHOT.jar", "--spring.devtools.restart.enabled=true"]
+ ENTRYPOINT ["java", "-jar", "/myapp/twst-0.0.1-SNAPSHOT.jar", "--spring.devtools.restart.enabled=true"]
