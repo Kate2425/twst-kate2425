@@ -1,25 +1,24 @@
 # ベースイメージを指定
-FROM maven:4.0.0-openjdk-21-slim AS build 
+FROM openjdk:17-jdk-alpine
+
+# Maven をインストール
+RUN apk add --no-cache maven
 
 # 作業ディレクトリを設定
 WORKDIR /myapp
 
-# Maven Wrapperのセットアップ
-COPY .mvn .mvn
+# 依存関係を事前にダウンロード（ビルド時間短縮のため）
+COPY twst/pom.xml .
+RUN mvn dependency:go-offline -B
 
-# Mavenプロジェクトをビルド
-COPY pom.xml .
-RUN mvn -B dependency:go-offline
+# プロジェクトのソースコードをコピー
+COPY twst/ .
 
-# アプリケーションのビルド
-COPY src src
-RUN mvn -B package -DskipTests
-
-# 本番用の軽量なJREベースイメージを使用
-FROM openjdk:21-jdk-slim
-
-# アプリケーションのJARファイルをコピー
-COPY --from=build /app/target/*.jar /app/app.jar
-
-# アプリケーションの実行
-CMD ["java", "-jar", "/app/app.jar"]
+ # JAR ファイルを作成（テストはスキップ）
+ RUN mvn clean package -DskipTests
+  
+ # ホットリロードを有効にする環境変数を設定
+ ENV JAVA_OPTS="-Dspring.devtools.restart.enabled=true -Dspring.devtools.livereload.enabled=true"
+ 
+ # アプリケーションの起動
+ ENTRYPOINT ["java", "-jar", "target/twst-0.0.1-SNAPSHOT.jar", "--spring.devtools.restart.enabled=true"]
