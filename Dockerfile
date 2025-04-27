@@ -21,6 +21,8 @@ COPY /src .
 COPY src .
 RUN mvn -B package -DskipTests
 
+# 本番用の軽量なJREベースイメージを使用
+FROM openjdk:17-jdk-slim
 
 # アプリケーションのJARファイルをコピー
 COPY --from=build /target/*.jar /twst-0.0.1-SNAPSHOT.jar
