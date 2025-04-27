@@ -8,11 +8,11 @@ RUN apk add --no-cache maven
 WORKDIR /myapp
 
 # 依存関係を事前にダウンロード（ビルド時間短縮のため）
-COPY twst/pom.xml .
+COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
 # プロジェクトのソースコードをコピー
-COPY twst/ .
+COPY /src .
 
  # JAR ファイルを作成（テストはスキップ）
  RUN mvn clean package -DskipTests
