@@ -1,16 +1,25 @@
-FROM openjdk:11-slim
+# ベースイメージを指定
+FROM maven:4.0.0-openjdk-21-slim AS build 
 
 # 作業ディレクトリを設定
-WORKDIR /app
+WORKDIR /myapp
 
-# Javaファイルをコピー
-COPY TwstApplication.java /app
+# Maven Wrapperのセットアップ
+COPY .mvn .mvn
 
-# Javaファイルをコンパイル
-RUN javac TwstApplication.java
+# Mavenプロジェクトをビルド
+COPY pom.xml .
+RUN mvn -B dependency:go-offline
 
-# ポート8080を公開
-EXPOSE 8080
+# アプリケーションのビルド
+COPY src src
+RUN mvn -B package -DskipTests
 
-# アプリケーションを実行
-CMD ["java", "TwstApplication"]
+# 本番用の軽量なJREベースイメージを使用
+FROM openjdk:21-jdk-slim
+
+# アプリケーションのJARファイルをコピー
+COPY --from=build /app/target/*.jar /app/app.jar
+
+# アプリケーションの実行
+CMD ["java", "-jar", "/app/app.jar"]
