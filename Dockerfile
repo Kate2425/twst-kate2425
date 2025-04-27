@@ -17,6 +17,11 @@ COPY /src .
  # JAR ファイルを作成（テストはスキップ）
 #  RUN mvn clean package -DskipTests
 
+# アプリケーションのビルド
+COPY src .
+RUN mvn -B package -DskipTests
+
+
 # アプリケーションのJARファイルをコピー
 COPY --from=build /target/*.jar /myapp/twst-0.0.1-SNAPSHOT.jar
   
