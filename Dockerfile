@@ -19,13 +19,13 @@ COPY /src .
 
 # アプリケーションのビルド
 COPY src .
-RUN mvn -B package -DskipTests
+RUN mvn -B  clean package -DskipTests
 
-# 本番用の軽量なJREベースイメージを使用
-FROM openjdk:17-jdk-slim
+# # 本番用の軽量なJREベースイメージを使用
+# FROM openjdk:17-jdk-slim
 
-# アプリケーションのJARファイルをコピー
-COPY --from=build /target/*.jar /twst-0.0.1-SNAPSHOT.jar
+# # アプリケーションのJARファイルをコピー
+# COPY --from=build /target/*.jar /twst-0.0.1-SNAPSHOT.jar
   
  # ホットリロードを有効にする環境変数を設定
  ENV JAVA_OPTS="-Dspring.devtools.restart.enabled=true -Dspring.devtools.livereload.enabled=true"
