@@ -123,13 +123,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-					<executions>
-						<execution>
-							<goals>
-								<goal>repackage</goal>
-							</goals>
-						</execution>
-					</executions>
+					<mainClass>com.example.twst.TwstApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
