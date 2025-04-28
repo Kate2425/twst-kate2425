@@ -12,7 +12,7 @@ COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
 # アプリケーションのビルド
-COPY src src
+COPY src/ /myapp/
 RUN mvn -B  clean package -DskipTests
 
  # ホットリロードを有効にする環境変数を設定
