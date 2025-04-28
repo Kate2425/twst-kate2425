@@ -101,6 +101,7 @@
 
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -111,8 +112,10 @@
 							<artifactId>lombok</artifactId>
 						</path>
 					</annotationProcessorPaths>
+					
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -126,7 +129,45 @@
 					<mainClass>com.example.twst.TwstApplication</mainClass>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.4</version>
+				<executions>
+					<execution>
+					<id>shade-jar-with-dependencies</id>
+					  <phase>package</phase>
+					  <goals>
+						<goal>shade</goal>
+					  </goals>
+					  <configuration>
+					   <shadedArtifactAttached>true</shadedArtifactAttached>
+						<transformers>
+							<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<!-- <manifestEntries>	 -->
+									<Main-Class>com.example.twst.TwstApplication</Main-Class>
+								<!-- </manifestEntries> -->
+							</transformer>
+							<!-- <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+							<transformer implementation="org.apache.maven.plugins.shade.resource.properties.PropertiesTransformer">
+								<resource>META-INF/io.netty.versions.properties</resource>
+								<alreadyMergedKey>already_merged</alreadyMergedKey>
+							</transformer>
+							<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer">
+							</transformer>
+							<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
+								<addHeader>false</addHeader>
+							</transformer> -->
+						</transformers>
+						<!-- <outputFile>PATH</outputFile> -->
+					  </configuration> 
+				    </execution>
+				</executions>
+			  </plugin>
+			  
 		</plugins>
+		
 	</build>
 
 </project>
