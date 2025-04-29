@@ -6,9 +6,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/twst?currentSchema=schema01 # 接続先URL
-    username: user01 # ユーザー名
-    password: password # パスワード
+    url: postgresql://twst_user:njomu5ZOaOuUxstSFD3WaoZXuwb8Wia0@dpg-d084ul7diees738tkjm0-a/twst # 接続先URL
+    username: twst_user # ユーザー名
+    password: njomu5ZOaOuUxstSFD3WaoZXuwb8Wia0 # パスワード
     driverClassName: org.postgresql.Driver
 tymeleaf:
   chache: false #リアルタイム反映
