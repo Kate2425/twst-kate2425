@@ -112,7 +112,6 @@
 							<artifactId>lombok</artifactId>
 						</path>
 					</annotationProcessorPaths>
-					
 				</configuration>
 			</plugin>
 
@@ -129,8 +128,8 @@
 					<mainClass>com.example.twst.TwstApplication</mainClass>
 				</configuration>
 			</plugin>
-
-			<plugin>
+ 
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.2.4</version>
@@ -145,11 +144,11 @@
 					   <shadedArtifactAttached>true</shadedArtifactAttached>
 						<transformers>
 							<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-								<!-- <manifestEntries>	 -->
+								<manifestEntries>	
 									<Main-Class>com.example.twst.TwstApplication</Main-Class>
-								<!-- </manifestEntries> -->
+								</manifestEntries>
 							</transformer>
-							<!-- <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+							<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
 							<transformer implementation="org.apache.maven.plugins.shade.resource.properties.PropertiesTransformer">
 								<resource>META-INF/io.netty.versions.properties</resource>
 								<alreadyMergedKey>already_merged</alreadyMergedKey>
@@ -158,13 +157,13 @@
 							</transformer>
 							<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
 								<addHeader>false</addHeader>
-							</transformer> -->
+							</transformer>
 						</transformers>
-						<!-- <outputFile>PATH</outputFile> -->
+						<outputFile>PATH</outputFile>
 					  </configuration> 
 				    </execution>
 				</executions>
-			  </plugin>
+			  </plugin> --> 
 			  
 		</plugins>
 		
