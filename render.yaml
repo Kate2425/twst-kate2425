@@ -1,8 +1,21 @@
+databases:
+  - name: twst
+    databaseName: twst
+    region: singapore
+
 services:
   - type: web
-    name: java-app
+    name: twst-kate2425-test
     runtime: docker
+    dockerContext: .
+    region: singapore
+    branch: master
     plan: free
     dockerfilePath: ./Dockerfile
     buildCommand: ""
     startCommand: ""
+    envVars:
+      - key: <%= ENV['DATABASE_URL'] %>
+        fromDatabase:
+          name: twst
+          property: connectionString
