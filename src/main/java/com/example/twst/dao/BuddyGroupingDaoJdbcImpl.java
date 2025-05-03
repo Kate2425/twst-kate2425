@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -16,8 +15,11 @@ import com.example.twst.domain.model.BuddyGrouping;
 @Repository("BuddyGroupingDaoJdbcImpl")
 public class BuddyGroupingDaoJdbcImpl implements BuddyGroupingDao {
 
-    @Autowired
-    private NamedParameterJdbcTemplate jdbc;
+    private final NamedParameterJdbcTemplate jdbc;
+
+    public BuddyGroupingDaoJdbcImpl(NamedParameterJdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+    }
 
     @Override
     public List<BuddyGrouping> selectMany() throws DataAccessException {
