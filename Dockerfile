@@ -1,5 +1,5 @@
 # ベースイメージを指定
-FROM maven:3.9.4-openjdk-21-slim AS build
+FROM maven:3.8.3-openjdk-17-slim AS build
 
 # 作業ディレクトリを設定
 WORKDIR /app
