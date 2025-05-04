@@ -3,8 +3,10 @@ myapp:
     env: prod
 
 spring:
+  api:
+    hostname: ${DATABASE_HOSTNAME} # ホスト名
   datasource:
-    url: ${DATABASE_URL} # 接続先URL
+    #url: ${DATABASE_URL} # 接続先URL
     username: ${DATABASE_USERNAME} # ユーザー名
     password: ${DATABASE_PASSWORD} # パスワード
     driverClassName: org.postgresql.Driver
