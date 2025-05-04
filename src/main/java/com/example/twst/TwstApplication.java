@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-import com.example.twst.config.ConfigProd;
+// import com.example.twst.config.ConfigProd;
 import com.example.twst.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
