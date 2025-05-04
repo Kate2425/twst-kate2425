@@ -2,7 +2,7 @@
 FROM openjdk:21-jdk-slim
 
 # Maven をインストール
-RUN apk add --no-cache maven
+#RUN apk add --no-cache maven
 
 # 作業ディレクトリを設定
 WORKDIR /app
