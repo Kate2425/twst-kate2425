@@ -3,16 +3,16 @@ package com.example.twst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+// import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+// import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 // import com.example.twst.config.ConfigProd;
 import com.example.twst.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
 
-@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+// @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 @SpringBootApplication
 @Slf4j
 public class TwstApplication implements CommandLineRunner {
