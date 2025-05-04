@@ -1,8 +1,8 @@
 # ベースイメージを指定
-FROM openjdk:21-jdk-slim
+FROM maven:4.0.0-openjdk:21-jdk-slim AS build
 
 # Maven をインストール
-#RUN apk add --no-cache maven
+COPY .mvn .mvn
 
 # 作業ディレクトリを設定
 WORKDIR /app
