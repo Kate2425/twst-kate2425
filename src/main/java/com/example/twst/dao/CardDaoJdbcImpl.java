@@ -11,8 +11,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -27,11 +28,8 @@ import com.example.twst.form.SearchForm;
 @Repository("CardDaoJdbcImpl")
 public class CardDaoJdbcImpl implements CardDao {
 
-    private final NamedParameterJdbcTemplate jdbc;
-
-    public CardDaoJdbcImpl(NamedParameterJdbcTemplate jdbc) {
-        this.jdbc = jdbc;
-    }
+    @Autowired
+    private NamedParameterJdbcTemplate jdbc;
 
     /**
      * テーブルの件数を取得.
