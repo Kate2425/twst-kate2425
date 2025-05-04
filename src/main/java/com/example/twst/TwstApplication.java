@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 // import com.example.twst.config.ConfigProd;
-import com.example.twst.config.Config;
+import com.example.twst.config.ParameterConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TwstApplication implements CommandLineRunner {
 
 	@Autowired
-	private Config config;
+	private ParameterConfig config;
 
 	// @Autowired
 	// private ConfigProd configProd;

@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @ConfigurationProperties(prefix = "myapp.config")
 @Component
-public class Config {
+public class ParameterConfig {
 
     private String key;
 
