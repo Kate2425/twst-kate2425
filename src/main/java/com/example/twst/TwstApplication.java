@@ -20,8 +20,8 @@ public class TwstApplication implements CommandLineRunner {
 	@Autowired
 	private Config config;
 
-	@Autowired
-	private ConfigProd configProd;
+	// @Autowired
+	// private ConfigProd configProd;
 
 	public static void main(String[] args) {
 		SpringApplication.run(TwstApplication.class, args);
@@ -30,6 +30,6 @@ public class TwstApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		log.info(config.toString());
-		log.info(configProd.toString());
+		// log.info(configProd.toString());
 	}
 }
