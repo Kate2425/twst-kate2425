@@ -1,11 +1,11 @@
 # ベースイメージを指定
-FROM maven:4.0.0-openjdk:21-jdk-slim AS build
-
-# Maven をインストール
-COPY .mvn .mvn
+FROM maven:3.9.4-openjdk-21-slim AS build
 
 # 作業ディレクトリを設定
 WORKDIR /app
+
+# Maven をインストール
+COPY .mvn .mvn
 
 # 依存関係を事前にダウンロード（ビルド時間短縮のため）
 COPY pom.xml .
