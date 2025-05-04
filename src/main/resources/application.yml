@@ -1,0 +1,30 @@
+myapp:
+  config:
+    key: value
+    env_test: ${ENV_TEST}
+    noenv: ${NO_ENV:default_value}
+    flag: true
+    env: no_env
+
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+
+tymeleaf:
+  chache: false #リアルタイム反映
+  prefix: file:src/main/resources/templates/
+  mode: html
+springdoc:
+  cache:
+    disabled: true
+  api-docs:
+    enabled: true
+logging:
+  level: #ログレベル
+    org:
+    springframework: DEBUG
+  root: DEBUG
+  ROOT: DEBUG
+  com.zaxxer.hikari: debug
