@@ -1,0 +1,26 @@
+myapp:
+  config:
+    env: render
+
+services:
+  # Web server
+  - type: web
+    name: twst
+    plan: free
+    runtime: docker
+    dockerfilePath: .Dockerfile
+    # dockerContext: .
+    # preDeployCommand: .pre_deploy.sh
+    # envVars:
+    # 必要な環境変数の設定
+# DB
+databases:
+  - name: twst
+    databaseName: twst
+    user: ${DATABASE_USERNAME}
+    region: singapore
+    envVars:
+      - key: <%= ENV['DATABASE_URL'] %>
+        fromDatabase:
+          name: render_app
+          property: connectionString
