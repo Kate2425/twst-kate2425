@@ -7,4 +7,4 @@ spring:
     url: ${DATABASE_URL} # 接続先URL
     username: ${DATABASE_USERNAME} # ユーザー名
     password: ${DATABASE_PASSWORD} # パスワード
-    # driverClassName: org.postgresql.Driver
+    driverClassName: org.postgresql.Driver
