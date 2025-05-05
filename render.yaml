@@ -21,13 +21,15 @@ services:
       name: twst
       property: connectionString
 # DB
-# databases:
-#   - name: twst
-#     databaseName: twst
-#     user: ${DATABASE_USERNAME}
-#     region: singapore
-#     envVars:
-#       - key: <%= ENV['DATABASE_URL'] %>
-#         fromDatabase:
-#           name: render_app
-#           property: connectionString
+databases:
+  - name: twst
+    databaseName: twst
+    user: ${DATABASE_USERNAME}
+    plan: free
+    region: singapore
+    #     envVars:
+    #       - key: <%= ENV['DATABASE_URL'] %>
+    #         fromDatabase:
+    #           name: render_app
+    #           property: connectionString
+    postgresMajorVersion: "16"

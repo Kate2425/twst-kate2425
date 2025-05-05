@@ -19,4 +19,4 @@ RUN mvn -B  clean package -f "/app/pom.xml" -DskipTests
  ENV JAVA_OPTS="-Dspring.devtools.restart.enabled=true -Dspring.devtools.livereload.enabled=true"
  
  # アプリケーションの起動
- ENTRYPOINT ["java", "-jar", "/app/target/twst-0.0.1-SNAPSHOT.jar", "--spring.devtools.restart.enabled=true"]
+ ENTRYPOINT ["java", "-jar", "/app/target/twst-0.0.1-SNAPSHOT.jar", "--spring.devtools.restart.enabled=true --debug"]
