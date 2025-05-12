@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <title>Edit</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link th:href="@{/style/style.css}" rel="stylesheet">
+        <link th:href="@{/style/edit.css}" rel="stylesheet">
+    </head>
+
+    <body>
+        <nav>
+            <ul>
+                <li><a th:href="@{/edit}">編集</a></li>
+            </ul>
+        </nav>
+        <fieldset>
+            <legend>衣装</legend>
+            <form method="get" action="#" th:object="${SearchForm}"
+                id="editForm">
+                <span th:each="item : ${tableName}">
+                    <input type="radio" th:value="${item.characterName}"
+                        th:field="*{tableNameChecks}" />
+                    <label th:for="${#ids.prev('tableNameChecks')}"
+                        th:text="${item.viewName}"></label>
+                </span>
+            </form>
+        </fieldset>
+        <button th:formaction="@{/update}" form="editForm">編集</button>
+        <button th:formaction="@{/insert}" form="editForm">登録</button>
+    </body>
+</html>

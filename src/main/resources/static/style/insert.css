@@ -1,0 +1,50 @@
+table {
+  border-collapse: collapse; /* 表のセル間の隙間 */
+  background-color: #dcdcdc;
+  margin: 0 auto;
+  padding: 0;
+  width: max-content; /*最大幅*/
+  table-layout: fixed; /*列幅を均等*/
+}
+
+table th {
+  font-size: 0.8em;
+}
+
+table tr {
+  /* background-color: #e6f2f5; */
+  padding: 0.35em;
+  border-bottom: 2px solid #fff;
+}
+
+table td {
+  width: 70px;
+}
+
+table th,
+table td {
+  padding: 1em 10px 1em 1em;
+  border-right: 2px solid #fff;
+}
+
+table tbody th {
+  background: #50b5c7;
+  color: #fff;
+}
+
+.column {
+  white-space: nowrap; /*折り返しなし*/
+}
+
+#tableName {
+  width: 70px;
+}
+
+.textbox {
+  width: 50px;
+  padding: 2px 3px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  box-sizing: border-box;
+}

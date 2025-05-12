@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+
+        <title>Insert</title>
+        <link th:href="@{/style/style.css}" rel="stylesheet">
+        <link th:href="@{/style/insert.css}" rel="stylesheet">
+        <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
+        <!-- <script th:src="@{/style/insert.js}"></script> -->
+
+    </head>
+
+    <body>
+        <nav>
+            <ul>
+                <li><a th:href="@{/edit}">編集</a></li>
+            </ul>
+        </nav>
+        <table>
+            <tbody>
+                <tr>
+                    <th> </th>
+                    <th>キャラクター</th>
+                    <th>レア度</th>
+                    <th>タイプ</th>
+                    <th>バディ１</th>
+                    <th>バディ２</th>
+                    <th>バディ３</th>
+                    <th>マジック１</th>
+                    <th>マジック２</th>
+                    <th>マジック３</th>
+                    <th>デュオ</th>
+                    <th>初期HP</th>
+                    <th>初期ATK</th>
+                    <th>最大HP</th>
+                    <th>最大ATK</th>
+                    <th>所持</th>
+                    <th>バディ１効果</th>
+                    <th>バディ２効果</th>
+                    <th>バディ３効果</th>
+                </tr>
+                <th:block th:each="record: ${cardList}">
+                    <tr>
+                        <th th:text="${record.id}"></th>
+                        <td th:text="${record.name.viewName}"></td>
+                        <td th:text="${record.rare}"></td>
+                        <td th:text="${record.type}"></td>
+                        <td th:text="${record.buddy1.viewName}"></td>
+                        <td th:text="${record.buddy2.viewName}"></td>
+                        <td th:text="${record.buddy3.viewName}"></td>
+                        <td th:text="${record.magic1Name}"></td>
+                        <td th:text="${record.magic2Name}"></td>
+                        <td th:text="${record.magic3Name}"></td>
+                        <td th:text="${record.duo.viewName}"></td>
+                        <td th:text="${record.minHp}"></td>
+                        <td th:text="${record.minAtk}"></td>
+                        <td th:text="${record.maxHp}"></td>
+                        <td th:text="${record.maxAtk}"></td>
+                        <td th:text="${record.validFlg}"></td>
+                        <td th:text="${record.buddy1Effect}"></td>
+                        <td th:text="${record.buddy2Effect}"></td>
+                        <td th:text="${record.buddy3Effect}"></td>
+                    </tr>
+                </th:block>
+                <tr>
+                    <form action="#" th:action="@{/insert}"
+                        th:object="${cardForm}" method="post">
+
+                        <th> </th>
+                        <td>
+                            <select name="name">
+                                <option th:each=" option: ${characterName}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="rare">
+                                <option th:each=" option: ${rare}"
+                                    th:value="${option.characterName}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="type">
+                                <option th:each=" option: ${type}"
+                                    th:value="${option.characterName}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="buddy1">
+                                <option th:each=" option: ${characterName}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="buddy2">
+                                <option th:each=" option: ${characterName}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="buddy3">
+                                <option th:each=" option: ${characterName}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="magic1Grouping">
+                                <option th:each=" option: ${magicGroupingList}"
+                                    th:value="${option.magicGrouping}"
+                                    th:text="${option.name}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="magic2Grouping">
+                                <option th:each=" option: ${magicGroupingList}"
+                                    th:value="${option.magicGrouping}"
+                                    th:text="${option.name}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="magic3Grouping">
+                                <option th:each=" option: ${magicGroupingList}"
+                                    th:value="${option.magicGrouping}"
+                                    th:text="${option.name}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="duo">
+                                <option th:each=" option: ${characterName}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td><input type="text" name="minHp"
+                                class="textbox" /></td>
+                        <td><input type="text" name="minAtk"
+                                class="textbox" /></td>
+                        <td><input type="text" name="maxHp"
+                                class="textbox" /></td>
+                        <td><input type="text" name="maxAtk"
+                                class="textbox" /></td>
+                        <td>
+                            <select name="validFlg">
+                                <option th:value="true" th:text="所持"></option>
+                                <option th:value="false" th:text="未所持"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="buddy1Grouping">
+                                <option th:each=" option: ${buddyGroupingList}"
+                                    th:value="${option.buddyGrouping}"
+                                    th:text="${option.effect}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="buddy2Grouping">
+                                <option th:each=" option: ${buddyGroupingList}"
+                                    th:value="${option.buddyGrouping}"
+                                    th:text="${option.effect}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="buddy3Grouping">
+                                <option th:each=" option: ${buddyGroupingList}"
+                                    th:value="${option.buddyGrouping}"
+                                    th:text="${option.effect}">
+                                </option>
+                            </select>
+                        </td>
+                        <td><input type="submit" value="登録"></td>
+                        <input type="hidden" name="tableName"
+                            th:value="${tableName}" />
+                    </form>
+                </tr>
+            </tbody>
+        </ta>
+        <p th:if="${#lists.isEmpty(cardList)}">条件に一致するカードが存在しません</p>
+        <p th:if="${validationError}" th:each="error : ${validationError}"></p>
+    </body>
+</html>
