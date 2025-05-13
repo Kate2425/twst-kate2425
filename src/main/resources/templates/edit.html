@@ -19,9 +19,11 @@
                 </span>
             </form>
         </fieldset>
-        <button th:formaction="@{/update}" form="editForm"
-            class="btn semicircle light-blue-purple">編集</button>
-        <button th:formaction="@{/insert}" form="editForm"
-            class="btn semicircle light-green">登録</button>
+        <p class="wrap">
+            <button th:formaction="@{/update}" form="editForm"
+                class="btn semicircle light-blue-purple">編集</button>
+            <button th:formaction="@{/insert}" form="editForm"
+                class="btn semicircle light-green">登録</button>
+        </p>
     </body>
 </html>
