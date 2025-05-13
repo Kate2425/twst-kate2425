@@ -34,7 +34,8 @@ public enum TableEnum implements NameInterface {
     SCHOOL_PERSONNEL("school_personnel", "教職員"),
     REST_MY_ROOM("rest_my_room", "くつろぎマイルーム"),
     NIGHTMARE_SUITS("nightmare_suits", "ナイトメアースーツ"),
-    CHIFFON_OF_NIGHT_SKY("chiffon_of_night_sky", "夜空のシフォン");
+    CHIFFON_OF_NIGHT_SKY("chiffon_of_night_sky", "夜空のシフォン"),
+    CELEBRATE_OF_THE_BEACH("celebrate_of_the_beach", "渚のセレブレイト");
 
     /**
      * テーブル名
