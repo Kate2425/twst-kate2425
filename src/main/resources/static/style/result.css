@@ -1,40 +1,8 @@
 @charset "utf-8";
 
-table {
-  border-collapse: collapse; /* 表のセル間の隙間 */
-  background-color: #dcdcdc;
-  margin: 10px; /*0 auto;*/
-  padding: 5px; /*0;*/
-  width: max-content; /*最大幅*/
-}
-
-table th {
-  font-size: 0.8em;
-}
-
-table tr {
-  padding: 0.35em;
-  border-bottom: 2px solid #fff;
-}
-
-table th,
-table td {
-  padding: 1em 10px 1em 1em;
-  border-right: 2px solid #fff;
-}
-
-table tbody th {
-  background: #50b5c7;
-  color: #fff;
-}
-
-.column {
-  white-space: nowrap; /*折り返しなし*/
-}
-
-#tableName {
+/* #tableName {
   width: 70px;
-}
+} */
 
 /* @media screen and (max-width: 600px) {
   table {
