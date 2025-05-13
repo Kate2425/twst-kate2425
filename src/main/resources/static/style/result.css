@@ -6,7 +6,6 @@ table {
   margin: 10px; /*0 auto;*/
   padding: 5px; /*0;*/
   width: max-content; /*最大幅*/
-  table-layout: fixed; /*列幅を均等*/
 }
 
 table th {
@@ -14,13 +13,8 @@ table th {
 }
 
 table tr {
-  /* background-color: #e6f2f5; */
   padding: 0.35em;
   border-bottom: 2px solid #fff;
-}
-
-table td {
-  width: 70px;
 }
 
 table th,
