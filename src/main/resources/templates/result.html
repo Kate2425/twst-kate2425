@@ -13,19 +13,19 @@
 		<table>
 			<tbody>
 				<tr>
-					<th class="column"> </th>
-					<th class="column">キャラクター</th>
-					<th class="column">レア度</th>
-					<th class="column">タイプ</th>
-					<th class="column">バディ１</th>
-					<th class="column">バディ２</th>
-					<th class="column">バディ３</th>
-					<th class="column">魔法属性１</th>
-					<th class="column">魔法属性２</th>
-					<th class="column">魔法属性３</th>
-					<th class="column">デュオ</th>
-					<th class="column">最大HP</th>
-					<th class="column">最大ATK</th>
+					<th> </th>
+					<th>キャラクター</th>
+					<th>レア度</th>
+					<th>タイプ</th>
+					<th>バディ１</th>
+					<th>バディ２</th>
+					<th>バディ３</th>
+					<th>魔法属性１</th>
+					<th>魔法属性２</th>
+					<th>魔法属性３</th>
+					<th>デュオ</th>
+					<th>最大HP</th>
+					<th>最大ATK</th>
 				</tr>
 				<tr th:each="record , st: ${list}">
 					<form action="#" th:action="@{/organize}" th:object="${CardForm}"

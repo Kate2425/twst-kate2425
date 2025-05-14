@@ -17,12 +17,41 @@ fieldset {
 }
 
 legend {
-  justify-content: space-between;
+  /*justify-content: space-between; 均等配置*/
   padding: 10px 20px;
 }
 
 h1 {
-  color: #000000; /*文字色*/
+  color: #000; /*black*/
+}
+
+table {
+  border-collapse: collapse; /* 表のセル間の隙間 */
+  background-color: #dcdcdc; /*gainsboro*/
+  margin: 10px;
+  padding: 5px;
+  width: max-content; /*最大幅*/
+}
+
+table th {
+  font-size: 0.8em;
+}
+
+table tr {
+  padding: 0.35em;
+  border-bottom: 2px solid #fff; /*white*/
+}
+
+table th,
+table td {
+  padding: 1em 10px 1em 1em;
+  border-right: 2px solid #fff; /*white*/
+  white-space: nowrap; /*折り返しなし*/
+}
+
+table tbody th {
+  background: #50b5c7;
+  color: #fff; /*white*/
 }
 
 ul {
@@ -35,7 +64,7 @@ span {
 }
 
 a {
-  color: #000;
+  color: #000; /*black*/
   text-decoration: none;
 }
 
@@ -88,17 +117,17 @@ input:disabled {
 
 .light-blue-purple {
   background: #6fa1ff;
-  color: #fff;
+  color: #fff; /*white*/
 }
 
 .light-red-purple {
   background: #ff70a2;
-  color: #fff;
+  color: #fff; /*white*/
 }
 
 .light-green {
   background: #5acc6b;
-  color: #fff;
+  color: #fff; /*white*/
 }
 
 .checkbox-icon {
@@ -107,7 +136,7 @@ input:disabled {
   height: 15px;
   -webkit-appearance: none;
   appearance: none; /*デフォルトのスタイルを削除*/
-  border: solid 1px #808080;
+  border: solid 1px #808080; /*gray*/
   border-radius: 4px;
 }
 
@@ -122,13 +151,13 @@ input:disabled {
   mask-image: url("/svg/check.svg");
   mask-repeat: no-repeat;
   mask-size: contain;
-  background-color: #ffffff;
+  background-color: #fff; /*white*/
   margin-right: 0.5rem;
 }
 
 .checkbox-icon:checked {
   background: #0059ff; /* vivid-blue-purple */
-  border-color: #0059ff; /* vivid-blue-purple */
+  border-color: #0059ff;
 }
 
 .checkbox-icon:checked::before {
@@ -146,7 +175,7 @@ input:disabled {
   height: 15px;
   -webkit-appearance: none;
   appearance: none; /*デフォルトのスタイルを削除*/
-  border: solid 1px #808080;
+  border: solid 1px #808080; /*gray*/
   border-radius: 50%;
 }
 
@@ -161,13 +190,13 @@ input:disabled {
   mask-image: url("/svg/check.svg");
   mask-repeat: no-repeat;
   mask-size: contain;
-  background-color: #ffffff;
+  background-color: #fff; /*white*/
   margin-right: 0.5rem;
 }
 
 .radio-icon:checked {
   background: #0059ff; /* vivid-blue-purple */
-  border-color: #0059ff; /* vivid-blue-purple */
+  border-color: #0059ff;
 }
 
 .radio-icon:checked::before {
@@ -180,13 +209,13 @@ input:disabled {
 }
 
 .fire {
-  color: red;
+  color: #ff0000; /*red*/
 }
 
 .water {
-  color: blue;
+  color: #0000ff; /*blue*/
 }
 
 .leaf {
-  color: green;
+  color: #008000; /*green*/
 }
