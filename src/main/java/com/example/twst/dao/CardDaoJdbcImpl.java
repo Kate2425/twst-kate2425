@@ -407,8 +407,6 @@ public class CardDaoJdbcImpl implements CardDao {
             card.setMinAtk((BigDecimal) map.get("min_atk"));// 初期ATK
             card.setMaxHp((BigDecimal) map.get("max_hp"));// 最大HP
             card.setMaxAtk((BigDecimal) map.get("max_atk"));// 最大ATK
-            // card.setRegistUsr((String) map.get("regist_usr"));// 登録者
-            // card.setRegistDate((Date) map.get("regist_date"));// 登録日時
             card.setValidFlg((boolean) map.get("valid_flg"));// 有効フラグ
 
             card.setMagic1Name((String) map.get("magic1_name"));// マジック１名称
@@ -613,6 +611,7 @@ public class CardDaoJdbcImpl implements CardDao {
      */
     private String getOrthoId(String tableName) {
         String idName = tableName;
+        TableEnum tableObject = EnumUtils.getViewName(TableEnum.class, tableName);
         switch (idName) {
             case "dormitory_clothing" -> idName = "イグニハイド・ギア";
             case "experimental_clothing" -> idName = "プレジション・ギア";
@@ -629,6 +628,7 @@ public class CardDaoJdbcImpl implements CardDao {
             case "rabbit_wear" -> idName = "ラビット・ギア";
             case "platinum_jacket" -> idName = "プラチナ・ギア";
             case "playful_dress" -> idName = "プレイフル・ギア";
+            default -> idName = tableObject.getViewName();
         }
         return idName;
     }
