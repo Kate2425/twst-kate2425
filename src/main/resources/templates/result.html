@@ -25,12 +25,15 @@
 					<th>バディ１</th>
 					<th>バディ２</th>
 					<th>バディ３</th>
-					<th>魔法属性１</th>
-					<th>魔法属性２</th>
-					<th>魔法属性３</th>
+					<th>魔法１</th>
+					<th>魔法２</th>
+					<th>魔法３</th>
 					<th>デュオ</th>
 					<th>最大HP</th>
 					<th>最大ATK</th>
+					<th>バディ１効果</th>
+					<th>バディ２効果</th>
+					<th>バディ３効果</th>
 				</tr>
 				<tr th:each="record , st: ${list}">
 					<form action="#" th:action="@{/organize}" th:object="${CardForm}"
@@ -94,29 +97,32 @@
 					<td th:text="${record.buddy2.viewName}"></td>
 					<td th:text="${record.buddy3.viewName}"></td>
 					<th:block th:switch="${record.magic1Type}">
-						<td th:case="'FIRE'" th:class='fire' th:text="${record.magic1Type}"></td>
+						<td th:case="'FIRE'" th:class='fire' th:text="${record.magic1Name}"></td>
 						<td th:case="'WATER'" th:class='water'
-							th:text="${record.magic1Type}"></td>
-						<td th:case="'LEAF'" th:class='leaf' th:text="${record.magic1Type}"></td>
-						<td th:case="*" th:text="${record.magic1Type}"></td>
+							th:text="${record.magic1Name}"></td>
+						<td th:case="'LEAF'" th:class='leaf' th:text="${record.magic1Name}"></td>
+						<td th:case="*" th:text="${record.magic1Name}"></td>
 					</th:block>
 					<th:block th:switch="${record.magic2Type}">
-						<td th:case="'FIRE'" th:class='fire' th:text="${record.magic2Type}"></td>
+						<td th:case="'FIRE'" th:class='fire' th:text="${record.magic2Name}"></td>
 						<td th:case="'WATER'" th:class='water'
-							th:text="${record.magic2Type}"></td>
-						<td th:case="'LEAF'" th:class='leaf' th:text="${record.magic2Type}"></td>
-						<td th:case="*" th:text="${record.magic2Type}"></td>
+							th:text="${record.magic2Name}"></td>
+						<td th:case="'LEAF'" th:class='leaf' th:text="${record.magic2Name}"></td>
+						<td th:case="*" th:text="${record.magic2Name}"></td>
 					</th:block>
 					<th:block th:switch="${record.magic3Type}">
-						<td th:case="'FIRE'" th:class='fire' th:text="${record.magic3Type}"></td>
+						<td th:case="'FIRE'" th:class='fire' th:text="${record.magic3Name}"></td>
 						<td th:case="'WATER'" th:class='water'
-							th:text="${record.magic3Type}"></td>
-						<td th:case="'LEAF'" th:class='leaf' th:text="${record.magic3Type}"></td>
-						<td th:case="*" th:text="${record.magic3Type}"></td>
+							th:text="${record.magic3Name}"></td>
+						<td th:case="'LEAF'" th:class='leaf' th:text="${record.magic3Name}"></td>
+						<td th:case="*" th:text="${record.magic3Name}"></td>
 					</th:block>
 					<td th:text="${record.duo.viewName}"></td>
 					<td th:text="${record.maxHp}"></td>
 					<td th:text="${record.maxAtk}"></td>
+					<td th:text="${record.buddy1Effect}"></td>
+					<td th:text="${record.buddy2Effect}"></td>
+					<td th:text="${record.buddy3Effect}"></td>
 				</tr>
 			</tbody>
 		</ta>

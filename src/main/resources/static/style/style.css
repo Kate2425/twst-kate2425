@@ -6,8 +6,13 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
+  font-size: 1.2rem;
   line-height: 1.5; /* 行の高さや行間 */
 }
 

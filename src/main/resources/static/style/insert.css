@@ -9,10 +9,41 @@ table td {
 }
 
 .textbox {
-  width: 50px;
+  width: 40px;
   padding: 2px 3px;
   margin: 5px;
   border-radius: 5px;
   border: 2px solid #ccc;
   box-sizing: border-box;
+  font-size: 1.2rem;
+}
+
+.selectbox {
+  width: 60px;
+  padding: 2px 3px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  box-sizing: border-box;
+  font-size: 1.2rem;
+}
+
+.name {
+  width: 110px;
+}
+
+.type {
+  width: 90px;
+}
+
+.magic {
+  width: 170px;
+}
+
+.valid {
+  width: 70px;
+}
+
+.buddyGrouping {
+  width: 120px;
 }

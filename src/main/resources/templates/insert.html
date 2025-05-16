@@ -27,9 +27,9 @@
                     <th>バディ１</th>
                     <th>バディ２</th>
                     <th>バディ３</th>
-                    <th>マジック１</th>
-                    <th>マジック２</th>
-                    <th>マジック３</th>
+                    <th>魔法１</th>
+                    <th>魔法２</th>
+                    <th>魔法３</th>
                     <th>デュオ</th>
                     <th>初期HP</th>
                     <th>初期ATK</th>
@@ -39,6 +39,7 @@
                     <th>バディ１効果</th>
                     <th>バディ２効果</th>
                     <th>バディ３効果</th>
+                    <th> </th>
                 </tr>
                 <th:block th:each="record: ${cardList}">
                     <tr>
@@ -49,9 +50,33 @@
                         <td th:text="${record.buddy1.viewName}"></td>
                         <td th:text="${record.buddy2.viewName}"></td>
                         <td th:text="${record.buddy3.viewName}"></td>
-                        <td th:text="${record.magic1Name}"></td>
-                        <td th:text="${record.magic2Name}"></td>
-                        <td th:text="${record.magic3Name}"></td>
+                        <th:block th:switch="${record.magic1Type}">
+                            <td th:case="'FIRE'" th:class='fire'
+                                th:text="${record.magic1Name}"></td>
+                            <td th:case="'WATER'" th:class='water'
+                                th:text="${record.magic1Name}"></td>
+                            <td th:case="'LEAF'" th:class='leaf'
+                                th:text="${record.magic1Name}"></td>
+                            <td th:case="*" th:text="${record.magic1Name}"></td>
+                        </th:block>
+                        <th:block th:switch="${record.magic2Type}">
+                            <td th:case="'FIRE'" th:class='fire'
+                                th:text="${record.magic2Name}"></td>
+                            <td th:case="'WATER'" th:class='water'
+                                th:text="${record.magic2Name}"></td>
+                            <td th:case="'LEAF'" th:class='leaf'
+                                th:text="${record.magic2Name}"></td>
+                            <td th:case="*" th:text="${record.magic2Name}"></td>
+                        </th:block>
+                        <th:block th:switch="${record.magic3Type}">
+                            <td th:case="'FIRE'" th:class='fire'
+                                th:text="${record.magic3Name}"></td>
+                            <td th:case="'WATER'" th:class='water'
+                                th:text="${record.magic3Name}"></td>
+                            <td th:case="'LEAF'" th:class='leaf'
+                                th:text="${record.magic3Name}"></td>
+                            <td th:case="*" th:text="${record.magic3Name}"></td>
+                        </th:block>
                         <td th:text="${record.duo.viewName}"></td>
                         <td th:text="${record.minHp}"></td>
                         <td th:text="${record.minAtk}"></td>
@@ -69,7 +94,7 @@
 
                         <th> </th>
                         <td>
-                            <select name="name">
+                            <select name="name" class="selectbox name">
                                 <option th:each=" option: ${characterName}"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
@@ -77,7 +102,7 @@
                             </select>
                         </td>
                         <td>
-                            <select th:name="rare">
+                            <select th:name="rare" class="selectbox">
                                 <option th:each=" option: ${rare}"
                                     th:value="${option.characterName}"
                                     th:text="${option.viewName}">
@@ -85,7 +110,7 @@
                             </select>
                         </td>
                         <td>
-                            <select th:name="type">
+                            <select th:name="type" class="selectbox type">
                                 <option th:each=" option: ${type}"
                                     th:value="${option.characterName}"
                                     th:text="${option.viewName}">
@@ -93,7 +118,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="buddy1">
+                            <select name="buddy1" class="selectbox name">
                                 <option th:each=" option: ${characterName}"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
@@ -101,7 +126,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="buddy2">
+                            <select name="buddy2" class="selectbox name">
                                 <option th:each=" option: ${characterName}"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
@@ -109,7 +134,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="buddy3">
+                            <select name="buddy3" class="selectbox name">
                                 <option th:each=" option: ${characterName}"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
@@ -117,7 +142,8 @@
                             </select>
                         </td>
                         <td>
-                            <select name="magic1Grouping">
+                            <select name="magic1Grouping"
+                                class="selectbox magic">
                                 <option th:each=" option: ${magicGroupingList}"
                                     th:value="${option.magicGrouping}"
                                     th:text="${option.name}">
@@ -125,7 +151,8 @@
                             </select>
                         </td>
                         <td>
-                            <select name="magic2Grouping">
+                            <select name="magic2Grouping"
+                                class="selectbox magic">
                                 <option th:each=" option: ${magicGroupingList}"
                                     th:value="${option.magicGrouping}"
                                     th:text="${option.name}">
@@ -133,7 +160,8 @@
                             </select>
                         </td>
                         <td>
-                            <select name="magic3Grouping">
+                            <select name="magic3Grouping"
+                                class="selectbox magic">
                                 <option th:each=" option: ${magicGroupingList}"
                                     th:value="${option.magicGrouping}"
                                     th:text="${option.name}">
@@ -141,7 +169,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="duo">
+                            <select name="duo" class="selectbox name">
                                 <option th:each=" option: ${characterName}"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
@@ -157,13 +185,14 @@
                         <td><input type="text" name="maxAtk"
                                 class="textbox" /></td>
                         <td>
-                            <select name="validFlg">
+                            <select name="validFlg" class="selectbox valid">
                                 <option th:value="true" th:text="所持"></option>
                                 <option th:value="false" th:text="未所持"></option>
                             </select>
                         </td>
                         <td>
-                            <select name="buddy1Grouping">
+                            <select name="buddy1Grouping"
+                                class="selectbox buddyGrouping">
                                 <option th:each=" option: ${buddyGroupingList}"
                                     th:value="${option.buddyGrouping}"
                                     th:text="${option.effect}">
@@ -171,7 +200,8 @@
                             </select>
                         </td>
                         <td>
-                            <select name="buddy2Grouping">
+                            <select name="buddy2Grouping"
+                                class="selectbox buddyGrouping">
                                 <option th:each=" option: ${buddyGroupingList}"
                                     th:value="${option.buddyGrouping}"
                                     th:text="${option.effect}">
@@ -179,7 +209,8 @@
                             </select>
                         </td>
                         <td>
-                            <select name="buddy3Grouping">
+                            <select name="buddy3Grouping"
+                                class="selectbox buddyGrouping">
                                 <option th:each=" option: ${buddyGroupingList}"
                                     th:value="${option.buddyGrouping}"
                                     th:text="${option.effect}">
