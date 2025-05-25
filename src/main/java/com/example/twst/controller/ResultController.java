@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.TableEnum;
 import com.example.twst.form.CardForm;
+import com.example.twst.form.OrganizeForm;
 import com.example.twst.form.SearchForm;
 import com.example.twst.service.CardService;
 
@@ -23,12 +24,13 @@ public class ResultController {
 
     @GetMapping
     public String input(@ModelAttribute SearchForm searchForm, @ModelAttribute CardForm cardForm,
-            Model model) {
+            @ModelAttribute OrganizeForm organizeForm, Model model) {
 
         // テーブルの生成
         List<Card> list = service.selectAll(searchForm);
         model.addAttribute("list", list);
         model.addAttribute("tableName", TableEnum.values());
+        model.addAttribute("arrayIndex", organizeForm.getArrayIndex());
 
         return "result";
     }

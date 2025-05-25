@@ -12,7 +12,7 @@ html {
 
 body {
   font-family: "Open Sans", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   line-height: 1.5; /* 行の高さや行間 */
 }
 
@@ -64,6 +64,11 @@ ul {
   padding: 0px;
 }
 
+li {
+  margin: 2px;
+  padding: 3px;
+}
+
 span {
   margin: 5px;
 }
@@ -94,8 +99,6 @@ input:disabled {
   display: inline-block;
   border-radius: 5px;
   padding: 3px 6px;
-  /* transition: 0.3s; */
-  /* box-shadow: 2px 2px #d3d3d3; */
 }
 
 .semicircle {
@@ -223,4 +226,15 @@ input:disabled {
 
 .leaf {
   color: #008000; /*green*/
+}
+
+.buddy {
+  background: #ffc0cb; /*pink*/
+  border-radius: 3px;
+}
+
+.duo {
+  background: #ffc0cb; /*pink*/
+  border-radius: 3px;
+  color: #fff; /*white*/
 }

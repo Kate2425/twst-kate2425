@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.twst.domain.model.CardEnum;
 import com.example.twst.domain.model.CharacterEnum;
 import com.example.twst.domain.model.TableEnum;
+import com.example.twst.form.OrganizeForm;
 import com.example.twst.form.SearchForm;
 
 @RequestMapping("search")
@@ -42,7 +43,7 @@ public class SearchController {
      * 検索画面の表示
      */
     @GetMapping
-    public String input(SearchForm searchForm, Model model) {
+    public String input(SearchForm searchForm, OrganizeForm organizeForm, Model model) {
         model.addAttribute("rare", CardEnum.getValue("rare"));
         model.addAttribute("type", CardEnum.getValue("type"));
         model.addAttribute("magic", CardEnum.getValue("magic"));
@@ -70,6 +71,7 @@ public class SearchController {
         searchForm.setSort("atk");
 
         model.addAttribute("SearchForm", searchForm);/* 必須 */
+        model.addAttribute("arrayIndex", organizeForm.getArrayIndex());
 
         return "search";
     }

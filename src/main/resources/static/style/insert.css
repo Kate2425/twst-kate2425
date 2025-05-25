@@ -9,41 +9,41 @@ table td {
 }
 
 .textbox {
-  width: 40px;
+  width: 5rem;
   padding: 2px 3px;
   margin: 5px;
   border-radius: 5px;
   border: 2px solid #ccc;
   box-sizing: border-box;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
 .selectbox {
-  width: 60px;
+  width: 6rem;
   padding: 2px 3px;
   margin: 5px;
   border-radius: 5px;
   border: 2px solid #ccc;
   box-sizing: border-box;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
 .name {
-  width: 110px;
+  width: 12rem;
 }
 
 .type {
-  width: 90px;
+  width: 10rem;
 }
 
 .magic {
-  width: 170px;
+  width: 19rem;
 }
 
 .valid {
-  width: 70px;
+  width: 8rem;
 }
 
 .buddyGrouping {
-  width: 120px;
+  width: 14rem;
 }

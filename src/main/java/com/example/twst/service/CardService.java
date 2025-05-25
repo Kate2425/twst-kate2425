@@ -2,6 +2,7 @@ package com.example.twst.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,18 +11,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.twst.dao.CardDao;
 import com.example.twst.domain.model.Card;
+import com.example.twst.form.CalculateForm;
 import com.example.twst.form.CardForm;
 import com.example.twst.form.SearchForm;
+import com.example.twst.session.OrganizeSession;
 
 @Service("CardService")
+@SessionAttributes(value = { "hpArray", "atkArray", "tempHpArray", "tempAtkArray", "tempCardArray", "levelArray" })
 public class CardService {
 
     @Autowired
     @Qualifier("CardDaoJdbcImpl")
     CardDao dao;
+
+    @Autowired
+    OrganizeSession organizeSession;
 
     /**
      * １件登録.
@@ -97,40 +105,41 @@ public class CardService {
     };
 
     /**
-     * 合計値Mapを取得.
+     * デュオをカウント.
      * 
      * @param cardArray
-     * @return 合計値Map
+     * @return duoMap
      */
-    public Map<String, BigDecimal> sum(Card[] cardArray) {
+    public Map<String, List<String>> duoCount(Card[] cardArray) {
+        int duoCount = 0;
+        Map<String, List<String>> duoMap = new HashMap<>();
+        List<String> countList = new ArrayList<>();
+        for (Card cardA : cardArray) {
+            // cardAがnullならスキップ
+            if (cardA == null) {
+                continue;
+            }
+            for (Card cardB : cardArray) {
+                List<String> duoList = new ArrayList<>();
+                // cardBがnullならスキップ
+                if (cardB == null) {
+                    continue;
+                }
+                String name = cardA.getName().getCharacterName();
+                // ループ中のnameとbuddyが一致する場合、カウントしてlistに追加
 
-        BigDecimal totalMinHp = BigDecimal.ZERO;// 最小合計HP
-        BigDecimal totalMinAtk = BigDecimal.ZERO;// 最小合計ATK
-        BigDecimal totalMaxHp = BigDecimal.ZERO;// 最大合計HP
-        BigDecimal totalMaxAtk = BigDecimal.ZERO;// 最大合計ATK
-        Map<String, BigDecimal> totalMap = new HashMap<>();// 合計値Map
-
-        for (Card card : cardArray) {
-            if (card.getMinHp() != null) {
-                totalMinHp = totalMinHp.add(card.getMinHp());
+                if (name.equals(cardB.getDuo().getCharacterName())) {
+                    duoCount++;
+                    duoList.add(name);
+                }
+                if (!duoList.isEmpty()) {
+                    duoMap.put(cardB.getName().getCharacterName(), duoList);
+                }
             }
-            if (card.getMinAtk() != null) {
-                totalMinAtk = totalMinAtk.add(card.getMinAtk());
-            }
-            if (card.getMaxHp() != null) {
-                totalMaxHp = totalMaxHp.add(card.getMaxHp());
-            }
-            if (card.getMaxAtk() != null) {
-                totalMaxAtk = totalMaxAtk.add(card.getMaxAtk());
-            }
+            countList.add(String.valueOf(duoCount));
+            duoMap.put("duoCount", countList);
         }
-
-        totalMap.put("totalMinHp", totalMinHp);
-        totalMap.put("totalMinAtk", totalMinAtk);
-        totalMap.put("totalMaxHp", totalMaxHp);
-        totalMap.put("totalMaxAtk", totalMaxAtk);
-
-        return totalMap;
+        return duoMap;
     }
 
     /**
@@ -139,38 +148,44 @@ public class CardService {
      * @param cardArray
      * @return buddyCount
      */
-    public Map<String, BigDecimal> buddyCount(Card[] cardArray, Map<String, BigDecimal> tempTotalMap) {
-        BigDecimal buddyCount = BigDecimal.ZERO;
-
+    public Map<String, List<String>> buddyCount(Card[] cardArray, boolean isTemp) {
+        int buddyCount = 0;
+        Map<String, List<String>> buddyMap = new HashMap<>();
+        List<String> countList = new ArrayList<>();
         for (Card cardA : cardArray) {
             // cardAがnullならスキップ
-            if (cardA.getName() == null) {
+            if (cardA == null) {
                 continue;
             }
-            String name = cardA.getName().getCharacterName();
+            List<String> buddyList = new ArrayList<>();
             for (Card cardB : cardArray) {
                 // cardBがnullならスキップ
-                if (cardB.getBuddy1() == null) {
-                } else {
-                    // ループ中のnameとbuddyが一致するとカウント
-                    if (name.equals(cardB.getBuddy1().getCharacterName())) {
-                        String buddyEffect = cardB.getBuddy1Effect();
-                        tempTotalMap = buddyBonusCalc(buddyEffect, tempTotalMap);
-                        buddyCount = buddyCount.add(BigDecimal.ONE);
-                    } else if (name.equals(cardB.getBuddy2().getCharacterName())) {
-                        String buddyEffect = cardB.getBuddy2Effect();
-                        tempTotalMap = buddyBonusCalc(buddyEffect, tempTotalMap);
-                        buddyCount = buddyCount.add(BigDecimal.ONE);
-                    } else if (name.equals(cardB.getBuddy3().getCharacterName())) {
-                        String buddyEffect = cardB.getBuddy3Effect();
-                        tempTotalMap = buddyBonusCalc(buddyEffect, tempTotalMap);
-                        buddyCount = buddyCount.add(BigDecimal.ONE);
-                    }
+                if (cardB == null) {
+                    continue;
+                }
+                String name = cardB.getName().getCharacterName();
+                // ループ中のnameとbuddyが一致する場合、カウントしてlistに追加
+                if (name.equals(cardA.getBuddy1().getCharacterName())) {
+                    buddyBonusCalc(cardA.getBuddy1Effect(), cardArray, isTemp);
+                    buddyCount++;
+                    buddyList.add(name);
+                } else if (name.equals(cardA.getBuddy2().getCharacterName())) {
+                    buddyBonusCalc(cardA.getBuddy2Effect(), cardArray, isTemp);
+                    buddyCount++;
+                    buddyList.add(name);
+                } else if (name.equals(cardA.getBuddy3().getCharacterName())) {
+                    buddyBonusCalc(cardA.getBuddy3Effect(), cardArray, isTemp);
+                    buddyCount++;
+                    buddyList.add(name);
+                }
+                if (!buddyList.isEmpty()) {
+                    buddyMap.put(cardA.getName().getCharacterName(), buddyList);
                 }
             }
+            countList.add(String.valueOf(buddyCount));
+            buddyMap.put("buddyCount", countList);
         }
-        tempTotalMap.put("buddyCount", buddyCount);
-        return tempTotalMap;
+        return buddyMap;
     }
 
     /**
@@ -180,126 +195,159 @@ public class CardService {
      * @param tempTotalMap
      * @return tempTotalMap
      */
-    private Map<String, BigDecimal> buddyBonusCalc(String buddyEffect, Map<String, BigDecimal> tempTotalMap) {
-        BigDecimal tempTotalHp = tempTotalMap.get("tempTotalHp");
-        BigDecimal tempTotalAtk = tempTotalMap.get("tempTotalAtk");
-        BigDecimal small = BigDecimal.valueOf(1.05);
-        BigDecimal medium = BigDecimal.valueOf(1.1);
+    private void buddyBonusCalc(String buddyEffect, Card[] cardArray, boolean isTemp) {
+        BigDecimal small = BigDecimal.valueOf(1.2);// HP UP(小),ATK UP(小)
+        BigDecimal hpMedium = BigDecimal.valueOf(1.3);// HP UP(中)
+        BigDecimal atkMedium = BigDecimal.valueOf(1.35);// ATK UP(中)
+        BigDecimal[] tempHpArray = new BigDecimal[5];// 推定HP
+        BigDecimal[] tempAtkArray = new BigDecimal[5];// 推定ATK
 
-        switch (buddyEffect) {
-            case "HP UP(小)" -> tempTotalHp = tempTotalHp.multiply(small);
-            case "HP UP(中)" -> tempTotalHp = tempTotalHp.multiply(medium);
-            case "ATK UP(小)" -> tempTotalAtk = tempTotalAtk.multiply(small);
-            case "ATK UP(中)" -> tempTotalAtk = tempTotalAtk.multiply(medium);
-            case "HP&ATK UP(小)" -> {
-                tempTotalHp = tempTotalHp.multiply(small);
-                tempTotalAtk = tempTotalAtk.multiply(small);
+        for (int i = 0; i < cardArray.length; i++) {
+            if (cardArray[i] == null) {
+                continue;
             }
-        }
-
-        tempTotalHp = tempTotalHp.setScale(0, RoundingMode.HALF_UP);
-        tempTotalAtk = tempTotalAtk.setScale(0, RoundingMode.HALF_UP);
-
-        tempTotalMap.put("tempTotalHp", tempTotalHp);
-        tempTotalMap.put("tempTotalAtk", tempTotalAtk);
-        return tempTotalMap;
-    }
-
-    /**
-     * デュオをカウント.
-     * 
-     * @param cardArray
-     * @return duoCount
-     */
-    public int duoCount(Card[] cardArray) {
-        int duoCount = 0;
-        for (Card card : cardArray) {
-            if (card.getName() == null) {
-                break;
-            }
-            String name = card.getName().getCharacterName();
-            // for (int j = 0; j < cardArray.length; j++) {
-            if (card.getDuo() == null) {
-                break;
+            BigDecimal[] sessionHpArray = organizeSession.getTempHpArray();
+            BigDecimal[] sessionAtkArray = organizeSession.getTempAtkArray();
+            if ((sessionHpArray[i] != null) && (sessionAtkArray[i] != null)
+                    && (sessionHpArray[i] != cardArray[i].getMaxHp()) &&
+                    (sessionAtkArray[i] != cardArray[i].getMaxAtk())) {
+                tempHpArray[i] = sessionHpArray[i];
+                tempAtkArray[i] = sessionAtkArray[i];
             } else {
-                if (name.equals(card.getDuo().getCharacterName())) {
-                    duoCount++;
+                tempHpArray[i] = cardArray[i].getMaxHp();
+                tempAtkArray[i] = cardArray[i].getMaxAtk();
+            }
+
+            switch (buddyEffect) {
+                case "HP UP(小)" -> tempHpArray[i] = tempHpArray[i].multiply(small);
+                case "HP UP(中)" -> tempHpArray[i] = tempHpArray[i].multiply(hpMedium);
+                case "ATK UP(小)" -> tempAtkArray[i] = tempAtkArray[i].multiply(small);
+                case "ATK UP(中)" -> tempAtkArray[i] = tempAtkArray[i].multiply(atkMedium);
+                case "HP&ATK UP(小)" -> {
+                    tempHpArray[i] = tempHpArray[i].multiply(small);
+                    tempAtkArray[i] = tempAtkArray[i].multiply(small);
                 }
             }
-            // }
+            tempHpArray[i] = tempHpArray[i].setScale(0, RoundingMode.DOWN);// 小数点以下切り捨て
+            tempAtkArray[i] = tempAtkArray[i].setScale(0, RoundingMode.DOWN); // 小数点以下切り捨て
         }
-        return duoCount;
+
+        // sessionに保存する
+        if (isTemp) {
+            organizeSession.setTempHpArray(tempHpArray);
+            organizeSession.setTempAtkArray(tempAtkArray);
+        } else {
+            organizeSession.setHpArray(tempHpArray);
+            organizeSession.setAtkArray(tempAtkArray);
+        }
     }
 
     /**
-     * tempHp tempAtkを計算.
+     * 合計値Mapを取得.
+     * 
+     * @param cardArray
+     * @return 合計値Map
+     */
+    public BigDecimal sum(Card[] cardArray) {
+        BigDecimal totalMaxHp = BigDecimal.ZERO;// 最大合計HP
+
+        for (Card card : cardArray) {
+            if (card == null) {
+                continue;
+            }
+            totalMaxHp = totalMaxHp.add(card.getMaxHp());
+        }
+        return totalMaxHp;
+    }
+
+    /**
+     * 推定HP 推定ATKを計算.
      * 
      * @param calculateForm
      * @return Map<String, BigDecimal>
      */
-    // public Map<String, BigDecimal> calculate(CalculateForm calculateForm) {
-    // BigDecimal maxLevel = BigDecimal.ZERO;
-    // Map<String, BigDecimal> calcMap = new HashMap<>();
-    // String rare = calculateForm.getRare();
+    public Card[] calculate(CalculateForm calculateForm, Card[] cardArray) {
+        Card[] tempCardArray = new Card[5];
+        for (int i = 0; i < cardArray.length; i++) {
+            try {
+                if (cardArray[i] == null) {
+                    continue;
+                }
+                tempCardArray[i] = cardArray[i].clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
 
-    // switch (rare) {
-    // case "R" -> maxLevel = new BigDecimal(70);
-    // case "SR" -> maxLevel = new BigDecimal(90);
-    // case "SSR" -> maxLevel = new BigDecimal(110);
-    // }
+        BigDecimal maxLevel = BigDecimal.ZERO;
+        String rare = calculateForm.getRare();
 
-    // BigDecimal[] levelArray = calculateForm.getLevelArray();
-    // BigDecimal level = levelArray[calculateForm.getArrayIndex()];
-    // BigDecimal tempHp = calculateForm.getMaxHp();
-    // BigDecimal tempAtk = calculateForm.getMaxAtk();
+        // レア度から最大Lvを設定
+        switch (rare) {
+            case "R" -> maxLevel = new BigDecimal(70);
+            case "SR" -> maxLevel = new BigDecimal(90);
+            case "SSR" -> maxLevel = new BigDecimal(110);
+        }
 
-    // tempHp = tempHp.subtract(calculateForm.getMinHp());// maxHp - minHp = upHp
-    // tempHp = tempHp.divide(maxLevel, 0, RoundingMode.HALF_UP);// upHp / maxLv
-    // =1LvUpHp
-    // tempHp = tempHp.multiply(level);// 1LvUpHp * currentLv = maxCurrentHp
-    // tempHp = tempHp.add(calculateForm.getMinHp()); // maxCurrentHp + minHp =
-    // currentHp
+        BigDecimal level = calculateForm.getLevel();
+        BigDecimal tempHp = calculateForm.getMaxHp();
+        BigDecimal tempAtk = calculateForm.getMaxAtk();
 
-    // tempAtk = tempAtk.subtract(calculateForm.getMinAtk());
-    // tempAtk = tempAtk.divide(maxLevel, 0, RoundingMode.HALF_UP);
-    // tempAtk = tempAtk.multiply(level);
-    // tempAtk = tempAtk.add(calculateForm.getMinAtk());
+        tempHp = tempHp.divide(calculateForm.getMinHp(), 6, RoundingMode.HALF_UP);// maxHp / minHp = coefficient
+        tempHp = tempHp.divide(maxLevel, 6, RoundingMode.HALF_UP);// coefficient / maxLv = 1LvCoefficient
+        tempHp = tempHp.multiply(level);// 1LvCoefficient * level = currentCoefficient
+        tempHp = tempHp.multiply(calculateForm.getMinHp());// currentCoefficient * minHp = currentHp
+        tempHp = tempHp.setScale(0, RoundingMode.HALF_UP);// 四捨五入
 
-    // calcMap.put("tempHp", tempHp);
-    // calcMap.put("tempAtk", tempAtk);
-    // calcMap.put("level", level);
+        tempAtk = tempAtk.divide(calculateForm.getMinAtk(), 6, RoundingMode.HALF_UP);// maxAtk / minAtk = coefficient
+        tempAtk = tempAtk.divide(maxLevel, 6, RoundingMode.HALF_UP);// coefficient / maxLv = 1LvCoefficient
+        tempAtk = tempAtk.multiply(level);// 1LvCoefficient * level = currentCoefficient
+        tempAtk = tempAtk.multiply(calculateForm.getMinAtk());// currentCoefficient * minAtk = currentAtk
+        tempAtk = tempAtk.setScale(0, RoundingMode.HALF_UP);// 四捨五入
 
-    // return calcMap;
-    // }
+        tempCardArray[calculateForm.getArrayIndex()].setMaxHp(tempHp);
+        tempCardArray[calculateForm.getArrayIndex()].setMaxAtk(tempAtk);
+
+        BigDecimal[] levelArray = new BigDecimal[5];
+        if (organizeSession.getLevelArray() != null) {
+            levelArray = organizeSession.getLevelArray();
+        }
+
+        levelArray[calculateForm.getArrayIndex()] = level;
+        organizeSession.setLevelArray(levelArray);
+
+        return tempCardArray;
+    }
 
     /**
-     * tempTotalHp tempTotalAtkを計算.
+     * 推定ステータスを計算.
      * 
      * @param tempHpArray
-     * @param tempAtkArray
-     * @return Map<String, BigDecimal>
+     * @return tempHpArray
      */
-    public Map<String, BigDecimal> tempSum(BigDecimal[] tempHpArray, BigDecimal[] tempAtkArray) {
-        Map<String, BigDecimal> tempTotalMap = new HashMap<>();
-        BigDecimal tempTotalHp = BigDecimal.ZERO;
-        BigDecimal tempTotalAtk = BigDecimal.ZERO;
+    public BigDecimal tempSum(BigDecimal[] hpArray) {
+        BigDecimal reflectedHp = BigDecimal.ZERO;
 
-        for (BigDecimal tempHp : tempHpArray) {
-            if (tempHp == null) {
+        for (BigDecimal hp : hpArray) {
+            if (hp == null) {
                 continue;
             }
-            tempTotalHp = tempTotalHp.add(tempHp);
-        }
-        for (BigDecimal tempAtk : tempAtkArray) {
-            if (tempAtk == null) {
-                continue;
-            }
-            tempTotalAtk = tempTotalAtk.add(tempAtk);
+            reflectedHp = reflectedHp.add(hp);
         }
 
-        tempTotalMap.put("tempTotalHp", tempTotalHp);
-        tempTotalMap.put("tempTotalAtk", tempTotalAtk);
+        return reflectedHp;
+    }
 
-        return tempTotalMap;
+    /**
+     * BigDecimal.ZEROを配列に格納.
+     * 
+     * @param BigDecimal[] array
+     * @return BigDecimal[]
+     */
+    public BigDecimal[] setArray(BigDecimal[] array) {
+        for (int i = 0; i < array.length; i++) {
+            array[i] = BigDecimal.ZERO;
+        }
+        return array;
     }
 }

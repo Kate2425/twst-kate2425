@@ -1,0 +1,320 @@
+<!DOCTYPE HTML>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <title>Organize</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link th:href="@{/style/style.css}" rel="stylesheet">
+        <link th:href="@{/style/organize.css}" rel="stylesheet">
+    </head>
+
+    <body>
+        <nav>
+            <ul>
+                <li><a th:href="@{/edit}">編集</a></li>
+            </ul>
+        </nav>
+        <h1>編成</h1>
+
+        <section>
+            <th:block th:each="record ,st :${cardArray}">
+                <div class="contents">
+                    <p th:if="${record==null}">未選択</p>
+                    <ul th:if="${record!=null}">
+                        <th:block th:each="card ,cardSt:${record}">
+                            <li th:text="'衣装:' + ${card.id}"></li>
+                            <li
+                                th:text="'キャラクター:' + ${card.name.viewName}"></li>
+                            <li>
+                                魔法属性:<th:block th:switch="${record.magic1Type}">
+                                    <span th:case="'FIRE'" th:class='fire'
+                                        th:text="${record.magic1Type}"></span>
+                                    <span th:case="'WATER'" th:class='water'
+                                        th:text="${record.magic1Type}"></span>
+                                    <span th:case="'LEAF'" th:class='leaf'
+                                        th:text="${record.magic1Type}"></span>
+                                    <span th:case="*"
+                                        th:text="${record.magic1Type}"></span>
+                                </th:block>
+                                <th:block th:switch="${record.magic2Type}">
+                                    <span th:case="'FIRE'" th:class='fire'
+                                        th:text="${record.magic2Type}"></span>
+                                    <span th:case="'WATER'" th:class='water'
+                                        th:text="${record.magic2Type}"></span>
+                                    <span th:case="'LEAF'" th:class='leaf'
+                                        th:text="${record.magic2Type}"></span>
+                                    <span th:case="*"
+                                        th:text="${record.magic2Type}"></span>
+                                </th:block>
+                                <th:block th:switch="${record.magic3Type}">
+                                    <span th:case="'FIRE'" th:class='fire'
+                                        th:text="${record.magic3Type}"></span>
+                                    <span th:case="'WATER'" th:class='water'
+                                        th:text="${record.magic3Type}"></span>
+                                    <span th:case="'LEAF'" th:class='leaf'
+                                        th:text="${record.magic3Type}"></span>
+                                    <span th:case="*"
+                                        th:text="${record.magic3Type}"></span>
+                                </th:block>
+                            </li>
+
+                            <li
+                                th:if="(${buddyMap.get('__${card.name.characterName}__')} == null) and
+                                       (${duoMap.get('__${card.name.characterName}__')} == null) "
+                                th:text="'バディ１:' + ${card.buddy1.viewName}">
+                            </li>
+
+                            <th:block
+                                th:each="buddyElement : ${{buddyMap.get('__${card.name.characterName}__')}}">
+                                <li
+                                    th:if="${#strings.contains({buddyElement},'__${card.buddy1.characterName}__')} and
+                                           ${card.buddy1.characterName} != ${card.duo.characterName}"
+                                    th:class='buddy'
+                                    th:text="'バディ１:' + ${card.buddy1.viewName} + ' ' + ${card.buddy1Effect}">
+                                </li>
+                                <li
+                                    th:if="${!#strings.contains({buddyElement},'__${card.buddy1.characterName}__')}"
+                                    th:text="'バディ１:' + ${card.buddy1.viewName}">
+                                </li>
+                                <th:block
+                                    th:each="duoElement : ${{duoMap.get('__${card.name.characterName}__')}}">
+                                    <li
+                                        th:if="${duoElement} == ${card.duo.characterName} and
+                                               ${duoElement} == ${card.buddy1.characterName}"
+                                        th:class='duo'
+                                        th:text="'バディ１:' + ${card.buddy1.viewName}  + ' ' + ${card.buddy1Effect}+ ' デュオ'">
+                                    </li>
+                                    <li
+                                        th:if="${duoElement} != ${card.duo.characterName} and
+                                               ${duoElement} != ${card.buddy1.characterName} and
+                                               ${buddyElement} != ${duoElement}"
+                                        th:text="'バディ１:' + ${card.buddy1.viewName}">
+                                    </li>
+                                </th:block>
+                            </th:block>
+
+                            <li
+                                th:if="(${buddyMap.get('__${card.name.characterName}__')} == null) and
+                                   (${duoMap.get('__${card.name.characterName}__')} == null) "
+                                th:text="'バディ２:' + ${card.buddy2.viewName}">
+                            </li>
+                            <th:block
+                                th:each="buddyElement : ${{buddyMap.get('__${card.name.characterName}__')}}">
+                                <li
+                                    th:if="${#strings.contains({buddyElement},'__${card.buddy2.characterName}__')} and
+                                           ${card.buddy2.characterName} != ${card.duo.characterName}"
+                                    th:class='buddy'
+                                    th:text="'バディ２:' + ${card.buddy2.viewName} + ' ' + ${card.buddy2Effect}">
+                                </li>
+                                <li
+                                    th:if="${!#strings.contains({buddyElement},'__${card.buddy2.characterName}__')}"
+                                    th:text="'バディ２:' + ${card.buddy2.viewName}">
+                                </li>
+                                <th:block
+                                    th:each="duoElement : ${{duoMap.get('__${card.name.characterName}__')}}">
+                                    <li
+                                        th:if="${duoElement} == ${card.duo.characterName} and
+                                               ${duoElement} == ${card.buddy2.characterName}"
+                                        th:class='duo'
+                                        th:text="'バディ２:' + ${card.buddy2.viewName}  + ' ' + ${card.buddy2Effect}+ ' デュオ'">
+                                    </li>
+                                    <li
+                                        th:if="${duoElement} != ${card.duo.characterName} and
+                                               ${duoElement} != ${card.buddy2.characterName} and
+                                               ${buddyElement} != ${duoElement}"
+                                        th:text="'バディ２:' + ${card.buddy2.viewName}">
+                                    </li>
+                                </th:block>
+                            </th:block>
+
+                            <li
+                                th:if="(${buddyMap.get('__${card.name.characterName}__')} == null) and
+                                   (${duoMap.get('__${card.name.characterName}__')} == null) "
+                                th:text="'バディ３:' + ${card.buddy3.viewName}">
+                            </li>
+                            <th:block
+                                th:each="buddyElement : ${{buddyMap.get('__${card.name.characterName}__')}}">
+                                <li
+                                    th:if="${#strings.contains({buddyElement},'__${card.buddy3.characterName}__')} and
+                                           ${card.buddy3.characterName} != ${card.duo.characterName}"
+                                    th:class='buddy'
+                                    th:text="'バディ３:' + ${card.buddy3.viewName} + ' ' + ${card.buddy3Effect}">
+                                </li>
+                                <li
+                                    th:if="${!#strings.contains({buddyElement},'__${card.buddy3.characterName}__')}"
+                                    th:text="'バディ３:' + ${card.buddy3.viewName}">
+                                </li>
+                                <th:block
+                                    th:each="duoElement : ${{duoMap.get('__${card.name.characterName}__')}}">
+                                    <li
+                                        th:if="${duoElement} == ${card.duo.characterName} and
+                                               ${duoElement} == ${card.buddy3.characterName}"
+                                        th:class='duo'
+                                        th:text="'バディ３:' + ${card.buddy3.viewName}  + ' ' + ${card.buddy3Effect}+ ' デュオ'">
+                                    </li>
+                                    <li
+                                        th:if="${duoElement} != ${card.duo.characterName} and
+                                               ${duoElement} != ${card.buddy3.characterName} and
+                                               ${buddyElement} != ${duoElement}"
+                                        th:text="'バディ３:' + ${card.buddy3.viewName}">
+                                    </li>
+                                </th:block>
+                            </th:block>
+
+                            <!-- 計算用データ-->
+                            <form action="#" th:action="@{/organize}"
+                                th:name="'calculateForm' + ${st.index}"
+                                method="get">
+                                <li>Lv
+                                    <input type="text" class="textbox"
+                                        th:name="level"
+                                        th:value="${levelArray[__${st.index}__]}" />
+                                    <button type="submit"
+                                        class="btn semicircle light-blue-purple">計算</button>
+                                </li>
+                                <li>最大HP:<span
+                                        th:text="${card.maxHp}"></span>
+                                    最大ATK:<span
+                                        th:text="${card.maxAtk}"></span>
+                                </li>
+                                <li th:if="${hpArray[__${st.index}__]} != 0"
+                                    th:each="hp : ${hpArray[__${st.index}__]}">
+                                    バディボーナス反映後HP:<span
+                                        th:text="${hp}"></span>
+                                </li>
+                                <li th:if="${atkArray[__${st.index}__]} != 0"
+                                    th:each="atk : ${atkArray[__${st.index}__]}">
+                                    バディボーナス反映後ATK:<span
+                                        th:text="${atk}"></span>
+                                </li>
+                                <li
+                                    th:if="${tempCardArray[__${st.index}__]} != null">
+                                    <th:block
+                                        th:each="tempHp : ${tempCardArray[__${st.index}__].getMaxHp()}">
+                                        推定HP:<span
+                                            th:text="${tempHp}"></span>
+                                    </th:block>
+                                    <th:block
+                                        th:each="tempAtk : ${tempCardArray[__${st.index}__].getMaxAtk()}">
+                                        推定ATK:<span
+                                            th:text="${tempAtk}"></span>
+                                    </th:block>
+                                </li>
+                                <li
+                                    th:if="${tempHpArray[__${st.index}__]} != null"
+                                    th:each="tempHp : ${tempHpArray[__${st.index}__]}">
+                                    バディボーナス反映後推定HP:<span
+                                        th:text="${tempHp}"></span>
+                                </li>
+                                <li
+                                    th:if="${tempAtkArray[__${st.index}__]} != null"
+                                    th:each="tempAtk : ${tempAtkArray[__${st.index}__]}">
+                                    バディボーナス反映後推定ATK:<span
+                                        th:text="${tempAtk}"></span>
+                                </li>
+                                <input type="hidden" th:name="rare"
+                                    th:value="${card.rare}" />
+                                <input type="hidden" th:name="minHp"
+                                    th:value="${card.minHp}" />
+                                <input type="hidden" th:name="minAtk"
+                                    th:value="${card.minAtk}" />
+                                <input type="hidden" th:name="maxHp"
+                                    th:value="${card.maxHp}" />
+                                <input type="hidden" th:name="maxAtk"
+                                    th:value="${card.maxAtk}" />
+                                <input type="hidden" th:name="buddy1Effect"
+                                    th:value="${card.buddy1Effect}" />
+                                <input type="hidden" th:name="buddy2Effect"
+                                    th:value="${card.buddy2Effect}" />
+                                <input type="hidden" th:name="buddy3Effect"
+                                    th:value="${card.buddy3Effect}" />
+                                <input type="hidden" th:name="arrayIndex"
+                                    th:value="${st.index}" />
+                            </form>
+                        </ul>
+
+                        <form action="#" th:action="@{/search}"
+                            th:object="${OrganizeForm}" method="get">
+                            <input type="hidden" th:name="arrayIndex"
+                                th:value="${st.index}" />
+                            <input type="submit"
+                                class="btn submit light-green"
+                                th:value="'選択' + ${st.count}" />
+                        </form>
+                    </div>
+                </th:block>
+            </section>
+
+            <div class="total">
+                <ul>
+                    <li><span th:text="'最大合計HP: ' + ${totalHp}"></span>
+                    </li>
+                    <li th:if="${reflectedHp != 0}"><span
+                            th:text="'バディボーナス反映後合計HP: ' + ${reflectedHp}"></span>
+                    </li>
+                    <li
+                        th:if="(${tempTotalHp} != null) and (${tempTotalHp} != 0)">
+                        <span th:text="'推定合計HP: ' + ${tempTotalHp}"></span>
+                    </li>
+                    <li
+                        th:if="(${tempReflectedHp} != null) and (${tempReflectedHp} != 0)">
+                        <span
+                            th:text="'バディボーナス反映後推定合計HP: ' + ${tempReflectedHp}"></span>
+                    </li>
+                    <li>
+                        <span th:text="'バディ: ' + ${buddyCount}"></span>
+                        <span th:text="'デュオ: ' + ${duoCount}"></span>
+                    </li>
+                </ul>
+
+                <!--<div class="wrap">
+                <form action="#" th:action="@{/battle}" method="get"
+                    th:object="${BattleForm}">
+                    <fieldset>
+                        <legend>Enemy</legend>
+
+                        <th:block th:each="option : ${magic}">
+                            <input type="checkbox"
+                                th:value="${option.characterName}"
+                                th:field="*{magicChecks}"
+                                class="checkbox-icon" />
+                            <span th:switch="${option.characterName}">
+                                <label th:for="${#ids.prev('magicChecks')}"
+                                    th:case="'FIRE'" th:class='fire'
+                                    th:text="${option.viewName}"
+                                    class="checkbox"></label>
+                                <label th:for="${#ids.prev('magicChecks')}"
+                                    th:case="'WATER'" th:class='water'
+                                    th:text="${option.viewName}"
+                                    class="checkbox"></label>
+                                <label th:for="${#ids.prev('magicChecks')}"
+                                    th:case="'LEAF'" th:class='leaf'
+                                    th:text="${option.viewName}"
+                                    class="checkbox"></label>
+                                <label th:for="${#ids.prev('magicChecks')}"
+                                    th:case="*"
+                                    th:text="${option.viewName}"
+                                    class="checkbox"></label>
+                            </span>
+                        </th:block>
+                        <ul>
+                            <li>Lv <input type="text" class="textbox"
+                                    name="enemyLevel" /></li>
+                        </ul>
+
+                    </fieldset>
+
+                    <input type="hidden" name="tempTotalHp"
+                        th:value="${tempTotalHp}" />
+                    <input type="hidden" name="tempTotalAtk"
+                        th:value="${tempTotalAtk}" />
+                    <p class="wrap">
+                        <button type="submit"
+                            class="btn circle light-red-purple">開始</button>
+
+                    </p>
+                </form>
+            </div>-->
+                <p th:if="${validationError}"
+                    th:each="error : ${validationError}"></p>
+            </body>
+        </html>

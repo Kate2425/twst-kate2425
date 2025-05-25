@@ -1,0 +1,38 @@
+@charset "utf-8";
+
+section {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  padding: 5px;
+}
+
+.contents {
+  display: inline;
+  width: 100%;
+  margin: 3px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 2px solid #999999;
+  box-sizing: border-box;
+}
+
+.total {
+  width: 300px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+.textbox {
+  width: 40px;
+  padding: 2px 3px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 2px solid #999999;
+  box-sizing: border-box;
+}
+
+.textbox:focus {
+  outline: 0;
+  border: 2px solid #2196f3;
+}

@@ -547,6 +547,7 @@
                         th:text="${item.key}"></label>
                 </span>
             </div>
+            <input type="hidden" th:name="arrayIndex"  th:value="${arrayIndex}" />
             <p class="wrap"><input type="submit" value="検索" id="search"
                     class="btn circle light-red-purple" /></p>
         </form>

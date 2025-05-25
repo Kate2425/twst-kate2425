@@ -6,7 +6,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class Card {
+public class Card implements Cloneable {
     /**
      * テーブル名
      */
@@ -151,4 +151,14 @@ public class Card {
      * マジック３効果
      */
     private String magic3Effect;
+
+    /**
+     * Cardをクローンする.
+     * 
+     * @return Card
+     */
+    @Override
+    public Card clone() throws CloneNotSupportedException {
+        return (Card) super.clone();
+    }
 }
