@@ -9,3 +9,7 @@ spring:
     password: ${DATABASE_PASSWORD} # パスワード
     driverClassName: org.postgresql.Driver
     schemas: ${SCHEMAS} # スキーマ
+  hikari:
+    connection-test-query: select current_schema();SET search_path = schema01;
+    idle-timeout: 100000
+    max-lifetime: 120000
