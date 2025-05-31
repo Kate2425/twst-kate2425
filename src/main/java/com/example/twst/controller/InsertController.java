@@ -6,18 +6,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.example.twst.domain.model.BuddyGrouping;
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.CardEnum;
 import com.example.twst.domain.model.CharacterEnum;
 import com.example.twst.domain.model.EnumUtils;
-import com.example.twst.domain.model.MagicGrouping;
 import com.example.twst.domain.model.TableEnum;
+import com.example.twst.domain.model.MagicGroupingEnum;
+import com.example.twst.domain.model.BuddyGroupingEnum;
 import com.example.twst.form.CardForm;
 import com.example.twst.form.SearchForm;
-import com.example.twst.service.BuddyGroupingService;
 import com.example.twst.service.CardService;
-import com.example.twst.service.MagicGroupingService;
 import com.example.twst.session.EditSession;
 
 import java.util.List;
@@ -33,12 +31,6 @@ public class InsertController {
 
     @Autowired
     private CardService cardService;
-
-    @Autowired
-    private MagicGroupingService magicGroupingService;
-
-    @Autowired
-    private BuddyGroupingService buddyGroupingService;
 
     @Autowired
     private EditSession insertSession;
@@ -57,16 +49,12 @@ public class InsertController {
         model.addAttribute("tableName", tableName);
         model.addAttribute("CardForm", cardForm);
 
-        // マスタテーブルの生成
-        List<MagicGrouping> magicGroupingList = magicGroupingService.selectMany();
-        model.addAttribute("magicGroupingList", magicGroupingList);
-        List<BuddyGrouping> buddyGroupingList = buddyGroupingService.selectMany();
-        model.addAttribute("buddyGroupingList", buddyGroupingList);
-
         // セレクトボックス名をセット
         model.addAttribute("characterName", CharacterEnum.values());
         model.addAttribute("rare", CardEnum.getValue("rare"));
         model.addAttribute("type", CardEnum.getValue("type"));
+        model.addAttribute("magicGrouping", MagicGroupingEnum.values());
+        model.addAttribute("buddyGrouping", BuddyGroupingEnum.values());
 
         return "insert";
     }

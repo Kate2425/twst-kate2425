@@ -43,9 +43,19 @@ public class Card implements Cloneable {
     private CharacterEnum buddy1;
 
     /**
+     * バディ１効果
+     */
+    private String buddy1Effect;
+
+    /**
      * バディ２
      */
     private CharacterEnum buddy2;
+
+    /**
+     * バディ２効果
+     */
+    private String buddy2Effect;
 
     /**
      * バディ３
@@ -53,9 +63,24 @@ public class Card implements Cloneable {
     private CharacterEnum buddy3;
 
     /**
+     * バディ３効果
+     */
+    private String buddy3Effect;
+
+    /**
      * マジック１属性
      */
     private String magic1Type;
+
+    /**
+     * マジック１名称
+     */
+    private String magic1Name;
+
+    /**
+     * マジック１効果
+     */
+    private String magic1Effect;
 
     /**
      * マジック２属性
@@ -63,9 +88,29 @@ public class Card implements Cloneable {
     private String magic2Type;
 
     /**
+     * マジック２名称
+     */
+    private String magic2Name;
+
+    /**
+     * マジック２効果
+     */
+    private String magic2Effect;
+
+    /**
      * マジック３属性
      */
     private String magic3Type;
+
+    /*
+     * マジック３名称
+     */
+    private String magic3Name;
+
+    /**
+     * マジック３効果
+     */
+    private String magic3Effect;
 
     /**
      * デュオ
@@ -106,51 +151,6 @@ public class Card implements Cloneable {
      * 有効フラグ
      */
     private boolean validFlg;
-
-    /**
-     * バディ１効果
-     */
-    private String buddy1Effect;
-
-    /**
-     * バディ２効果
-     */
-    private String buddy2Effect;
-
-    /**
-     * バディ３効果
-     */
-    private String buddy3Effect;
-
-    /**
-     * マジック１名称
-     */
-    private String magic1Name;
-
-    /**
-     * マジック２名称
-     */
-    private String magic2Name;
-
-    /*
-     * マジック３名称
-     */
-    private String magic3Name;
-
-    /**
-     * マジック１効果
-     */
-    private String magic1Effect;
-
-    /**
-     * マジック２効果
-     */
-    private String magic2Effect;
-
-    /**
-     * マジック３効果
-     */
-    private String magic3Effect;
 
     /**
      * Cardをクローンする.

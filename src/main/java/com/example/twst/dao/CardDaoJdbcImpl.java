@@ -20,6 +20,8 @@ import org.springframework.stereotype.Repository;
 
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.CharacterEnum;
+import com.example.twst.domain.model.BuddyGroupingEnum;
+import com.example.twst.domain.model.MagicGroupingEnum;
 import com.example.twst.domain.model.EnumUtils;
 import com.example.twst.domain.model.TableEnum;
 import com.example.twst.form.CardForm;
@@ -102,7 +104,6 @@ public class CardDaoJdbcImpl implements CardDao {
                 + ", :buddy3_grouping)";
 
         SqlParameterSource params = new MapSqlParameterSource()
-
                 .addValue("id", tableName.substring(0, 3) + "_" + cardForm.getName().getCharacterName().toLowerCase())
                 .addValue("name", cardForm.getName().getCharacterName())
                 .addValue("rare", cardForm.getRare())
@@ -161,83 +162,41 @@ public class CardDaoJdbcImpl implements CardDao {
         String include2 = form.getInclude2();
         String include3 = form.getInclude3();
 
-        // SQL
-        String sql = "SELECT"
-                + " t1.*"
-                + ", t2.magic2_name"
-                + ", t2.magic2_type"
-                + ", t2.magic2_effect"
-                + ", t2.buddy2_effect"
-                + ", t3.magic3_name"
-                + ", t3.magic3_type"
-                + ", t3.magic3_effect"
-                + ", t3.buddy3_effect"
-                + " FROM ("
-                + " SELECT card.id"
-                + ", card.num"
-                + ", card.name AS card_name"
-                + ", card.rare"
-                + ", card.type"
-                + ", card.buddy1"
-                + ", card.buddy2"
-                + ", card.buddy3"
-                + ", card.duo"
-                + ", card.min_hp"
-                + ", card.min_atk"
-                + ", card.max_hp"
-                + ", card.max_atk"
-                + ", card.valid_flg"
-                + ", magic.name AS magic1_name"
-                + ", magic.magic_type AS magic1_type"
-                + ", magic.effect AS magic1_effect"
-                + ", buddy.effect AS buddy1_effect"
-                + " FROM " + tableName + " card"
-                + " LEFT JOIN mst_buddy_grouping buddy"
-                + " ON card.buddy1_grouping = buddy.buddy_grouping"
-                + " LEFT JOIN mst_magic_grouping magic"
-                + " ON card.magic1_grouping = magic.magic_grouping"
-                + " ) t1"
-                + " INNER JOIN ("
-                + " SELECT"
-                + " card.name"
-                + ", magic.name AS magic2_name"
-                + ", magic.magic_type AS magic2_type"
-                + ", magic.effect AS magic2_effect"
-                + ", buddy.effect AS buddy2_effect"
-                + " FROM " + tableName + " card"
-                + " LEFT JOIN mst_buddy_grouping buddy"
-                + " ON card.buddy2_grouping = buddy.buddy_grouping"
-                + " LEFT JOIN mst_magic_grouping magic"
-                + " ON card.magic2_grouping = magic.magic_grouping"
-                + " ) t2 ON t1.card_name = t2.name"
-                + " INNER JOIN ("
-                + " SELECT"
-                + " card.name"
-                + ", magic.name AS magic3_name"
-                + ", magic.magic_type AS magic3_type"
-                + ", magic.effect AS magic3_effect"
-                + ", buddy.effect AS buddy3_effect"
-                + " FROM " + tableName + " card"
-                + " LEFT JOIN mst_buddy_grouping buddy"
-                + " ON card.buddy3_grouping = buddy.buddy_grouping"
-                + " LEFT JOIN mst_magic_grouping magic"
-                + " ON card.magic3_grouping = magic.magic_grouping"
-                + " ) t3"
-                + " ON t2.name = t3.name";
+        String sql = " SELECT id"
+                + ", num"
+                + ", name"
+                + ", rare"
+                + ", type"
+                + ", buddy1"
+                + ", buddy2"
+                + ", buddy3"
+                + ", magic1_grouping"
+                + ", magic2_grouping"
+                + ", magic3_grouping"
+                + ", duo"
+                + ", min_hp"
+                + ", min_atk"
+                + ", max_hp"
+                + ", max_atk"
+                + ", valid_flg"
+                + ", buddy1_grouping"
+                + ", buddy2_grouping"
+                + ", buddy3_grouping"
+                + " FROM " + tableName;
 
         // nameに指定があればsqlに追加する
         Set<String> names = new HashSet<>();
-        if (nameParam != null && nameParam.length != 0) {
+        if (nameParam.length != 0) {
             names = getParam(nameParam);
-            sql += " WHERE card_name IN (:names)";
+            sql += " WHERE name IN (:names)";
         }
 
         // rareに指定があればsqlに追加する
         Set<String> rares = new HashSet<>();
-        if (rareParam != null && rareParam.length != 0) {
+        if (rareParam.length != 0) {
             rares = getParam(rareParam);
             // nameが未指定の場合
-            if (nameParam == null) {
+            if (nameParam.length == 0) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
@@ -247,10 +206,10 @@ public class CardDaoJdbcImpl implements CardDao {
 
         // typeに指定があればsqlに追加する
         Set<String> types = new HashSet<>();
-        if (typeParam != null && typeParam.length != 0) {
+        if (typeParam.length != 0) {
             types = getParam(typeParam);
             // nameかつrareが未指定の場合
-            if ((nameParam == null) && (rareParam == null)) {
+            if ((nameParam.length == 0) && (rareParam.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
@@ -259,65 +218,71 @@ public class CardDaoJdbcImpl implements CardDao {
         }
 
         // magic1に指定があればsqlに追加する
-        Set<String> magics1 = new HashSet<>();
-        if (magicParam1 != null && magicParam1.length != 0) {
-            magics1 = getParam(magicParam1);
+        Set<Integer> magics1 = new HashSet<>();
+        if (magicParam1.length != 0) {
+            List<Integer> magicGroupingList1 = MagicGroupingEnum.getMagicType(magicParam1);
+            Integer[] magicGroupingArray1 = magicGroupingList1.toArray(new Integer[magicGroupingList1.size()]);
+            magics1 = getIntParam(magicGroupingArray1);
             // name、rare、typeの全てが未指定の場合
-            if ((nameParam == null) && (rareParam == null) && (typeParam == null)) {
+            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
             }
             if (include1.equals("include")) {
-                sql += " magic1_type IN(:magics1)";
+                sql += " magic1_grouping IN(:magics1)";
             } else {
-                sql += " magic1_type NOT IN(:magics1)";
+                sql += " magic1_grouping NOT IN(:magics1)";
             }
-
         }
 
         // magic2に指定があればsqlに追加する
-        Set<String> magics2 = new HashSet<>();
-        if (magicParam2 != null && magicParam2.length != 0) {
-            magics2 = getParam(magicParam2);
+        Set<Integer> magics2 = new HashSet<>();
+        if (magicParam2.length != 0) {
+            List<Integer> magicGroupinList2 = MagicGroupingEnum.getMagicType(magicParam2);
+            Integer[] magicGroupingArray2 = magicGroupinList2.toArray(new Integer[magicGroupinList2.size()]);
+            magics2 = getIntParam(magicGroupingArray2);
             // name、rare、typeの全てが未指定の場合
-            if ((nameParam == null) && (rareParam == null) && (typeParam == null) && (magicParam1 == null)) {
+            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
+                    && (magicParam1.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
             }
             if (include2.equals("include")) {
-                sql += " magic2_type IN(:magics2)";
+                sql += " magic2_grouping IN(:magics2)";
             } else {
-                sql += " magic2_type NOT IN(:magics2)";
+                sql += " magic2_grouping NOT IN(:magics2)";
             }
         }
 
-        // magic1に指定があればsqlに追加する
-        Set<String> magics3 = new HashSet<>();
-        if (magicParam3 != null && magicParam3.length != 0) {
-            magics3 = getParam(magicParam3);
+        // magic3に指定があればsqlに追加する
+        Set<Integer> magics3 = new HashSet<>();
+        if (magicParam3.length != 0) {
+            List<Integer> magicGroupingList3 = MagicGroupingEnum.getMagicType(magicParam3);
+            Integer[] magicGroupingArray3 = magicGroupingList3.toArray(new Integer[magicGroupingList3.size()]);
+            magics3 = getIntParam(magicGroupingArray3);
             // name、rare、typeの全てが未指定の場合
-            if ((nameParam == null) && (rareParam == null) && (typeParam == null) && (magicParam1 == null)
-                    && (magicParam2 == null)) {
+            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
+                    && (magicParam1.length == 0) && (magicParam2.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
             }
             if (include3.equals("include")) {
-                sql += " magic3_type IN(:magics3)";
+                sql += " magic3_grouping IN(:magics3)";
             } else {
-                sql += " magic3_type NOT IN(:magics3)";
+                sql += " magic3_grouping NOT IN(:magics3)";
             }
         }
 
         // buddyに指定があればsqlに追加する
         Set<String> buddies = new HashSet<>();
-        if (buddyParam != null && buddyParam.length != 0) {
+        if (buddyParam.length != 0) {
             buddies = getParam(buddyParam);
             // name、rare、type、magicの全てが未指定の場合
-            if ((nameParam == null) && (rareParam == null) && (typeParam == null)
-                    && (magicParam1 == null) && (magicParam2 == null) && (magicParam3 == null)) {
+            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
+                    && (magicParam1.length == 0) && (magicParam2.length == 0) && (magicParam3.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
@@ -329,12 +294,12 @@ public class CardDaoJdbcImpl implements CardDao {
 
         // duoに指定があればsqlに追加する
         Set<String> duos = new HashSet<>();
-        if (duoParam != null && duoParam.length != 0) {
+        if (duoParam.length != 0) {
             duos = getParam(duoParam);
             // name、rare、type、magic、buddyの全てが未指定の場合
-            if ((nameParam == null) && (rareParam == null) && (typeParam == null)
-                    && (magicParam1 == null) && (magicParam2 == null) && (magicParam3 == null)
-                    && (buddyParam == null)) {
+            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
+                    && (magicParam1.length == 0) && (magicParam2.length == 0) && (magicParam3.length == 0)
+                    && (buddyParam.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
@@ -368,32 +333,54 @@ public class CardDaoJdbcImpl implements CardDao {
             // 取得したデータをセット
             TableEnum tableObject = EnumUtils.getViewName(TableEnum.class, tableName);
             card.setTableName(tableObject);// テーブル名
-
-            CharacterEnum viewNameObject = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("card_name"));
-            card.setName(viewNameObject);// キャラクター名
-
-            card.setId(getId(tableName, (String) map.get("card_name")));// カードID
-
+            card.setId(getId(tableName, (String) map.get("name")));// カードID
             card.setNum((int) map.get("num"));// 項番
+            CharacterEnum viewNameObject = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("name"));
+            card.setName(viewNameObject);// キャラクター名
             card.setRare((String) map.get("rare"));// レア度
             card.setType((String) map.get("type"));// タイプ
-
             CharacterEnum buddy1Object = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("buddy1"));
             card.setBuddy1(buddy1Object);// バディ１
+            card.setBuddy1Effect(BuddyGroupingEnum.getEffect((int) map.get("buddy1_grouping")));// バディ１効果
 
             CharacterEnum buddy2Object = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("buddy2"));
-            if (buddy2Object == null) {
-                card.setBuddy2(EnumUtils.getViewName(CharacterEnum.class, "-"));
+            card.setBuddy2(buddy2Object);// バディ２
+
+            if (map.get("buddy2_grouping") == null) {
+                card.setBuddy2Effect(BuddyGroupingEnum.getEffect(0));
             } else {
-                card.setBuddy2(buddy2Object);// バディ２
+                card.setBuddy2Effect(BuddyGroupingEnum.getEffect((int) map.get("buddy2_grouping")));// バディ２効果
             }
 
             CharacterEnum buddy3Object = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("buddy3"));
-
             if (buddy3Object == null) {
                 card.setBuddy3(EnumUtils.getViewName(CharacterEnum.class, "-"));
             } else {
                 card.setBuddy3(buddy3Object);// バディ３
+            }
+
+            if (map.get("buddy3_grouping") == null) {
+                card.setBuddy3Effect(BuddyGroupingEnum.getEffect(0));
+            } else {
+                card.setBuddy3Effect(BuddyGroupingEnum.getEffect((int) map.get("buddy3_grouping")));// バディ３効果
+            }
+
+            card.setMagic1Type(MagicGroupingEnum.getMagicType((int) map.get("magic1_grouping")));// マジック１属性
+            card.setMagic1Name(MagicGroupingEnum.getName((int) map.get("magic1_grouping")));// マジック１名称
+            card.setMagic1Effect(MagicGroupingEnum.getEffect((int) map.get("magic1_grouping")));// マジック１効果
+
+            card.setMagic2Type(MagicGroupingEnum.getMagicType((int) map.get("magic2_grouping")));// マジック２名称
+            card.setMagic2Name(MagicGroupingEnum.getName((int) map.get("magic2_grouping")));// マジック２属性
+            card.setMagic2Effect(MagicGroupingEnum.getEffect((int) map.get("magic2_grouping")));// マジック２効果
+
+            if (map.get("magic3_grouping") == null) {
+                card.setMagic3Type(MagicGroupingEnum.getMagicType(0));
+                card.setMagic3Name(MagicGroupingEnum.getName(0));
+                card.setMagic3Effect(MagicGroupingEnum.getEffect(0));
+            } else {
+                card.setMagic3Type(MagicGroupingEnum.getMagicType((int) map.get("magic3_grouping")));// マジック３名称
+                card.setMagic3Name(MagicGroupingEnum.getName((int) map.get("magic3_grouping")));// マジック３属性
+                card.setMagic3Effect(MagicGroupingEnum.getEffect((int) map.get("magic3_grouping")));// マジック３効果
             }
 
             CharacterEnum duoObject = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("duo"));
@@ -409,27 +396,11 @@ public class CardDaoJdbcImpl implements CardDao {
             card.setMaxAtk((BigDecimal) map.get("max_atk"));// 最大ATK
             card.setValidFlg((boolean) map.get("valid_flg"));// 有効フラグ
 
-            card.setMagic1Name((String) map.get("magic1_name"));// マジック１名称
-            card.setMagic1Type((String) map.get("magic1_type"));// マジック１属性
-            card.setMagic1Effect((String) map.get("magic1_effect"));// マジック１効果
-            card.setBuddy1Effect((String) map.get("buddy1_effect"));// バディ１効果
-
-            card.setMagic2Name((String) map.get("magic2_name"));// マジック２名称
-            card.setMagic2Type((String) map.get("magic2_type"));// マジック２属性
-            card.setMagic2Effect((String) map.get("magic2_effect"));// マジック２効果
-            card.setBuddy2Effect((String) map.get("buddy2_effect"));// バディ２効果
-
-            card.setMagic3Name((String) map.get("magic3_name"));// マジック３名称
-            card.setMagic3Type((String) map.get("magic3_type"));// マジック３属性
-            card.setMagic3Effect((String) map.get("magic3_effect"));// マジック３効果
-            card.setBuddy3Effect((String) map.get("buddy3_effect"));// バディ３効果
-
             // 結果返却用のListに追加
             cardList.add(card);
         }
         cardList = cardList.stream().sorted(Comparator.comparing(Card::getNum)).collect(Collectors.toList());
         return cardList;
-
     }
 
     /**
@@ -459,7 +430,7 @@ public class CardDaoJdbcImpl implements CardDao {
         if (form.getSort().equals("hp")) {
             resultList = resultList.stream().sorted(Comparator.comparing(Card::getMaxHp).reversed())
                     .collect(Collectors.toList());
-        } else if (form.getSort().equals("atk")) {
+        } else {
             resultList = resultList.stream().sorted(Comparator.comparing(Card::getMaxAtk).reversed())
                     .collect(Collectors.toList());
         }
@@ -551,6 +522,18 @@ public class CardDaoJdbcImpl implements CardDao {
     }
 
     /**
+     * パラメーターを取得
+     * 
+     * @param parameter
+     * @return paramSet
+     */
+    private Set<Integer> getIntParam(Integer[] parameter) {
+        Set<Integer> paramSet = new HashSet<>();
+        paramSet.addAll(Arrays.asList(parameter));
+        return paramSet;
+    }
+
+    /**
      * idを取得
      * 
      * @param tableName
@@ -583,24 +566,23 @@ public class CardDaoJdbcImpl implements CardDao {
      * 七章のidNameを取得.
      * 
      * @param name
-     * @return idName
+     * @return name
      */
     private String getSeventhChapter(String name) {
-        String idName = "";
         switch (name) {
-            case "Lilia" -> idName = "右大将の甲冑";
-            case "Sebek" -> idName = "常世の甲冑";
-            case "Rook" -> idName = "サバナクロー寮服";
-            case "Kalim" -> idName = "カスルサルタナート制服";
-            case "Jade" -> idName = "マーメイド・フィン";
-            case "Floyd" -> idName = "マーメイド・フィン";
-            case "Ruggie" -> idName = "アイボリークリフ制服";
-            case "Cater" -> idName = "トリッキングジャケット";
-            case "Trey" -> idName = "クイーンズシェフコート";
-            case "Silver" -> idName = "夜明けの甲冑";
-            case "Malleus" -> idName = "深淵の支配者";
+            case "Lilia" -> name = "右大将の甲冑";
+            case "Sebek" -> name = "常世の甲冑";
+            case "Rook" -> name = "サバナクロー寮服";
+            case "Kalim" -> name = "カスルサルタナート制服";
+            case "Jade" -> name = "マーメイド・フィン";
+            case "Floyd" -> name = "マーメイド・フィン";
+            case "Ruggie" -> name = "アイボリークリフ制服";
+            case "Cater" -> name = "トリッキングジャケット";
+            case "Trey" -> name = "クイーンズシェフコート";
+            case "Silver" -> name = "夜明けの甲冑";
+            case "Malleus" -> name = "深淵の支配者";
         }
-        return idName;
+        return name;
     }
 
     /**
