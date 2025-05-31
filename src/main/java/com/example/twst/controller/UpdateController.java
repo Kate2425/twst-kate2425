@@ -6,12 +6,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.example.twst.domain.model.BuddyGrouping;
 import com.example.twst.domain.model.BuddyGroupingEnum;
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.CardEnum;
 import com.example.twst.domain.model.CharacterEnum;
-import com.example.twst.domain.model.MagicGrouping;
 import com.example.twst.domain.model.MagicGroupingEnum;
 import com.example.twst.form.CardForm;
 import com.example.twst.form.SearchForm;
