@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.TableEnum;
@@ -18,6 +19,7 @@ import com.example.twst.service.CardService;
 
 @RequestMapping("result")
 @Controller
+@SessionAttributes(value = "OrganizeSession")
 public class ResultController {
     @Autowired
     private CardService service;
@@ -32,6 +34,6 @@ public class ResultController {
         model.addAttribute("tableName", TableEnum.values());
         model.addAttribute("arrayIndex", organizeForm.getArrayIndex());
 
-        return "result";
+        return "result.html";
     }
 }

@@ -1,11 +1,13 @@
 package com.example.twst.form;
 
 import java.io.Serializable;
+import org.springframework.stereotype.Component;
 
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
+@Component
 @Data
 public class SearchForm implements Serializable {
 

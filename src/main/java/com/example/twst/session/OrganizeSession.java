@@ -27,13 +27,13 @@ public class OrganizeSession implements Serializable {
      */
     private Card[] cardArray;
 
-    /**
-     * @param Card
-     * @param index
-     */
-    public void setCard(Card card, int index) {
-        this.cardArray[index] = card;
-    }
+    // /**
+    // * @param Card
+    // * @param index
+    // */
+    // public void setCard(Card card, int index) {
+    // this.cardArray[index] = card;
+    // }
 
     /**
      * arrayIndex
@@ -74,5 +74,15 @@ public class OrganizeSession implements Serializable {
      * tempCardArray
      */
     private Card[] tempCardArray;
+
+    /*
+     * tempTotalHp
+     */
+    private BigDecimal tempTotalHp;
+
+    /**
+     * tempReflectedHp
+     */
+    private BigDecimal tempReflectedHp;
 
 }

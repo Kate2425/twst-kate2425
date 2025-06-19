@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -21,7 +22,7 @@ import com.example.twst.form.SearchForm;
 import com.example.twst.session.OrganizeSession;
 
 @Service("CardService")
-@SessionAttributes(value = { "hpArray", "atkArray", "tempHpArray", "tempAtkArray", "tempCardArray", "levelArray" })
+@SessionAttributes(value = "OrganizeSession")
 public class CardService {
 
     @Autowired
@@ -35,25 +36,28 @@ public class CardService {
      * １件登録.
      * 
      * @param CardForm
-     * @return 成功可否
+     * @return result
      */
-    public boolean insert(CardForm cardForm) {
-        // insert実行
-        int rowNumber = dao.insertOne(cardForm);
+    public boolean insert(CardForm cardForm) throws DuplicateKeyException {
         // 判定用変数
         boolean result = false;
 
-        if (rowNumber > 0) {
-            // insert成功
+        try {
+            // insert実行
+            dao.insertOne(cardForm);
             result = true;
+        } catch (DuplicateKeyException e) {
+            throw new DuplicateKeyException(
+                    cardForm.getTableName().getViewName() + " に" + cardForm.getName().getViewName() + " はすでに存在します。");
         }
+
         return result;
     }
 
     /**
      * カウント用メソッド.
      * 
-     * @return
+     * @return count
      */
     public int count() {
         return dao.countRecord();
@@ -66,7 +70,6 @@ public class CardService {
      * @return Card
      */
     public Card selectOne(String name) {
-
         // SQL実行
         return dao.selectOne(name);
     }
@@ -126,8 +129,8 @@ public class CardService {
                     continue;
                 }
                 String name = cardA.getName().getCharacterName();
-                // ループ中のnameとbuddyが一致する場合、カウントしてlistに追加
 
+                // ループ中のnameとbuddyが一致する場合、カウントしてlistに追加
                 if (name.equals(cardB.getDuo().getCharacterName())) {
                     duoCount++;
                     duoList.add(name);
@@ -149,41 +152,68 @@ public class CardService {
      * @return buddyCount
      */
     public Map<String, List<String>> buddyCount(Card[] cardArray, boolean isTemp) {
+        Map<String, BigDecimal> statusMap = new HashMap<>();
+        BigDecimal[] tempHpArray = new BigDecimal[5];
+        BigDecimal[] tempAtkArray = new BigDecimal[5];
         int buddyCount = 0;
         Map<String, List<String>> buddyMap = new HashMap<>();
         List<String> countList = new ArrayList<>();
-        for (Card cardA : cardArray) {
+        for (int i = 0; i < cardArray.length; i++) {
             // cardAがnullならスキップ
-            if (cardA == null) {
+            if (cardArray[i] == null) {
                 continue;
             }
             List<String> buddyList = new ArrayList<>();
             for (Card cardB : cardArray) {
-                // cardBがnullならスキップ
+                if (tempHpArray[i] == null) {
+                    tempHpArray[i] = cardArray[i].getMaxHp();
+                }
+                if (tempAtkArray[i] == null) {
+                    tempAtkArray[i] = cardArray[i].getMaxAtk();
+                }
+                // cardBがnullなら、Max値を格納しループから抜ける
                 if (cardB == null) {
                     continue;
                 }
                 String name = cardB.getName().getCharacterName();
+
                 // ループ中のnameとbuddyが一致する場合、カウントしてlistに追加
-                if (name.equals(cardA.getBuddy1().getCharacterName())) {
-                    buddyBonusCalc(cardA.getBuddy1Effect(), cardArray, isTemp);
+                if (name.equals(cardArray[i].getBuddy1().getCharacterName())) {
+                    statusMap = buddyBonusCalc(cardArray[i].getBuddy1Effect(), cardArray[i].getMaxHp(),
+                            cardArray[i].getMaxAtk());
+                    tempHpArray[i] = statusMap.get("hp");
+                    tempAtkArray[i] = statusMap.get("atk");
                     buddyCount++;
                     buddyList.add(name);
-                } else if (name.equals(cardA.getBuddy2().getCharacterName())) {
-                    buddyBonusCalc(cardA.getBuddy2Effect(), cardArray, isTemp);
+                } else if (name.equals(cardArray[i].getBuddy2().getCharacterName())) {
+                    statusMap = buddyBonusCalc(cardArray[i].getBuddy2Effect(), cardArray[i].getMaxHp(),
+                            cardArray[i].getMaxAtk());
+                    tempHpArray[i] = statusMap.get("hp");
+                    tempAtkArray[i] = statusMap.get("atk");
                     buddyCount++;
                     buddyList.add(name);
-                } else if (name.equals(cardA.getBuddy3().getCharacterName())) {
-                    buddyBonusCalc(cardA.getBuddy3Effect(), cardArray, isTemp);
+                } else if (name.equals(cardArray[i].getBuddy3().getCharacterName())) {
+                    statusMap = buddyBonusCalc(cardArray[i].getBuddy3Effect(), cardArray[i].getMaxHp(),
+                            cardArray[i].getMaxAtk());
+                    tempHpArray[i] = statusMap.get("hp");
+                    tempAtkArray[i] = statusMap.get("atk");
                     buddyCount++;
                     buddyList.add(name);
                 }
                 if (!buddyList.isEmpty()) {
-                    buddyMap.put(cardA.getName().getCharacterName(), buddyList);
+                    buddyMap.put(cardArray[i].getName().getCharacterName(), buddyList);
                 }
             }
             countList.add(String.valueOf(buddyCount));
             buddyMap.put("buddyCount", countList);
+        }
+        // sessionに保存する
+        if (isTemp) {
+            organizeSession.setTempHpArray(tempHpArray);
+            organizeSession.setTempAtkArray(tempAtkArray);
+        } else {
+            organizeSession.setHpArray(tempHpArray);
+            organizeSession.setAtkArray(tempAtkArray);
         }
         return buddyMap;
     }
@@ -195,58 +225,35 @@ public class CardService {
      * @param tempTotalMap
      * @return tempTotalMap
      */
-    private void buddyBonusCalc(String buddyEffect, Card[] cardArray, boolean isTemp) {
+    private Map<String, BigDecimal> buddyBonusCalc(String buddyEffect, BigDecimal hp, BigDecimal atk) {
+        Map<String, BigDecimal> statusMap = new HashMap<>();
         BigDecimal small = BigDecimal.valueOf(1.2);// HP UP(小),ATK UP(小)
         BigDecimal hpMedium = BigDecimal.valueOf(1.3);// HP UP(中)
         BigDecimal atkMedium = BigDecimal.valueOf(1.35);// ATK UP(中)
-        BigDecimal[] tempHpArray = new BigDecimal[5];// 推定HP
-        BigDecimal[] tempAtkArray = new BigDecimal[5];// 推定ATK
 
-        for (int i = 0; i < cardArray.length; i++) {
-            if (cardArray[i] == null) {
-                continue;
+        switch (buddyEffect) {
+            case "HP UP(小)" -> hp = hp.multiply(small);
+            case "HP UP(中)" -> hp = hp.multiply(hpMedium);
+            case "ATK UP(小)" -> atk = atk.multiply(small);
+            case "ATK UP(中)" -> atk = atk.multiply(atkMedium);
+            case "HP&ATK UP(小)" -> {
+                hp = hp.multiply(small);
+                atk = atk.multiply(small);
             }
-            BigDecimal[] sessionHpArray = organizeSession.getTempHpArray();
-            BigDecimal[] sessionAtkArray = organizeSession.getTempAtkArray();
-            if ((sessionHpArray[i] != null) && (sessionAtkArray[i] != null)
-                    && (sessionHpArray[i] != cardArray[i].getMaxHp()) &&
-                    (sessionAtkArray[i] != cardArray[i].getMaxAtk())) {
-                tempHpArray[i] = sessionHpArray[i];
-                tempAtkArray[i] = sessionAtkArray[i];
-            } else {
-                tempHpArray[i] = cardArray[i].getMaxHp();
-                tempAtkArray[i] = cardArray[i].getMaxAtk();
-            }
-
-            switch (buddyEffect) {
-                case "HP UP(小)" -> tempHpArray[i] = tempHpArray[i].multiply(small);
-                case "HP UP(中)" -> tempHpArray[i] = tempHpArray[i].multiply(hpMedium);
-                case "ATK UP(小)" -> tempAtkArray[i] = tempAtkArray[i].multiply(small);
-                case "ATK UP(中)" -> tempAtkArray[i] = tempAtkArray[i].multiply(atkMedium);
-                case "HP&ATK UP(小)" -> {
-                    tempHpArray[i] = tempHpArray[i].multiply(small);
-                    tempAtkArray[i] = tempAtkArray[i].multiply(small);
-                }
-            }
-            tempHpArray[i] = tempHpArray[i].setScale(0, RoundingMode.DOWN);// 小数点以下切り捨て
-            tempAtkArray[i] = tempAtkArray[i].setScale(0, RoundingMode.DOWN); // 小数点以下切り捨て
         }
+        hp = hp.setScale(0, RoundingMode.DOWN);// 小数点以下切り捨て
+        atk = atk.setScale(0, RoundingMode.DOWN); // 小数点以下切り捨て
 
-        // sessionに保存する
-        if (isTemp) {
-            organizeSession.setTempHpArray(tempHpArray);
-            organizeSession.setTempAtkArray(tempAtkArray);
-        } else {
-            organizeSession.setHpArray(tempHpArray);
-            organizeSession.setAtkArray(tempAtkArray);
-        }
+        statusMap.put("hp", hp);
+        statusMap.put("atk", atk);
+        return statusMap;
     }
 
     /**
-     * 合計値Mapを取得.
+     * 最大合計HPを取得.
      * 
      * @param cardArray
-     * @return 合計値Map
+     * @return 最大合計HP
      */
     public BigDecimal sum(Card[] cardArray) {
         BigDecimal totalMaxHp = BigDecimal.ZERO;// 最大合計HP
@@ -266,20 +273,18 @@ public class CardService {
      * @param calculateForm
      * @return Map<String, BigDecimal>
      */
-    public Card[] calculate(CalculateForm calculateForm, Card[] cardArray) {
+    public Card[] calculate(CalculateForm calculateForm, Card[] cardArray) throws CloneNotSupportedException {
         Card[] tempCardArray = new Card[5];
         for (int i = 0; i < cardArray.length; i++) {
-            try {
-                if (cardArray[i] == null) {
-                    continue;
-                }
-                tempCardArray[i] = cardArray[i].clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
+            // try {
+            if (cardArray[i] == null) {
+                continue;
             }
+            tempCardArray[i] = cardArray[i].clone();
         }
 
         BigDecimal maxLevel = BigDecimal.ZERO;
+        // String rare = cardArray[calculateForm.getArrayIndex()].getRare();
         String rare = calculateForm.getRare();
 
         // レア度から最大Lvを設定
@@ -288,8 +293,9 @@ public class CardService {
             case "SR" -> maxLevel = new BigDecimal(90);
             case "SSR" -> maxLevel = new BigDecimal(110);
         }
-
         BigDecimal level = calculateForm.getLevel();
+        BigDecimal[] levelArray = new BigDecimal[5];
+
         BigDecimal tempHp = calculateForm.getMaxHp();
         BigDecimal tempAtk = calculateForm.getMaxAtk();
 
@@ -299,7 +305,8 @@ public class CardService {
         tempHp = tempHp.multiply(calculateForm.getMinHp());// currentCoefficient * minHp = currentHp
         tempHp = tempHp.setScale(0, RoundingMode.HALF_UP);// 四捨五入
 
-        tempAtk = tempAtk.divide(calculateForm.getMinAtk(), 6, RoundingMode.HALF_UP);// maxAtk / minAtk = coefficient
+        tempAtk = tempAtk.divide(calculateForm.getMinAtk(), 6, RoundingMode.HALF_UP);// maxAtk / minAtk =
+                                                                                     // coefficient
         tempAtk = tempAtk.divide(maxLevel, 6, RoundingMode.HALF_UP);// coefficient / maxLv = 1LvCoefficient
         tempAtk = tempAtk.multiply(level);// 1LvCoefficient * level = currentCoefficient
         tempAtk = tempAtk.multiply(calculateForm.getMinAtk());// currentCoefficient * minAtk = currentAtk
@@ -308,10 +315,14 @@ public class CardService {
         tempCardArray[calculateForm.getArrayIndex()].setMaxHp(tempHp);
         tempCardArray[calculateForm.getArrayIndex()].setMaxAtk(tempAtk);
 
-        BigDecimal[] levelArray = new BigDecimal[5];
         if (organizeSession.getLevelArray() != null) {
             levelArray = organizeSession.getLevelArray();
+        } else {
+            levelArray = setArray(levelArray);
         }
+        // } else {
+        // level = maxLevel;
+        // }
 
         levelArray[calculateForm.getArrayIndex()] = level;
         organizeSession.setLevelArray(levelArray);

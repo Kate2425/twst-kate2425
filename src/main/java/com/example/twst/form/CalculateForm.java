@@ -1,11 +1,13 @@
 package com.example.twst.form;
 
 import java.io.Serializable;
+import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+@Component
 @Data
 public class CalculateForm implements Serializable {
 

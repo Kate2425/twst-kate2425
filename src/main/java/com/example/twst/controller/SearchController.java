@@ -7,7 +7,9 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.twst.domain.model.CardEnum;
 import com.example.twst.domain.model.CharacterEnum;
@@ -17,6 +19,7 @@ import com.example.twst.form.SearchForm;
 
 @RequestMapping("search")
 @Controller
+@SessionAttributes(value = "OrganizeSession")
 public class SearchController {
 
     /**
@@ -38,6 +41,21 @@ public class SearchController {
             put("HP", "hp");
         }
     });
+
+    @ModelAttribute
+    public SearchForm setUpSearchForm() {
+        SearchForm searchForm = new SearchForm();
+
+        // include set
+        searchForm.setInclude1("include1");
+        searchForm.setInclude2("include2");
+        searchForm.setInclude3("include3");
+
+        // sort set
+        searchForm.setSort("atk");
+
+        return searchForm;
+    }
 
     /**
      * 検索画面の表示
@@ -62,18 +80,9 @@ public class SearchController {
         model.addAttribute("include3", INCLUDE);
         model.addAttribute("sort", SORT);
 
-        // include set
-        searchForm.setInclude1("include1");
-        searchForm.setInclude2("include2");
-        searchForm.setInclude3("include3");
-
-        // sort set
-        searchForm.setSort("atk");
-
-        model.addAttribute("SearchForm", searchForm);/* 必須 */
+        model.addAttribute("SearchForm", searchForm);
         model.addAttribute("arrayIndex", organizeForm.getArrayIndex());
 
-        return "search";
+        return "search.html";
     }
-
 }

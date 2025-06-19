@@ -159,6 +159,10 @@ public class Card implements Cloneable {
      */
     @Override
     public Card clone() throws CloneNotSupportedException {
-        return (Card) super.clone();
+        try {
+            return (Card) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError(e);
+        }
     }
 }

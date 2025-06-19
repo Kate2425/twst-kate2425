@@ -13,3 +13,5 @@ spring:
       connection-test-query: select current_schema();SET search_path = schema01;
       idle-timeout: 100000
       max-lifetime: 120000
+thymeleaf:
+  chache: true 

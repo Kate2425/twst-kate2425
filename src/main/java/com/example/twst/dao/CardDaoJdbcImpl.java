@@ -126,7 +126,6 @@ public class CardDaoJdbcImpl implements CardDao {
                 .addValue("buddy2_grouping", Integer.valueOf(cardForm.getBuddy2Grouping()))
                 .addValue("buddy3_grouping", Integer.valueOf(cardForm.getBuddy3Grouping()));
 
-        // SQL実行
         return jdbc.update(sql, params);
     }
 
@@ -239,8 +238,8 @@ public class CardDaoJdbcImpl implements CardDao {
         // magic2に指定があればsqlに追加する
         Set<Integer> magics2 = new HashSet<>();
         if (magicParam2.length != 0) {
-            List<Integer> magicGroupinList2 = MagicGroupingEnum.getMagicType(magicParam2);
-            Integer[] magicGroupingArray2 = magicGroupinList2.toArray(new Integer[magicGroupinList2.size()]);
+            List<Integer> magicGroupingList2 = MagicGroupingEnum.getMagicType(magicParam2);
+            Integer[] magicGroupingArray2 = magicGroupingList2.toArray(new Integer[magicGroupingList2.size()]);
             magics2 = getIntParam(magicGroupingArray2);
             // name、rare、typeの全てが未指定の場合
             if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
@@ -464,6 +463,7 @@ public class CardDaoJdbcImpl implements CardDao {
                 + ", min_hp = :minHp"
                 + ", min_atk = :minAtk"
                 + ", duo = :duo"
+                + ", valid_flg = :validFlg"
                 + " WHERE name = :name";
 
         SqlParameterSource params = new MapSqlParameterSource()
@@ -480,6 +480,7 @@ public class CardDaoJdbcImpl implements CardDao {
                 .addValue("maxAtk", cardForm.getMaxAtk())
                 .addValue("minHp", cardForm.getMinHp())
                 .addValue("minAtk", cardForm.getMinAtk())
+                .addValue("validFlg", cardForm.isValidFlg())
                 .addValue("name", cardForm.getName().getCharacterName());
 
         // SQL実行

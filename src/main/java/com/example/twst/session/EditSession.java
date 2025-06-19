@@ -54,4 +54,6 @@ public class EditSession implements Serializable {
         this.tableNameChecks = tableNameChecks;
     }
 
+    public EditSession() {
+    }
 }

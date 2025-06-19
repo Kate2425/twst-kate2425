@@ -94,7 +94,7 @@
 
                         <th> </th>
                         <td>
-                            <select name="name" class="selectbox name">
+                            <select th:name="name" class="selectbox name">
                                 <option th:each=" option: ${characterName}"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
@@ -118,7 +118,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="buddy1" class="selectbox name">
+                            <select th:name="buddy1" class="selectbox name">
                                 <option th:each=" option: ${characterName}"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
@@ -126,7 +126,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="buddy2" class="selectbox name">
+                            <select th:name="buddy2" class="selectbox name">
                                 <option th:each=" option: ${characterName}"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
@@ -134,7 +134,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="buddy3" class="selectbox name">
+                            <select th:name="buddy3" class="selectbox name">
                                 <option th:each=" option: ${characterName}"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
@@ -142,7 +142,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="magic1Grouping"
+                            <select th:name="magic1Grouping"
                                 class="selectbox magic">
                                 <option th:each=" option: ${magicGrouping}"
                                     th:value="${option.magicGrouping}"
@@ -151,7 +151,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="magic2Grouping"
+                            <select th:name="magic2Grouping"
                                 class="selectbox magic">
                                 <option th:each=" option: ${magicGrouping}"
                                     th:value="${option.magicGrouping}"
@@ -160,7 +160,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="magic3Grouping"
+                            <select th:name="magic3Grouping"
                                 class="selectbox magic">
                                 <option th:each=" option: ${magicGrouping}"
                                     th:value="${option.magicGrouping}"
@@ -169,29 +169,29 @@
                             </select>
                         </td>
                         <td>
-                            <select name="duo" class="selectbox name">
+                            <select th:name="duo" class="selectbox name">
                                 <option th:each=" option: ${characterName}"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
                                 </option>
                             </select>
                         </td>
-                        <td><input type="text" name="minHp"
+                        <td><input type="text" th:name="minHp"
                                 class="textbox" /></td>
-                        <td><input type="text" name="minAtk"
+                        <td><input type="text" th:name="minAtk"
                                 class="textbox" /></td>
-                        <td><input type="text" name="maxHp"
+                        <td><input type="text" th:name="maxHp"
                                 class="textbox" /></td>
-                        <td><input type="text" name="maxAtk"
+                        <td><input type="text" th:name="maxAtk"
                                 class="textbox" /></td>
                         <td>
-                            <select name="validFlg" class="selectbox valid">
+                            <select th:name="validFlg" class="selectbox valid">
                                 <option th:value="true" th:text="所持"></option>
                                 <option th:value="false" th:text="未所持"></option>
                             </select>
                         </td>
                         <td>
-                            <select name="buddy1Grouping"
+                            <select th:name="buddy1Grouping"
                                 class="selectbox buddyGrouping">
                                 <option th:each=" option: ${buddyGrouping}"
                                     th:value="${option.buddyGrouping}"
@@ -200,7 +200,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="buddy2Grouping"
+                            <select th:name="buddy2Grouping"
                                 class="selectbox buddyGrouping">
                                 <option th:each=" option: ${buddyGrouping}"
                                     th:value="${option.buddyGrouping}"
@@ -209,7 +209,7 @@
                             </select>
                         </td>
                         <td>
-                            <select name="buddy3Grouping"
+                            <select th:name="buddy3Grouping"
                                 class="selectbox buddyGrouping">
                                 <option th:each=" option: ${buddyGrouping}"
                                     th:value="${option.buddyGrouping}"
@@ -219,7 +219,7 @@
                         </td>
                         <td><input type="submit" value="登録"
                                 class="btn submit" /></td>
-                        <input type="hidden" name="tableName"
+                        <input type="hidden" th:name="tableName"
                             th:value="${tableName}" />
                     </form>
                 </tr>

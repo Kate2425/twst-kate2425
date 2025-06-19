@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LogAspct {
-
     /**
      * Controllerクラスのログ出力用アスペクト
      */

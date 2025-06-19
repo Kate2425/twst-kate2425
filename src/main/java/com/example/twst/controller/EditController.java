@@ -20,7 +20,7 @@ public class EditController {
     public String input(SearchForm searchForm, Model model) {
         model.addAttribute("SearchForm", searchForm);
         model.addAttribute("tableName", TableEnum.values());
-        return "edit";
+        return "edit.html";
     }
 
 }

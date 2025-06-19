@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.twst.domain.model.BuddyGroupingEnum;
 import com.example.twst.domain.model.Card;
@@ -28,16 +29,43 @@ import org.springframework.ui.Model;
 public class UpdateController {
 
     @Autowired
-    private CardService cardService;
+    private final CardService cardService;
 
-    @Autowired
-    private EditSession updateSession;
+    @ModelAttribute
+    public SearchForm setUpSearchForm() {
+        SearchForm searchForm = new SearchForm();
+        searchForm.setNameChecks(new String[0]);
+        searchForm.setRareChecks(new String[0]);
+        searchForm.setTypeChecks(new String[0]);
+        searchForm.setMagicChecks1(new String[0]);
+        searchForm.setMagicChecks2(new String[0]);
+        searchForm.setMagicChecks3(new String[0]);
+        searchForm.setBuddyChecks(new String[0]);
+        searchForm.setDuoChecks(new String[0]);
+        searchForm.setInclude1("include1");
+        searchForm.setInclude2("include2");
+        searchForm.setInclude3("include3");
+        searchForm.setSort("atk");
+        return searchForm;
+    }
+
+    @ModelAttribute
+    public CardForm setUpCardForm() {
+        CardForm cardForm = new CardForm();
+        return cardForm;
+    }
+
+    @ModelAttribute
+    public EditSession setUpUpdateSession() {
+        EditSession updateSession = new EditSession();
+        return updateSession;
+    }
 
     @GetMapping
-    public String input(@ModelAttribute SearchForm searchForm, Model model) {
+    public String input(SearchForm searchForm, EditSession updateSession, Model model) {
         // 対象テーブルの生成
         if (searchForm.getTableNameChecks() == null) {
-            searchForm.setTableNameChecks(this.updateSession.getSearchForm().getTableNameChecks());
+            searchForm.setTableNameChecks(updateSession.getSearchForm().getTableNameChecks());
         }
 
         String[] tableNames = searchForm.getTableNameChecks();
@@ -51,21 +79,25 @@ public class UpdateController {
         model.addAttribute("magicGrouping", MagicGroupingEnum.values());
         model.addAttribute("buddyGrouping", BuddyGroupingEnum.values());
 
-        return "update";
+        return "update.html";
     }
 
     @PostMapping
-    public String conform(@ModelAttribute CardForm cardForm, @ModelAttribute SearchForm searchForm, Model model) {
+    public String conform(CardForm cardForm, SearchForm searchForm, EditSession updateSession,
+            RedirectAttributes redirectAttributes, Model model) {
         String[] tableName = new String[1];
         tableName[0] = cardForm.getTableName().getCharacterName();
         searchForm.setTableNameChecks(tableName);
-        this.updateSession.setTableNameChecks(tableName);
-        this.updateSession.setSearchForm(searchForm);
+        updateSession.setTableNameChecks(tableName);
+        updateSession.setSearchForm(searchForm);
+        redirectAttributes.addFlashAttribute("updateSession", updateSession);
 
         cardService.updateOne(cardForm);
-        model.addAttribute("SearchForm", searchForm);
 
         return "redirect:update";
     }
 
+    public UpdateController(CardService cardService) {
+        this.cardService = cardService;
+    }
 }

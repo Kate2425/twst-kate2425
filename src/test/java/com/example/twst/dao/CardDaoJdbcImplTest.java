@@ -1,6 +1,7 @@
 package com.example.twst.dao;
 
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import com.example.twst.form.CardForm;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Set;
@@ -39,8 +41,7 @@ public class CardDaoJdbcImplTest {
 
     @Test
     @DisplayName("insertOne_正常系")
-
-    void insertOne() throws Exception {
+    void insertOne_01() throws Exception {
         // Arrange
         CardForm cardForm = new CardForm();
         cardForm.setTableName(TableEnum.BEANS_CAMO);
@@ -1041,7 +1042,7 @@ public class CardDaoJdbcImplTest {
                 hasProperty("minAtk", is(BigDecimal.valueOf(1393))),
                 hasProperty("maxHp", is(BigDecimal.valueOf(6500))),
                 hasProperty("maxAtk", is(BigDecimal.valueOf(6595))),
-                hasProperty("validFlg", is(false))));
+                hasProperty("validFlg", is(true))));
     }
 
     @Test

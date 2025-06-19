@@ -10,10 +10,14 @@ spring:
     username: user01 # ユーザー名
     password: password # パスワード
     driverClassName: org.postgresql.Driver
-tymeleaf:
-  chache: false #リアルタイム反映
+thymeleaf:
   prefix: file:src/main/resources/templates/
+  suffix: .html
   mode: html
+  encoding: UTF-8
+  check-template: false
+  check-template-location: false
+  enabled: true
 springdoc:
   cache:
     disabled: true
@@ -23,8 +27,9 @@ logging:
   level: #ログレベル
     org:
     springframework: DEBUG
+    web: DEBUG
   root: DEBUG
   ROOT: DEBUG
-  com.zaxxer.hikari: debug
+  com.zaxxer.hikari: DEBUG
   # your:
   #  package: DEBUG

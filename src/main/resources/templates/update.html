@@ -33,6 +33,7 @@
                     <th>初期ATK</th>
                     <th>最大HP</th>
                     <th>最大ATK</th>
+                    <th>所持</th>
                     <th>バディ１効果</th>
                     <th>バディ２効果</th>
                     <th>バディ３効果</th>
@@ -47,10 +48,10 @@
                             <th th:text="${record.id}"></th>
                             <td th:text="${record.name.viewName}">
                             </td>
-                            <input type="hidden" name="name"
+                            <input type="hidden" th:name="name"
                                 th:value="${record.name.name}" />
                             <td>
-                                <select th:name="rare">
+                                <select th:name="rare" class="selectbox">
                                     <option th:each=" option: ${rare}"
                                         th:value="${option.characterName}"
                                         th:text="${option.viewName}">
@@ -58,7 +59,7 @@
                                 </select>
                             </td>
                             <td>
-                                <select th:name="type">
+                                <select th:name="type" class="selectbox type">
                                     <option th:each=" option: ${type}"
                                         th:value="${option.characterName}"
                                         th:text="${option.viewName}">
@@ -66,7 +67,7 @@
                                 </select>
                             </td>
                             <td>
-                                <select th:name="buddy1">
+                                <select th:name="buddy1" class="selectbox name">
                                     <option th:each=" option: ${characterName}"
                                         th:value="${option.name}"
                                         th:text="${option.viewName}">
@@ -74,48 +75,51 @@
                                 </select>
                             </td>
                             <td>
-                                <select th:name="buddy2">
+                                <select th:name="buddy2" class="selectbox name">
                                     <option th:each=" option: ${characterName}"
                                         th:value="${option.name}"
                                         th:text="${option.viewName}"></option>
                                 </select>
                             </td>
                             <td>
-                                <select th:name="buddy3">
+                                <select th:name="buddy3" class="selectbox name">
                                     <option th:each=" option: ${characterName}"
                                         th:value="${option.name}"
                                         th:text="${option.viewName}"></option>
                                 </select>
                             </td>
                             <td>
-                                <select th:name="magic1Grouping">
+                                <select th:name="magic1Grouping"
+                                    class="selectbox magic">
                                     <option
-                                        th:each=" option: ${magicGroupingList}"
+                                        th:each=" option: ${magicGrouping}"
                                         th:value="${option.magicGrouping}"
                                         th:text="${option.name}">
                                     </option>
                                 </select>
                             </td>
                             <td>
-                                <select th:name="magic2Grouping">
+                                <select th:name="magic2Grouping"
+                                    class="selectbox magic">
                                     <option
-                                        th:each=" option: ${magicGroupingList}"
+                                        th:each=" option: ${magicGrouping}"
                                         th:value="${option.magicGrouping}"
                                         th:text="${option.name}">
                                     </option>
                                 </select>
                             </td>
                             <td>
-                                <select th:name="magic3Grouping">
+                                <select th:name="magic3Grouping"
+                                    class="selectbox magic">
                                     <option
-                                        th:each=" option: ${magicGroupingList}"
+                                        th:each=" option: ${magicGrouping}"
                                         th:value="${option.magicGrouping}"
                                         th:text="${option.name}">
                                     </option>
                                 </select>
                             </td>
                             <td>
-                                <select th:name="duo">
+                                <select th:name="duo" class="selectbox name">
                                     <option th:each=" option: ${characterName}"
                                         th:value="${option.name}"
                                         th:text="${option.viewName}"></option>
@@ -142,28 +146,40 @@
                                     class="textbox">
                             </td>
                             <td>
-                                <select name="buddy1Grouping">
+                                <select th:name="validFlg"
+                                    class="selectbox valid">
+                                    <option th:value="true"
+                                        th:text="所持"></option>
+                                    <option th:value="false"
+                                        th:text="未所持"></option>
+                                </select>
+                            </td>
+                            <td>
+                                <select th:name="buddy1Grouping"
+                                    class="selectbox buddyGrouping">
                                     <option
-                                        th:each=" option: ${buddyGroupingList}"
+                                        th:each=" option: ${buddyGrouping}"
                                         th:value="${option.buddyGrouping}"
                                         th:text="${option.effect}">
                                     </option>
                                 </select>
                             </td>
                             <td>
-                                <select name="buddy2Grouping">
+                                <select th:name="buddy2Grouping"
+                                    class="selectbox buddyGrouping">
                                     <option
-                                        th:each=" option: ${buddyGroupingList}"
+                                        th:each=" option: ${buddyGrouping}"
                                         th:value="${option.buddyGrouping}"
                                         th:text="${option.effect}">
                                     </option>
                                 </select>
                             </td>
                             <td>
-                                <select name="buddy3Grouping">
+                                <select th:name="buddy3Grouping"
+                                    class="selectbox buddyGrouping">
                                     <option>-</option>
                                     <option
-                                        th:each=" option: ${buddyGroupingList}"
+                                        th:each=" option: ${buddyGrouping}"
                                         th:value="${option.buddyGrouping}"
                                         th:text="${option.effect}">
                                     </option>

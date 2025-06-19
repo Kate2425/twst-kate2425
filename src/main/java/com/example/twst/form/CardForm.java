@@ -1,6 +1,7 @@
 package com.example.twst.form;
 
 import java.io.Serializable;
+import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 import com.example.twst.domain.model.CharacterEnum;
@@ -8,6 +9,7 @@ import com.example.twst.domain.model.TableEnum;
 
 import lombok.Data;
 
+@Component
 @Data
 public class CardForm implements Serializable {
     /**

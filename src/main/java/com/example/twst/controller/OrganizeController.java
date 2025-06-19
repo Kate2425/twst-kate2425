@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.CardEnum;
@@ -21,35 +22,41 @@ import com.example.twst.form.OrganizeForm;
 import com.example.twst.service.CardService;
 import com.example.twst.session.OrganizeSession;
 
-@RequestMapping("/organize")
 @Controller
-@SessionAttributes(value = { "cardArray", "levelArray", "hpArray", "atkArray", "tempCardArray", "tempHpArray",
-        "tempAtkArray" })
+@RequestMapping("/organize")
+@SessionAttributes(value = "OrganizeSession")
 public class OrganizeController {
 
     @Autowired
-    OrganizeSession organizeSession;
+    private final CardService cardService;
 
     @Autowired
-    private CardService cardService;
+    private final OrganizeSession organizeSession;
+
+    @ModelAttribute
+    public OrganizeForm setUpOrganizeForm() {
+        OrganizeForm organizeForm = new OrganizeForm();
+        return organizeForm;
+    }
+
+    @ModelAttribute
+    public CardForm setUpCardForm() {
+        CardForm cardForm = new CardForm();
+        return cardForm;
+    }
 
     /**
      * 編成画面の表示
      */
     @GetMapping
-    public String input(@ModelAttribute OrganizeForm organizeForm, @ModelAttribute CalculateForm calculateForm,
-            Model model) {
+    public String input(OrganizeForm organizeForm, CalculateForm calculateForm,
+            @ModelAttribute("organizeSession") OrganizeSession organizeSession,
+            Model model) throws Exception {
 
         Card[] cardArray = new Card[5];
         if (organizeSession.getCardArray() != null) {
             // sessionからcardArrayを取得
             cardArray = organizeSession.getCardArray();
-        }
-
-        BigDecimal[] levelArray = new BigDecimal[5];
-        if (organizeSession.getLevelArray() != null) {
-            // sessionからlevelArrayを取得
-            levelArray = organizeSession.getLevelArray();
         }
 
         // デュオをカウント
@@ -68,93 +75,81 @@ public class OrganizeController {
             buddyCount = Integer.parseInt(countList.get(countList.size() - 1));
         }
 
+        BigDecimal[] levelArray = new BigDecimal[5];
+        if (organizeSession.getLevelArray() != null) {
+            // sessionからlevelArrayを取得
+            levelArray = organizeSession.getLevelArray();
+        }
+
         // sessionからステータスを取得
         BigDecimal[] hpArray = new BigDecimal[5];// バディボーナス反映後HP
-        BigDecimal[] atkArray = new BigDecimal[5];// バディボーナス反映後ATK
 
         if (organizeSession.getHpArray() != null) {
             hpArray = organizeSession.getHpArray();
-            atkArray = organizeSession.getAtkArray();
         } else {
             hpArray = cardService.setArray(hpArray);
-            atkArray = cardService.setArray(atkArray);
-            levelArray = cardService.setArray(levelArray);
         }
 
         // 合計値を取得
-        BigDecimal totalHp = cardService.sum(cardArray);
-        BigDecimal reflectedHp = cardService.tempSum(hpArray);
+        BigDecimal totalHp = cardService.sum(cardArray);// 最大合計HP
+        BigDecimal reflectedHp = cardService.tempSum(hpArray);// バディボーナス反映後合計HP
 
         // 計算ボタン押下時
-        BigDecimal tempTotalHp = BigDecimal.ZERO;
         BigDecimal[] tempHpArray = new BigDecimal[5];// 推定HP
         BigDecimal[] tempAtkArray = new BigDecimal[5];// 推定ATk
         Card[] tempCardArray = new Card[5];
-        BigDecimal tempReflectedHp = BigDecimal.ZERO;
 
         if (organizeSession.getTempCardArray() != null) {
             tempCardArray = organizeSession.getTempCardArray();
         }
-        if (calculateForm.getRare() != null) {
-            tempCardArray = cardService.calculate(calculateForm, cardArray);
-            cardService.buddyCount(tempCardArray, true);
-            // sessionからステータスを取得
-
-            if (organizeSession.getTempHpArray() != null) {
-                tempHpArray = organizeSession.getTempHpArray();
-                tempAtkArray = organizeSession.getTempAtkArray();
-                levelArray = organizeSession.getLevelArray();
-            } else {
-                tempHpArray = cardService.setArray(tempHpArray);
-                tempAtkArray = cardService.setArray(tempAtkArray);
-            }
-            // 合計値を取得
-            tempTotalHp = cardService.sum(tempCardArray);
-            tempReflectedHp = cardService.tempSum(tempHpArray);
+        // sessionからステータスを取得
+        if (organizeSession.getTempHpArray() != null) {
+            tempHpArray = organizeSession.getTempHpArray();
+            tempAtkArray = organizeSession.getTempAtkArray();
+        } else {
+            tempHpArray = cardService.setArray(tempHpArray);
+            tempAtkArray = cardService.setArray(tempAtkArray);
         }
 
         // sessionに保存
-        this.organizeSession.setLevelArray(levelArray);
-        this.organizeSession.setHpArray(hpArray);
-        this.organizeSession.setAtkArray(atkArray);
-        this.organizeSession.setTempHpArray(tempHpArray);
-        this.organizeSession.setTempAtkArray(tempAtkArray);
-        this.organizeSession.setTempCardArray(tempCardArray);
-        this.organizeSession.setCardArray(cardArray);
+        organizeSession.setLevelArray(levelArray);
+        organizeSession.setHpArray(hpArray);
+        organizeSession.setTempHpArray(tempHpArray);
+        organizeSession.setTempAtkArray(tempAtkArray);
+        organizeSession.setTempCardArray(tempCardArray);
+        organizeSession.setCardArray(cardArray);
+
+        BigDecimal tempTotalHp = organizeSession.getTempTotalHp();
+        BigDecimal tempReflectedHp = organizeSession.getTempReflectedHp();
 
         // modelに追加
         model.addAttribute("totalHp", totalHp); // 最大合計HP
         model.addAttribute("buddyCount", buddyCount);// バディ
         model.addAttribute("duoCount", duoCount);// デュオ
-        model.addAttribute("hpArray", hpArray);// バディボーナス反映後HP
-        model.addAttribute("atkArray", atkArray);// バディボーナス反映後ATK
         model.addAttribute("reflectedHp", reflectedHp);// バディボーナス反映後合計HP
-        model.addAttribute("tempHpArray", tempHpArray);// バディボーナス反映後推定HP
-        model.addAttribute("tempAtkArray", tempAtkArray);// バディボーナス反映後推定ATK
-        model.addAttribute("tempCardArray", tempCardArray);// 推定CardArray
         model.addAttribute("tempTotalHp", tempTotalHp);// 推定合計HP
         model.addAttribute("tempReflectedHp", tempReflectedHp);// バディボーナス反映後推定合計HP
-        model.addAttribute("levelArray", levelArray);
         model.addAttribute("arrayIndex", organizeForm.getArrayIndex());
         model.addAttribute("cardArray", cardArray);
         model.addAttribute("buddyMap", buddyMap);
         model.addAttribute("duoMap", duoMap);
+        model.addAttribute("OrganizeSession", organizeSession);
 
         // enemy
         model.addAttribute("magic", CardEnum.getValue("magic"));
 
-        return "organize";
+        return "organize.html";
     }
 
     /**
      * 編成画面にセット
      */
     @PostMapping
-    public String conform(@ModelAttribute CardForm cardForm, @ModelAttribute OrganizeForm organizeForm, Model model) {
+    public String conform(CardForm cardForm, OrganizeForm organizeForm,
+            RedirectAttributes redirectAttributes,
+            Model model) {
 
         Card[] cardArray = new Card[5];
-
-        // sessionがnullでない
         if (organizeSession.getCardArray() != null) {
             // sessionからcardArrayを取得
             cardArray = organizeSession.getCardArray();
@@ -190,11 +185,18 @@ public class OrganizeController {
 
         // sessionに保存する
         cardArray[organizeForm.getArrayIndex()] = card;
-        this.organizeSession.setCardArray(cardArray);
+        organizeSession.setCardArray(cardArray);
+        redirectAttributes.addFlashAttribute("organizeSession", organizeSession);
 
         // modelに追加する
         model.addAttribute("cardArray", cardArray);
+        model.addAttribute("organizeSession", organizeSession);
 
         return "redirect:organize";
+    }
+
+    public OrganizeController(CardService cardService) {
+        this.organizeSession = new OrganizeSession();
+        this.cardService = cardService;
     }
 }

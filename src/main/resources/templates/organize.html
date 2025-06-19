@@ -161,13 +161,13 @@
                             </th:block>
 
                             <!-- 計算用データ-->
-                            <form action="#" th:action="@{/organize}"
+                            <form action="#" th:action="@{/calculate}"
                                 th:name="'calculateForm' + ${st.index}"
                                 method="get">
                                 <li>Lv
                                     <input type="text" class="textbox"
                                         th:name="level"
-                                        th:value="${levelArray[__${st.index}__]}" />
+                                        th:value="${organizeSession.getLevelArray[__${st.index}__]}" />
                                     <button type="submit"
                                         class="btn semicircle light-blue-purple">計算</button>
                                 </li>
@@ -176,38 +176,40 @@
                                     最大ATK:<span
                                         th:text="${card.maxAtk}"></span>
                                 </li>
-                                <li th:if="${hpArray[__${st.index}__]} != 0"
-                                    th:each="hp : ${hpArray[__${st.index}__]}">
+                                <li
+                                    th:if="${organizeSession.getHpArray[__${st.index}__]} != 0"
+                                    th:each="hp : ${organizeSession.getHpArray[__${st.index}__]}">
                                     バディボーナス反映後HP:<span
                                         th:text="${hp}"></span>
                                 </li>
-                                <li th:if="${atkArray[__${st.index}__]} != 0"
-                                    th:each="atk : ${atkArray[__${st.index}__]}">
+                                <li
+                                    th:if="${organizeSession.getAtkArray[__${st.index}__]} != 0"
+                                    th:each="atk : ${organizeSession.getAtkArray[__${st.index}__]}">
                                     バディボーナス反映後ATK:<span
                                         th:text="${atk}"></span>
                                 </li>
                                 <li
-                                    th:if="${tempCardArray[__${st.index}__]} != null">
+                                    th:if="${organizeSession.getTempCardArray[__${st.index}__]} != null">
                                     <th:block
-                                        th:each="tempHp : ${tempCardArray[__${st.index}__].getMaxHp()}">
+                                        th:each="tempHp : ${organizeSession.getTempCardArray[__${st.index}__].getMaxHp()}">
                                         推定HP:<span
                                             th:text="${tempHp}"></span>
                                     </th:block>
                                     <th:block
-                                        th:each="tempAtk : ${tempCardArray[__${st.index}__].getMaxAtk()}">
+                                        th:each="tempAtk : ${organizeSession.getTempCardArray[__${st.index}__].getMaxAtk()}">
                                         推定ATK:<span
                                             th:text="${tempAtk}"></span>
                                     </th:block>
                                 </li>
                                 <li
-                                    th:if="${tempHpArray[__${st.index}__]} != null"
-                                    th:each="tempHp : ${tempHpArray[__${st.index}__]}">
+                                    th:if="${organizeSession.getTempHpArray[__${st.index}__]} != null"
+                                    th:each="tempHp : ${organizeSession.getTempHpArray[__${st.index}__]}">
                                     バディボーナス反映後推定HP:<span
                                         th:text="${tempHp}"></span>
                                 </li>
                                 <li
-                                    th:if="${tempAtkArray[__${st.index}__]} != null"
-                                    th:each="tempAtk : ${tempAtkArray[__${st.index}__]}">
+                                    th:if="${organizeSession.getTempAtkArray[__${st.index}__]} != null"
+                                    th:each="tempAtk : ${organizeSession.getTempAtkArray[__${st.index}__]}">
                                     バディボーナス反映後推定ATK:<span
                                         th:text="${tempAtk}"></span>
                                 </li>
