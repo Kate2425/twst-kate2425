@@ -32,6 +32,9 @@
 					<th>バディ１効果</th>
 					<th>バディ２効果</th>
 					<th>バディ３効果</th>
+					<th>魔法１効果</th>
+					<th>魔法２効果</th>
+					<th>魔法３効果</th>
 				</tr>
 				<tr th:each="record , st: ${list}">
 					<form action="#" th:action="@{/organize}" th:object="${CardForm}"
@@ -82,6 +85,12 @@
 							<input type="hidden" th:name="minAtk" th:value="${record.minAtk}" />
 							<input type="hidden" th:name="maxHp" th:value="${record.maxHp}" />
 							<input type="hidden" th:name="maxAtk" th:value="${record.maxAtk}" />
+							<input type="hidden" th:name="magic1BuffdebuffGrouping"
+								th:value="${record.magic1BuffdebuffGrouping}" />
+							<input type="hidden" th:name="magic2BuffdebuffGrouping"
+								th:value="${record.magic2BuffdebuffGrouping}" />
+							<input type="hidden" th:name="magic3BuffdebuffGrouping"
+								th:value="${record.magic3BuffdebuffGrouping}" />
 							<input type="hidden" th:name="arrayIndex" th:value="${arrayIndex}" />
 						</form>
 						<a href="javascript:"
@@ -121,6 +130,9 @@
 					<td th:text="${record.buddy1Effect}"></td>
 					<td th:text="${record.buddy2Effect}"></td>
 					<td th:text="${record.buddy3Effect}"></td>
+					<td th:text="${record.magic1BuffdebuffGrouping}"></td>
+					<td th:text="${record.magic2BuffdebuffGrouping}"></td>
+					<td th:text="${record.magic3BuffdebuffGrouping}"></td>
 				</tr>
 			</tbody>
 		</ta>

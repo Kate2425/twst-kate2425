@@ -35,19 +35,19 @@ public class SearchForm implements Serializable {
     private String[] typeChecks;
 
     /**
-     * 魔法属性１
+     * マジック属性１
      */
     @Size(min = 0, max = 4)
     private String[] magicChecks1;
 
     /**
-     * 魔法属性２
+     * マジック属性２
      */
     @Size(min = 0, max = 4)
     private String[] magicChecks2;
 
     /**
-     * 魔法属性３
+     * マジック属性３
      */
     @Size(min = 0, max = 4)
     private String[] magicChecks3;
@@ -61,6 +61,21 @@ public class SearchForm implements Serializable {
      * デュオ
      */
     private String[] duoChecks;
+
+    /**
+     * 魔法１効果
+     */
+    private String[] buffDebuffChecks1;
+
+    /**
+     * 魔法２効果
+     */
+    private String[] buffDebuffChecks2;
+
+    /**
+     * 魔法３効果
+     */
+    private String[] buffDebuffChecks3;
 
     /**
      * include or exclude1

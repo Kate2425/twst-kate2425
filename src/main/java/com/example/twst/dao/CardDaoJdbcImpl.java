@@ -18,11 +18,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import com.example.twst.domain.model.BuddyGroupingEnum;
+import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.CharacterEnum;
-import com.example.twst.domain.model.BuddyGroupingEnum;
-import com.example.twst.domain.model.MagicGroupingEnum;
 import com.example.twst.domain.model.EnumUtils;
+import com.example.twst.domain.model.MagicGroupingEnum;
 import com.example.twst.domain.model.TableEnum;
 import com.example.twst.form.CardForm;
 import com.example.twst.form.SearchForm;
@@ -80,7 +81,10 @@ public class CardDaoJdbcImpl implements CardDao {
                 + ", valid_flg"
                 + ", buddy1_grouping"
                 + ", buddy2_grouping"
-                + ", buddy3_grouping)"
+                + ", buddy3_grouping"
+                + ", magic1_buffdebuff_grouping"
+                + ", magic2_buffdebuff_grouping"
+                + ", magic3_buffdebuff_grouping)"
                 + " VALUES(:id"
                 + ", :name"
                 + ", :rare"
@@ -101,7 +105,10 @@ public class CardDaoJdbcImpl implements CardDao {
                 + ", :valid_flg"
                 + ", :buddy1_grouping"
                 + ", :buddy2_grouping"
-                + ", :buddy3_grouping)";
+                + ", :buddy3_grouping"
+                + ", :magic1_buffdebuff_grouping"
+                + ", :magic2_buffdebuff_grouping"
+                + ", :magic3_buffdebuff_grouping)";
 
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("id", tableName.substring(0, 3) + "_" + cardForm.getName().getCharacterName().toLowerCase())
@@ -124,7 +131,10 @@ public class CardDaoJdbcImpl implements CardDao {
                 .addValue("valid_flg", cardForm.isValidFlg())
                 .addValue("buddy1_grouping", Integer.valueOf(cardForm.getBuddy1Grouping()))
                 .addValue("buddy2_grouping", Integer.valueOf(cardForm.getBuddy2Grouping()))
-                .addValue("buddy3_grouping", Integer.valueOf(cardForm.getBuddy3Grouping()));
+                .addValue("buddy3_grouping", Integer.valueOf(cardForm.getBuddy3Grouping()))
+                .addValue("magic1_buffdebuff_grouping", cardForm.getMagic1BuffdebuffGrouping())
+                .addValue("magic2_buffdebuff_grouping", cardForm.getMagic2BuffdebuffGrouping())
+                .addValue("magic3_buffdebuff_grouping", cardForm.getMagic3BuffdebuffGrouping());
 
         return jdbc.update(sql, params);
     }
@@ -155,6 +165,9 @@ public class CardDaoJdbcImpl implements CardDao {
         String[] magicParam1 = form.getMagicChecks1();
         String[] magicParam2 = form.getMagicChecks2();
         String[] magicParam3 = form.getMagicChecks3();
+        String[] buffDebuffParam1 = form.getBuffDebuffChecks1();
+        String[] buffDebuffParam2 = form.getBuffDebuffChecks2();
+        String[] buffDebuffParam3 = form.getBuffDebuffChecks3();
         String[] buddyParam = form.getBuddyChecks();
         String[] duoParam = form.getDuoChecks();
         String include1 = form.getInclude1();
@@ -181,6 +194,9 @@ public class CardDaoJdbcImpl implements CardDao {
                 + ", buddy1_grouping"
                 + ", buddy2_grouping"
                 + ", buddy3_grouping"
+                + ", magic1_buffdebuff_grouping"
+                + ", magic2_buffdebuff_grouping"
+                + ", magic3_buffdebuff_grouping"
                 + " FROM " + tableName;
 
         // nameに指定があればsqlに追加する
@@ -219,8 +235,7 @@ public class CardDaoJdbcImpl implements CardDao {
         // magic1に指定があればsqlに追加する
         Set<Integer> magics1 = new HashSet<>();
         if (magicParam1.length != 0) {
-            List<Integer> magicGroupingList1 = MagicGroupingEnum.getMagicType(magicParam1);
-            Integer[] magicGroupingArray1 = magicGroupingList1.toArray(new Integer[magicGroupingList1.size()]);
+            Integer[] magicGroupingArray1 = MagicGroupingEnum.getMagicTypeArray(magicParam1);
             magics1 = getIntParam(magicGroupingArray1);
             // name、rare、typeの全てが未指定の場合
             if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)) {
@@ -229,7 +244,7 @@ public class CardDaoJdbcImpl implements CardDao {
                 sql += " AND";
             }
             if (include1.equals("include")) {
-                sql += " magic1_grouping IN(:magics1)";
+                sql += " magic1_grouping  IN(:magics1)";
             } else {
                 sql += " magic1_grouping NOT IN(:magics1)";
             }
@@ -238,8 +253,7 @@ public class CardDaoJdbcImpl implements CardDao {
         // magic2に指定があればsqlに追加する
         Set<Integer> magics2 = new HashSet<>();
         if (magicParam2.length != 0) {
-            List<Integer> magicGroupingList2 = MagicGroupingEnum.getMagicType(magicParam2);
-            Integer[] magicGroupingArray2 = magicGroupingList2.toArray(new Integer[magicGroupingList2.size()]);
+            Integer[] magicGroupingArray2 = MagicGroupingEnum.getMagicTypeArray(magicParam2);
             magics2 = getIntParam(magicGroupingArray2);
             // name、rare、typeの全てが未指定の場合
             if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
@@ -258,8 +272,7 @@ public class CardDaoJdbcImpl implements CardDao {
         // magic3に指定があればsqlに追加する
         Set<Integer> magics3 = new HashSet<>();
         if (magicParam3.length != 0) {
-            List<Integer> magicGroupingList3 = MagicGroupingEnum.getMagicType(magicParam3);
-            Integer[] magicGroupingArray3 = magicGroupingList3.toArray(new Integer[magicGroupingList3.size()]);
+            Integer[] magicGroupingArray3 = MagicGroupingEnum.getMagicTypeArray(magicParam3);
             magics3 = getIntParam(magicGroupingArray3);
             // name、rare、typeの全てが未指定の場合
             if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
@@ -306,6 +319,55 @@ public class CardDaoJdbcImpl implements CardDao {
             sql += " duo IN (:duos)";
         }
 
+        // buffDebuff1に指定があればsqlに追加する
+        Set<String> buffDebuff1 = new HashSet<>();
+        if (buffDebuffParam1.length != 0) {
+            String[] buffDebuffGroupingArray1 = BuffDebuffGroupingEnum.getTypeArray(buffDebuffParam1);
+            buffDebuff1 = getParam(buffDebuffGroupingArray1);
+            // name、rare、typeの全てが未指定の場合
+            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
+                    && (magicParam1.length == 0) && (magicParam2.length == 0) && (magicParam3.length == 0)
+                    && (buddyParam.length == 0) && (duoParam.length == 0)) {
+                sql += " WHERE";
+            } else {
+                sql += " AND";
+            }
+            sql += " magic1_buffdebuff_grouping LIKE any (array [:buffDebuff1])";
+        }
+
+        // buffDebuff2に指定があればsqlに追加する
+        Set<String> buffDebuff2 = new HashSet<>();
+        if (buffDebuffParam2.length != 0) {
+            String[] buffDebuffGroupingArray2 = BuffDebuffGroupingEnum.getTypeArray(buffDebuffParam2);
+            buffDebuff2 = getParam(buffDebuffGroupingArray2);
+            // name、rare、typeの全てが未指定の場合
+            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
+                    && (magicParam1.length == 0) && (magicParam2.length == 0)
+                    && (buddyParam.length == 0) && (buffDebuffParam1.length == 0)) {
+                sql += " WHERE";
+            } else {
+                sql += " AND";
+            }
+            sql += " magic2_buffdebuff_grouping LIKE any (array [:buffDebuff2])";
+        }
+
+        // buffDebuff3に指定があればsqlに追加する
+        Set<String> buffDebuff3 = new HashSet<>();
+        if (buffDebuffParam3.length != 0) {
+            String[] buffDebuffGroupingArray3 = BuffDebuffGroupingEnum.getTypeArray(buffDebuffParam3);
+            buffDebuff3 = getParam(buffDebuffGroupingArray3);
+            // name、rare、typeの全てが未指定の場合
+            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
+                    && (magicParam1.length == 0) && (magicParam2.length == 0) && (magicParam3.length == 0)
+                    && (buddyParam.length == 0) && (duoParam.length == 0)
+                    && (buffDebuffParam1.length == 0)) {
+                sql += " WHERE";
+            } else {
+                sql += " AND";
+            }
+            sql += " magic3_buffdebuff_grouping LIKE any (array [:buffDebuff3] ) ";
+        }
+
         // parameter
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("names", names)
@@ -314,6 +376,9 @@ public class CardDaoJdbcImpl implements CardDao {
                 .addValue("magics1", magics1)
                 .addValue("magics2", magics2)
                 .addValue("magics3", magics3)
+                .addValue("buffDebuff1", buffDebuff1)
+                .addValue("buffDebuff2", buffDebuff2)
+                .addValue("buffDebuff3", buffDebuff3)
                 .addValue("buddies", buddies)
                 .addValue("duos", duos);
 
@@ -388,6 +453,15 @@ public class CardDaoJdbcImpl implements CardDao {
             } else {
                 card.setDuo(duoObject);// デュオ
             }
+
+            card.setMagic1BuffdebuffGrouping(
+                    BuffDebuffGroupingEnum.join((String) map.get("magic1_buffDebuff_grouping")));// マジック１バフ区分
+
+            card.setMagic2BuffdebuffGrouping(
+                    BuffDebuffGroupingEnum.join((String) map.get("magic2_buffDebuff_grouping")));// マジック２バフ区分
+
+            card.setMagic3BuffdebuffGrouping(
+                    BuffDebuffGroupingEnum.join((String) map.get("magic3_buffDebuff_grouping")));// マジック３バフ区分
 
             card.setMinHp((BigDecimal) map.get("min_hp"));// 初期HP
             card.setMinAtk((BigDecimal) map.get("min_atk"));// 初期ATK
@@ -615,5 +689,4 @@ public class CardDaoJdbcImpl implements CardDao {
         }
         return idName;
     }
-
 }

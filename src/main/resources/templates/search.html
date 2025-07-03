@@ -75,7 +75,8 @@
                         </p>
                         <p>
                             <span th:each="item : ${include1}">
-                                <input type="radio" th:value="${item.value}" disabled
+                                <input type="radio" th:value="${item.value}"
+                                    disabled
                                     th:field="*{include1}" class="radio-icon" />
                                 <label th:for="${#ids.prev('include1')}"
                                     th:text="${item.key}"></label>
@@ -159,397 +160,448 @@
 
             <fieldset class="accordion" data-accordion="box">
                 <legend class="accordion-title"
-                    data-accordion="title">キャラクター
+                    data-accordion="title">マジック効果
                     <span class="toggleIcon"></span>
                 </legend>
                 <div class="accordion_item" data-accordion="item">
                     <fieldset>
-                        <legend>ハーツラビュル</legend>
-                        <span th:each="item : ${heartslabyul}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{nameChecks}"
+                        <legend>マジック１</legend>
+                        <span th:each="item : ${buffDebuff}">
+                            <input type="checkbox" th:value="${item}"
+                                th:field="*{buffDebuffChecks1}"
                                 class="checkbox-icon" />
-                            <label th:for="${#ids.prev('nameChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
+                            <label th:for="${#ids.prev('buffDebuffChecks1')}"
+                                th:text="${item}" class="checkbox"></label>
                         </span>
                     </fieldset>
 
                     <fieldset>
-                        <legend>サバナクロー</legend>
-                        <span th:each="item : ${savanaclaw}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{nameChecks}"
+                        <legend>マジック２</legend>
+                        <span th:each="item : ${buffDebuff}">
+                            <input type="checkbox" th:value="${item}"
+                                th:field="*{buffDebuffChecks2}"
                                 class="checkbox-icon" />
-                            <label th:for="${#ids.prev('nameChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
+                            <label th:for="${#ids.prev('buffDebuffChecks2')}"
+                                th:text="${item}" class="checkbox"></label>
                         </span>
                     </fieldset>
 
                     <fieldset>
-                        <legend>オクタヴィネル</legend>
-                        <span th:each="item : ${octavinelle}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{nameChecks}"
+                        <legend>マジック３</legend>
+                        <span th:each="item : ${buffDebuff}">
+                            <input type="checkbox" th:value="${item}"
+                                th:field="*{buffDebuffChecks3}"
                                 class="checkbox-icon" />
-                            <label th:for="${#ids.prev('nameChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>スカラビア</legend>
-                        <span th:each="item : ${scarabia}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{nameChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('nameChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>ポムフィオーレ</legend>
-                        <span th:each="item : ${pomefiore}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{nameChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('nameChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>イグニハイド</legend>
-                        <span th:each="item : ${ignihyde}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{nameChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('nameChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>ディアソムニア</legend>
-                        <span th:each="item : ${diasomnia}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{nameChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('nameChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>NRC</legend>
-                        <span th:each="item : ${nrc}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{nameChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('nameChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>スペシャル</legend>
-                        <span th:each="item : ${special}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{nameChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('nameChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
+                            <label th:for="${#ids.prev('buffDebuffChecks3')}"
+                                th:text="${item}" class="checkbox"></label>
                         </span>
                     </fieldset>
                 </div>
             </fieldset>
 
-            <fieldset class="accordion" data-accordion="box">
-                <legend class="accordion-title"
-                    data-accordion="title">バディ
-                    <span class="toggleIcon"></span>
-                </legend>
-                <div class="accordion_item" data-accordion="item">
-                    <fieldset>
-                        <legend>ハーツラビュル</legend>
-                        <span th:each="item : ${heartslabyul}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{buddyChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buddyChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
+                    <fieldset class="accordion" data-accordion="box">
+                        <legend class="accordion-title"
+                            data-accordion="title">キャラクター
+                            <span class="toggleIcon"></span>
+                        </legend>
+                        <div class="accordion_item" data-accordion="item">
+                            <fieldset>
+                                <legend>ハーツラビュル</legend>
+                                <span th:each="item : ${heartslabyul}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{nameChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('nameChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>サバナクロー</legend>
+                                <span th:each="item : ${savanaclaw}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{nameChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('nameChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>オクタヴィネル</legend>
+                                <span th:each="item : ${octavinelle}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{nameChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('nameChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>スカラビア</legend>
+                                <span th:each="item : ${scarabia}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{nameChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('nameChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>ポムフィオーレ</legend>
+                                <span th:each="item : ${pomefiore}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{nameChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('nameChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>イグニハイド</legend>
+                                <span th:each="item : ${ignihyde}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{nameChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('nameChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>ディアソムニア</legend>
+                                <span th:each="item : ${diasomnia}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{nameChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('nameChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>NRC</legend>
+                                <span th:each="item : ${nrc}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{nameChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('nameChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>スペシャル</legend>
+                                <span th:each="item : ${special}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{nameChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('nameChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="accordion" data-accordion="box">
+                        <legend class="accordion-title"
+                            data-accordion="title">バディ
+                            <span class="toggleIcon"></span>
+                        </legend>
+                        <div class="accordion_item" data-accordion="item">
+                            <fieldset>
+                                <legend>ハーツラビュル</legend>
+                                <span th:each="item : ${heartslabyul}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{buddyChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('buddyChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>サバナクロー</legend>
+                                <span th:each="item : ${savanaclaw}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{buddyChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('buddyChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>オクタヴィネル</legend>
+                                <span th:each="item : ${octavinelle}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{buddyChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('buddyChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>スカラビア</legend>
+                                <span th:each="item : ${scarabia}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{buddyChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('buddyChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>ポムフィオーレ</legend>
+                                <span th:each="item : ${pomefiore}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{buddyChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('buddyChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>イグニハイド</legend>
+                                <span th:each="item : ${ignihyde}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{buddyChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('buddyChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>ディアソムニア</legend>
+                                <span th:each="item : ${diasomnia}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{buddyChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('buddyChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>NRC</legend>
+                                <span th:each="item : ${nrc}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{buddyChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('buddyChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>スペシャル</legend>
+                                <span th:each="item : ${special}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{buddyChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('buddyChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="accordion" data-accordion="box">
+                        <legend class="accordion-title"
+                            data-accordion="title">デュオ
+                            <span class="toggleIcon"></span>
+                        </legend>
+                        <div class="accordion_item" data-accordion="item">
+                            <fieldset>
+                                <legend>ハーツラビュル</legend>
+                                <span th:each="item : ${heartslabyul}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{duoChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('duoChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>サバナクロー</legend>
+                                <span th:each="item : ${savanaclaw}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{duoChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('duoChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>オクタヴィネル</legend>
+                                <span th:each="item : ${octavinelle}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{duoChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('duoChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>スカラビア</legend>
+                                <span th:each="item : ${scarabia}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{duoChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('duoChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>ポムフィオーレ</legend>
+                                <span th:each="item : ${pomefiore}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{duoChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('duoChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>イグニハイド</legend>
+                                <span th:each="item : ${ignihyde}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{duoChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('duoChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>ディアソムニア</legend>
+                                <span th:each="item : ${diasomnia}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{duoChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('duoChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>NRC</legend>
+                                <span th:each="item : ${nrc}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{duoChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('duoChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>スペシャル</legend>
+                                <span th:each="item : ${special}">
+                                    <input type="checkbox"
+                                        th:value="${item.characterName}"
+                                        th:field="*{duoChecks}"
+                                        class="checkbox-icon" />
+                                    <label th:for="${#ids.prev('duoChecks')}"
+                                        th:text="${item.viewName}"
+                                        class="checkbox"></label>
+                                </span>
+                            </fieldset>
+                        </div>
                     </fieldset>
 
                     <fieldset>
-                        <legend>サバナクロー</legend>
-                        <span th:each="item : ${savanaclaw}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{buddyChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buddyChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
+                        <legend>衣装</legend>
+                        <input type="checkbox" id="tableChecksAll"
+                            class="checkbox-icon" />
+                        <span class="checkbox">全て選択・解除</span>
+                    </p>
+                    <span th:each="item : ${tableName}">
+                        <input type="checkbox" th:value="${item.characterName}"
+                            th:field="*{tableNameChecks}" required="required"
+                            class="tableChecks checkbox-icon" />
+                        <label th:for="${#ids.prev('tableNameChecks')}"
+                            th:text="${item.viewName}" class="checkbox"></label>
+                    </span>
+                </fieldset>
 
-                    <fieldset>
-                        <legend>オクタヴィネル</legend>
-                        <span th:each="item : ${octavinelle}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{buddyChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buddyChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>スカラビア</legend>
-                        <span th:each="item : ${scarabia}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{buddyChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buddyChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>ポムフィオーレ</legend>
-                        <span th:each="item : ${pomefiore}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{buddyChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buddyChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>イグニハイド</legend>
-                        <span th:each="item : ${ignihyde}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{buddyChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buddyChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>ディアソムニア</legend>
-                        <span th:each="item : ${diasomnia}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{buddyChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buddyChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>NRC</legend>
-                        <span th:each="item : ${nrc}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{buddyChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buddyChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>スペシャル</legend>
-                        <span th:each="item : ${special}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{buddyChecks}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buddyChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
+                <div class="sort">
+                    <p>並び順</p>
+                    <span th:each="item : ${sort}">
+                        <input type="radio" th:value="${item.value}"
+                            th:field="*{sort}" class="radio-icon" />
+                        <label th:for="${#ids.prev('sort')}"
+                            th:text="${item.key}"></label>
+                    </span>
                 </div>
-            </fieldset>
-
-            <fieldset class="accordion" data-accordion="box">
-                <legend class="accordion-title"
-                    data-accordion="title">デュオ
-                    <span class="toggleIcon"></span>
-                </legend>
-                <div class="accordion_item" data-accordion="item">
-                    <fieldset>
-                        <legend>ハーツラビュル</legend>
-                        <span th:each="item : ${heartslabyul}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{duoChecks}" class="checkbox-icon" />
-                            <label th:for="${#ids.prev('duoChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>サバナクロー</legend>
-                        <span th:each="item : ${savanaclaw}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{duoChecks}" class="checkbox-icon" />
-                            <label th:for="${#ids.prev('duoChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>オクタヴィネル</legend>
-                        <span th:each="item : ${octavinelle}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{duoChecks}" class="checkbox-icon" />
-                            <label th:for="${#ids.prev('duoChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>スカラビア</legend>
-                        <span th:each="item : ${scarabia}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{duoChecks}" class="checkbox-icon" />
-                            <label th:for="${#ids.prev('duoChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>ポムフィオーレ</legend>
-                        <span th:each="item : ${pomefiore}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{duoChecks}" class="checkbox-icon" />
-                            <label th:for="${#ids.prev('duoChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>イグニハイド</legend>
-                        <span th:each="item : ${ignihyde}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{duoChecks}" class="checkbox-icon" />
-                            <label th:for="${#ids.prev('duoChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>ディアソムニア</legend>
-                        <span th:each="item : ${diasomnia}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{duoChecks}" class="checkbox-icon" />
-                            <label th:for="${#ids.prev('duoChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>NRC</legend>
-                        <span th:each="item : ${nrc}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{duoChecks}" class="checkbox-icon" />
-                            <label th:for="${#ids.prev('duoChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>スペシャル</legend>
-                        <span th:each="item : ${special}">
-                            <input type="checkbox"
-                                th:value="${item.characterName}"
-                                th:field="*{duoChecks}" class="checkbox-icon" />
-                            <label th:for="${#ids.prev('duoChecks')}"
-                                th:text="${item.viewName}"
-                                class="checkbox"></label>
-                        </span>
-                    </fieldset>
-                </div>
-            </fieldset>
-
-            <fieldset>
-                <legend>衣装</legend>
-                    <input type="checkbox" id="tableChecksAll"
-                        class="checkbox-icon" />
-                    <span class="checkbox">全て選択・解除</span>
-                </p>
-                <span th:each="item : ${tableName}">
-                    <input type="checkbox" th:value="${item.characterName}"
-                        th:field="*{tableNameChecks}" required="required"
-                        class="tableChecks checkbox-icon" />
-                    <label th:for="${#ids.prev('tableNameChecks')}"
-                        th:text="${item.viewName}" class="checkbox"></label>
-                </span>
-            </fieldset>
-
-            <div class="sort">
-                <p>並び順</p>
-                <span th:each="item : ${sort}">
-                    <input type="radio" th:value="${item.value}"
-                        th:field="*{sort}" class="radio-icon" />
-                    <label th:for="${#ids.prev('sort')}"
-                        th:text="${item.key}"></label>
-                </span>
-            </div>
-            <input type="hidden" th:name="arrayIndex"  th:value="${arrayIndex}" />
-            <p class="wrap"><input type="submit" value="検索" id="search"
-                    class="btn circle light-red-purple" /></p>
-        </form>
-    </body>
-</html>
+                <input type="hidden" th:name="arrayIndex"
+                    th:value="${arrayIndex}" />
+                <p class="wrap"><input type="submit" value="検索" id="search"
+                        class="btn circle light-red-purple" /></p>
+            </form>
+        </body>
+    </html>

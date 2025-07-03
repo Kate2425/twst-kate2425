@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.CardEnum;
 import com.example.twst.domain.model.CharacterEnum;
 import com.example.twst.domain.model.TableEnum;
@@ -65,6 +66,7 @@ public class SearchController {
         model.addAttribute("rare", CardEnum.getValue("rare"));
         model.addAttribute("type", CardEnum.getValue("type"));
         model.addAttribute("magic", CardEnum.getValue("magic"));
+        model.addAttribute("buffDebuff", BuffDebuffGroupingEnum.getTypeList());
         model.addAttribute("heartslabyul", CharacterEnum.getValue("Heartslabyul"));
         model.addAttribute("savanaclaw", CharacterEnum.getValue("Savanaclaw"));
         model.addAttribute("octavinelle", CharacterEnum.getValue("Octavinelle"));

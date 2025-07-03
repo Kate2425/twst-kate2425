@@ -61,6 +61,9 @@ public class CardServiceTest {
         cardForm.setBuddy1Grouping("1");
         cardForm.setBuddy2Grouping("0");
         cardForm.setBuddy3Grouping("0");
+        cardForm.setMagic1BuffdebuffGrouping("1");
+        cardForm.setMagic2BuffdebuffGrouping("-");
+        cardForm.setMagic3BuffdebuffGrouping("-");
 
         // Act
         boolean result = target.insert(cardForm);
@@ -93,6 +96,9 @@ public class CardServiceTest {
         cardForm.setBuddy1Grouping("1");
         cardForm.setBuddy2Grouping("0");
         cardForm.setBuddy3Grouping("0");
+        cardForm.setMagic1BuffdebuffGrouping("-");
+        cardForm.setMagic2BuffdebuffGrouping("2");
+        cardForm.setMagic3BuffdebuffGrouping("-");
 
         // Act
         DuplicateKeyException result = assertThrows(DuplicateKeyException.class, () -> target.insert(cardForm));
@@ -142,6 +148,9 @@ public class CardServiceTest {
         String[] magicParam3 = {};
         String[] buddyParam = {};
         String[] duoParam = {};
+        String[] buffDebuffParam1 = {};
+        String[] buffDebuffParam2 = {};
+        String[] buffDebuffParam3 = {};
         searchForm.setTableNameChecks(tableNameChecks);
         searchForm.setNameChecks(nameParam);
         searchForm.setRareChecks(rareParam);
@@ -151,6 +160,9 @@ public class CardServiceTest {
         searchForm.setMagicChecks3(magicParam3);
         searchForm.setBuddyChecks(buddyParam);
         searchForm.setDuoChecks(duoParam);
+        searchForm.setBuffDebuffChecks1(buffDebuffParam1);
+        searchForm.setBuffDebuffChecks2(buffDebuffParam2);
+        searchForm.setBuffDebuffChecks3(buffDebuffParam3);
 
         // Act
         List<Card> resultList = target.selectMany(searchForm, tableName);
@@ -174,6 +186,9 @@ public class CardServiceTest {
         String[] magicParam3 = {};
         String[] buddyParam = {};
         String[] duoParam = {};
+        String[] buffDebuffParam1 = {};
+        String[] buffDebuffParam2 = {};
+        String[] buffDebuffParam3 = {};
         searchForm.setTableNameChecks(tableNameChecks);
         searchForm.setNameChecks(nameParam);
         searchForm.setRareChecks(rareParam);
@@ -183,6 +198,9 @@ public class CardServiceTest {
         searchForm.setMagicChecks3(magicParam3);
         searchForm.setBuddyChecks(buddyParam);
         searchForm.setDuoChecks(duoParam);
+        searchForm.setBuffDebuffChecks1(buffDebuffParam1);
+        searchForm.setBuffDebuffChecks2(buffDebuffParam2);
+        searchForm.setBuffDebuffChecks3(buffDebuffParam3);
         searchForm.setSort("atk");
 
         // Act

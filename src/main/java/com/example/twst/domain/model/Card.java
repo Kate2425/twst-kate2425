@@ -138,6 +138,21 @@ public class Card implements Cloneable {
     private BigDecimal maxAtk;
 
     /**
+     * マジック１バフ区分
+     */
+    private String magic1BuffdebuffGrouping;
+
+    /**
+     * マジック２バフ区分
+     */
+    private String magic2BuffdebuffGrouping;
+
+    /**
+     * マジック３バフ区分
+     */
+    private String magic3BuffdebuffGrouping;
+
+    /**
      * 登録者
      */
     private String registUsr;

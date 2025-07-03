@@ -111,19 +111,24 @@ public enum MagicGroupingEnum {
         return valueList;
     }
 
-    public static List<Integer> getMagicType(String[] magicTypeArray) {
+    /**
+     * magicTypeの一覧を取得する.
+     * 
+     * @param magicTypeArray[]
+     * @return typeArray
+     */
+    public static Integer[] getMagicTypeArray(String[] magicTypeArray) {
         List<Integer> typeList = new ArrayList<>();
         for (String type : magicTypeArray) {
-            if (type == null) {
-                continue;
-            }
             for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
                 if (magicGroupingEnum.getMagicType().equals(type)) {
                     typeList.add(magicGroupingEnum.getMagicGrouping());
                 }
             }
         }
-        return typeList;
+
+        Integer[] typeArray = typeList.stream().toArray(Integer[]::new);
+        return typeArray;
     }
 
     /**
