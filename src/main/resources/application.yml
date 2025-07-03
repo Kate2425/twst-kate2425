@@ -10,6 +10,8 @@ spring:
     username: user01 # ユーザー名
     password: password # パスワード
     driverClassName: org.postgresql.Driver
+  mvc:
+    log-request-details: true
 thymeleaf:
   prefix: file:src/main/resources/templates/
   suffix: .html
