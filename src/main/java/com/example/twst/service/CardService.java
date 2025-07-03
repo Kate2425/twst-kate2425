@@ -276,7 +276,6 @@ public class CardService {
     public Card[] calculate(CalculateForm calculateForm, Card[] cardArray) throws CloneNotSupportedException {
         Card[] tempCardArray = new Card[5];
         for (int i = 0; i < cardArray.length; i++) {
-            // try {
             if (cardArray[i] == null) {
                 continue;
             }
@@ -284,7 +283,6 @@ public class CardService {
         }
 
         BigDecimal maxLevel = BigDecimal.ZERO;
-        // String rare = cardArray[calculateForm.getArrayIndex()].getRare();
         String rare = calculateForm.getRare();
 
         // レア度から最大Lvを設定
@@ -320,9 +318,6 @@ public class CardService {
         } else {
             levelArray = setArray(levelArray);
         }
-        // } else {
-        // level = maxLevel;
-        // }
 
         levelArray[calculateForm.getArrayIndex()] = level;
         organizeSession.setLevelArray(levelArray);
@@ -358,6 +353,27 @@ public class CardService {
     public BigDecimal[] setArray(BigDecimal[] array) {
         for (int i = 0; i < array.length; i++) {
             array[i] = BigDecimal.ZERO;
+        }
+        return array;
+    }
+
+    public BigDecimal[] setLevelArray(Card[] cardArray, BigDecimal[] array) {
+        for (int i = 0; i < array.length; i++) {
+            if ((array[i] == BigDecimal.ZERO) || (array[i] == null)) {
+                if (cardArray[i] == null) {
+                    continue;
+                }
+                String rare = cardArray[i].getRare();
+                BigDecimal maxLevel = BigDecimal.ZERO;
+
+                // レア度から最大Lvを設定
+                switch (rare) {
+                    case "R" -> maxLevel = new BigDecimal(70);
+                    case "SR" -> maxLevel = new BigDecimal(90);
+                    case "SSR" -> maxLevel = new BigDecimal(110);
+                }
+                array[i] = maxLevel;
+            }
         }
         return array;
     }

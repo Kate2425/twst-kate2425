@@ -111,6 +111,8 @@ public class OrganizeController {
             tempAtkArray = cardService.setArray(tempAtkArray);
         }
 
+        levelArray = cardService.setLevelArray(cardArray, levelArray);
+
         // sessionに保存
         organizeSession.setLevelArray(levelArray);
         organizeSession.setHpArray(hpArray);

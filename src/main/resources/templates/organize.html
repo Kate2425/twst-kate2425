@@ -202,13 +202,13 @@
                                     </th:block>
                                 </li>
                                 <li
-                                    th:if="${organizeSession.getTempHpArray[__${st.index}__]} != null"
+                                    th:if="${organizeSession.getTempHpArray[__${st.index}__]} != 0"
                                     th:each="tempHp : ${organizeSession.getTempHpArray[__${st.index}__]}">
                                     バディボーナス反映後推定HP:<span
                                         th:text="${tempHp}"></span>
                                 </li>
                                 <li
-                                    th:if="${organizeSession.getTempAtkArray[__${st.index}__]} != null"
+                                    th:if="${organizeSession.getTempAtkArray[__${st.index}__]} != 0"
                                     th:each="tempAtk : ${organizeSession.getTempAtkArray[__${st.index}__]}">
                                     バディボーナス反映後推定ATK:<span
                                         th:text="${tempAtk}"></span>
