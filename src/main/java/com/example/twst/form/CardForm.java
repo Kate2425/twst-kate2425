@@ -4,7 +4,9 @@ import java.io.Serializable;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
+import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.CharacterEnum;
+import com.example.twst.domain.model.MagicGroupingEnum;
 import com.example.twst.domain.model.TableEnum;
 
 import lombok.Data;
@@ -33,6 +35,11 @@ public class CardForm implements Serializable {
     private CharacterEnum name;
 
     /**
+     * 衣装
+     */
+    private String clothingName;
+
+    /**
      * レア度
      */
     private String rare;
@@ -58,19 +65,19 @@ public class CardForm implements Serializable {
     private CharacterEnum buddy3;
 
     /**
-     * マジック１属性
+     * マジック１
      */
-    private String magic1Type;
+    private MagicGroupingEnum magic1;
 
     /**
-     * マジック２属性
+     * マジック２
      */
-    private String magic2Type;
+    private MagicGroupingEnum magic2;
 
     /**
-     * マジック３属性
+     * マジック３
      */
-    private String magic3Type;
+    private MagicGroupingEnum magic3;
 
     /**
      * デュオ
@@ -118,51 +125,6 @@ public class CardForm implements Serializable {
     private String buddy3Effect;
 
     /**
-     * マジック１名称
-     */
-    private String magic1Name;
-
-    /**
-     * マジック２名称
-     */
-    private String magic2Name;
-
-    /**
-     * マジック３名称
-     */
-    private String magic3Name;
-
-    /**
-     * マジック１効果
-     */
-    private String magic1Effect;
-
-    /**
-     * マジック２効果
-     */
-    private String magic2Effect;
-
-    /**
-     * マジック３効果
-     */
-    private String magic3Effect;
-
-    /**
-     * マジック１区分
-     */
-    private String magic1Grouping;
-
-    /**
-     * マジック２区分
-     */
-    private String magic2Grouping;
-
-    /**
-     * マジック３区分
-     */
-    private String magic3Grouping;
-
-    /**
      * バディ１区分
      */
     private String buddy1Grouping;
@@ -180,16 +142,16 @@ public class CardForm implements Serializable {
     /**
      * マジック１バフ区分
      */
-    private String magic1BuffdebuffGrouping;
+    private BuffDebuffGroupingEnum magic1BuffdebuffGrouping;
 
     /**
      * マジック２バフ区分
      */
-    private String magic2BuffdebuffGrouping;
+    private BuffDebuffGroupingEnum magic2BuffdebuffGrouping;
 
     /**
      * マジック３バフ区分
      */
-    private String magic3BuffdebuffGrouping;
+    private BuffDebuffGroupingEnum magic3BuffdebuffGrouping;
 
 }
