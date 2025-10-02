@@ -28,8 +28,9 @@ import org.springframework.ui.Model;
 @SessionAttributes(value = { "SearchForm" })
 public class UpdateController {
 
-    @Autowired
-    private final CardService cardService;
+    private CardService cardService;
+
+    private final EditSession updateSession;
 
     @ModelAttribute
     public SearchForm setUpSearchForm() {
@@ -40,6 +41,9 @@ public class UpdateController {
         searchForm.setMagicChecks1(new String[0]);
         searchForm.setMagicChecks2(new String[0]);
         searchForm.setMagicChecks3(new String[0]);
+        searchForm.setBuffDebuffChecks1(new String[0]);
+        searchForm.setBuffDebuffChecks2(new String[0]);
+        searchForm.setBuffDebuffChecks3(new String[0]);
         searchForm.setBuddyChecks(new String[0]);
         searchForm.setDuoChecks(new String[0]);
         searchForm.setInclude1("include1");
@@ -55,14 +59,8 @@ public class UpdateController {
         return cardForm;
     }
 
-    @ModelAttribute
-    public EditSession setUpUpdateSession() {
-        EditSession updateSession = new EditSession();
-        return updateSession;
-    }
-
     @GetMapping
-    public String input(SearchForm searchForm, EditSession updateSession, Model model) {
+    public String input(SearchForm searchForm, Model model) {
         // 対象テーブルの生成
         if (searchForm.getTableNameChecks() == null) {
             searchForm.setTableNameChecks(updateSession.getSearchForm().getTableNameChecks());
@@ -83,7 +81,7 @@ public class UpdateController {
     }
 
     @PostMapping
-    public String conform(CardForm cardForm, SearchForm searchForm, EditSession updateSession,
+    public String conform(CardForm cardForm, SearchForm searchForm,
             RedirectAttributes redirectAttributes, Model model) {
         String[] tableName = new String[1];
         tableName[0] = cardForm.getTableName().getCharacterName();
@@ -97,7 +95,12 @@ public class UpdateController {
         return "redirect:update";
     }
 
-    public UpdateController(CardService cardService) {
+    @Autowired
+    public void setCardService(CardService cardService) {
         this.cardService = cardService;
+    }
+
+    public UpdateController() {
+        this.updateSession = new EditSession();
     }
 }
