@@ -7,28 +7,28 @@ import lombok.Getter;
 
 @Getter
 public enum MagicGroupingEnum {
-    HYPHEN(0, "-", "-", "-"),
-    FIRE_SHOT(1, "FIRE", "ファイアショット", "火属性ダメージ（弱）"),
-    WATER_SHOT(2, "WATER", "ウォーターショット", "水属性ダメージ（弱）"),
-    LEAF_SHOT(3, "LEAF", "リーフショット", "木属性ダメージ（弱）"),
-    VOID_SHOT(4, "VOID", "ボイドショット", "無属性ダメージ（弱）"),
-    FIRE_SHOT2(5, "FIRE", "ファイアショット[II]", "2連撃の火属性ダメージ（弱）"),
-    WATER_SHOT2(6, "WATER", "ウォーターショット[II]", "2連撃の水属性ダメージ（弱）"),
-    LEAF_SHOT2(7, "LEAF", "リーフショット[II]", "2連撃の木属性ダメージ（弱）"),
-    VOID_SHOT2(8, "VOID", "ボイドショット[II]", "2連撃の無属性ダメージ（弱）"),
-    FLAME_BLAST(9, "FIRE", "フレイムブラスト", "火属性ダメージ（強）"),
-    AQUA_WAVE(10, "WATER", "アクアウェーブ", "水属性ダメージ（強）"),
-    FOREST_STRIKE(11, "LEAF", "フォレストストライク", "木属性ダメージ（強）"),
-    ZERO_RAY(12, "VOID", "ゼロレイ", "無属性ダメージ（強）"),
-    FLAME_BLAST2(13, "FIRE", "フレイムブラスト[II]", "2連撃の火属性ダメージ（強）"),
-    AQUA_WAVE2(14, "WATER", "アクアウェーブ[II]", "2連撃の水属性ダメージ（強）"),
-    FOREST_STRIKE2(15, "LEAF", "フォレストストライク[II]", "2連撃の木属性ダメージ（強）"),
-    ZERO_RAY2(16, "VOID", "ゼロレイ[II]", "2連撃の無属性ダメージ（強）"),
-    VOID_SHOT3(17, "VOID", "ボイドショット[III]", "3連撃の無属性ダメージ（弱）"),
-    LONELINESS_OF_THE_WITCH2(18, "LEAF", "魔女の孤独[II]", "2連撃の木属性ダメージ（強）"),
-    RULER_OF_ALL_EVIL(19, "VOID", "全ての悪の支配者", "無属性ダメージ（強）"),
-    RULER_OF_ALL_EVIL2(20, "VOID", "全ての悪の支配者[II]", "2連撃の無属性ダメージ（弱）"),
-    RULER_OF_ALL_EVIL3(21, "VOID", "全ての悪の支配者[III]", "3連撃の無属性ダメージ（弱）");
+    HYPHEN(0, "-", "-", "-", 0, "-"),
+    FIRE_SHOT(1, "FIRE", "ファイアショット", "火属性ダメージ（弱）", 1, "弱"),
+    WATER_SHOT(2, "WATER", "ウォーターショット", "水属性ダメージ（弱）", 1, "弱"),
+    LEAF_SHOT(3, "LEAF", "リーフショット", "木属性ダメージ（弱）", 1, "弱"),
+    VOID_SHOT(4, "VOID", "ボイドショット", "無属性ダメージ（弱）", 1, "弱"),
+    FIRE_SHOT2(5, "FIRE", "ファイアショット[II]", "2連撃の火属性ダメージ（弱）", 2, "弱"),
+    WATER_SHOT2(6, "WATER", "ウォーターショット[II]", "2連撃の水属性ダメージ（弱）", 2, "弱"),
+    LEAF_SHOT2(7, "LEAF", "リーフショット[II]", "2連撃の木属性ダメージ（弱）", 2, "弱"),
+    VOID_SHOT2(8, "VOID", "ボイドショット[II]", "2連撃の無属性ダメージ（弱）", 2, "弱"),
+    FLAME_BLAST(9, "FIRE", "フレイムブラスト", "火属性ダメージ（強）", 1, "強"),
+    AQUA_WAVE(10, "WATER", "アクアウェーブ", "水属性ダメージ（強）", 1, "強"),
+    FOREST_STRIKE(11, "LEAF", "フォレストストライク", "木属性ダメージ（強）", 1, "強"),
+    ZERO_RAY(12, "VOID", "ゼロレイ", "無属性ダメージ（強）", 1, "強"),
+    FLAME_BLAST2(13, "FIRE", "フレイムブラスト[II]", "2連撃の火属性ダメージ（強）", 2, "強"),
+    AQUA_WAVE2(14, "WATER", "アクアウェーブ[II]", "2連撃の水属性ダメージ（強）", 2, "強"),
+    FOREST_STRIKE2(15, "LEAF", "フォレストストライク[II]", "2連撃の木属性ダメージ（強）", 2, "強"),
+    ZERO_RAY2(16, "VOID", "ゼロレイ[II]", "2連撃の無属性ダメージ（強）", 2, "強"),
+    VOID_SHOT3(17, "VOID", "ボイドショット[III]", "3連撃の無属性ダメージ（弱）", 3, "弱"),
+    LONELINESS_OF_THE_WITCH2(18, "LEAF", "魔女の孤独[II]", "2連撃の木属性ダメージ（強）", 2, "強"),
+    RULER_OF_ALL_EVIL(19, "VOID", "全ての悪の支配者", "無属性ダメージ（強）", 1, "強"),
+    RULER_OF_ALL_EVIL2(20, "VOID", "全ての悪の支配者[II]", "2連撃の無属性ダメージ（弱）", 2, "弱"),
+    RULER_OF_ALL_EVIL3(21, "VOID", "全ての悪の支配者[III]", "3連撃の無属性ダメージ（弱）", 3, "弱");
 
     /**
      * マジック区分
@@ -43,12 +43,22 @@ public enum MagicGroupingEnum {
     /**
      * 名称
      */
-    private final String name;
+    private final String viewName;
 
     /**
      * 効果
      */
     private final String effect;
+
+    /**
+     * 連撃
+     */
+    private final int consecutive;
+
+    /**
+     * 強さ
+     */
+    private final String strength;
 
     /**
      * magicTypeを取得する.
@@ -66,15 +76,15 @@ public enum MagicGroupingEnum {
     }
 
     /**
-     * nameを取得する.
+     * viewNameを取得する.
      * 
      * @param magicGrouping
-     * @return name
+     * @return viewName
      */
-    public static String getName(int magicGrouping) {
+    public static String getViewName(int magicGrouping) {
         for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
             if (magicGroupingEnum.getMagicGrouping() == magicGrouping) {
-                return magicGroupingEnum.getName();
+                return magicGroupingEnum.getViewName();
             }
         }
         return null;
@@ -95,20 +105,64 @@ public enum MagicGroupingEnum {
         return null;
     }
 
+    /*
+     * consecutiveを取得する.
+     */
+    public static int getConsecutive(int magicGrouping) {
+        for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
+            if (magicGroupingEnum.getMagicGrouping() == magicGrouping) {
+                return magicGroupingEnum.getConsecutive();
+            }
+        }
+        return 0;
+    }
+
     /**
-     * enumのListを取得する.
+     * 魔法属性からenumのListを取得する.
      * 
      * @param buddyGrouping
      * @return List<BuddyGroupingEnum>
      */
-    public static List<MagicGroupingEnum> getValue(int magicGrouping) {
+    public static List<MagicGroupingEnum> getValue(String magicType) {
         List<MagicGroupingEnum> valueList = new ArrayList<>();
         for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
-            if (magicGroupingEnum.getMagicGrouping() == magicGrouping) {
-                valueList.add(magicGroupingEnum);
+            if (magicGroupingEnum.getMagicGrouping() < 17) {
+                if (magicGroupingEnum.getMagicType().equals(magicType)) {
+                    valueList.add(magicGroupingEnum);
+                }
             }
         }
         return valueList;
+    }
+
+    /**
+     * viewNameからMagicGroupingEnumを取得する.
+     * 
+     * @param viewName
+     * @return MagicGroupingEnum
+     */
+    public static MagicGroupingEnum getValueOfViewName(String viewName) {
+        for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
+            if (magicGroupingEnum.getViewName().equals(viewName)) {
+                return magicGroupingEnum;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * magicGroupingからMagicGroupingEnumを取得する.
+     * 
+     * @param magicGrouping
+     * @return MagicGroupingEnum
+     */
+    public static MagicGroupingEnum getValueOfMagicGrouping(int magicGrouping) {
+        for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
+            if (magicGroupingEnum.getMagicGrouping() == magicGrouping) {
+                return magicGroupingEnum;
+            }
+        }
+        return null;
     }
 
     /**
@@ -132,18 +186,35 @@ public enum MagicGroupingEnum {
     }
 
     /**
+     * 汎用のMagicGroupingEnumを取得する.
+     * @return valueList
+     */
+    public static List<MagicGroupingEnum> getAllValue() {
+        List<MagicGroupingEnum> valueList = new ArrayList<>();
+        for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
+            if (((magicGroupingEnum.getMagicGrouping() > 0)) && (magicGroupingEnum.getMagicGrouping() < 17)) {
+                valueList.add(magicGroupingEnum);
+            }
+        }
+        return valueList;
+    }
+
+    /**
      * constructor
      * 
      * @param magicGrouping
      * @param magicType
-     * @param name
+     * @param viewName
      * @param effect
      */
-    private MagicGroupingEnum(int magicGrouping, String magicType, String name, String effect) {
+    private MagicGroupingEnum(int magicGrouping, String magicType, String viewName, String effect, int consecutive,
+            String strength) {
         this.magicGrouping = magicGrouping;
         this.magicType = magicType;
-        this.name = name;
+        this.viewName = viewName;
         this.effect = effect;
+        this.consecutive = consecutive;
+        this.strength = strength;
     }
 
 }
