@@ -1,6 +1,8 @@
 package com.example.twst.controller;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.CardEnum;
-import com.example.twst.form.CalculateForm;
+import com.example.twst.form.BattleForm;
 import com.example.twst.form.CardForm;
 import com.example.twst.form.OrganizeForm;
 import com.example.twst.service.CardService;
@@ -27,11 +29,45 @@ import com.example.twst.session.OrganizeSession;
 @SessionAttributes(value = "OrganizeSession")
 public class OrganizeController {
 
-    @Autowired
-    private final CardService cardService;
+    private CardService cardService;
 
-    @Autowired
     private final OrganizeSession organizeSession;
+
+    /**
+     * exam buttonの表示に使用するアイテム
+     */
+    static final Map<String, String> EXAM = Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
+        {
+            put("BASIC", "basic");
+            put("DEFENCE", "defence");
+            put("ATTACK", "attack");
+        }
+    });
+
+    /**
+     * difficulty buttonの表示に使用するアイテム
+     */
+    static final Map<String, String> DIFFICULTY = Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
+        {
+            put("EASY", "easy");
+            put("NORMAL", "normal");
+            put("HARD", "hard");
+            put("EXTRA", "extra");
+        }
+    });
+
+    /**
+     * magicType buttonの表示に使用するアイテム
+     */
+    static final Map<String, String> MAGIC_TYPE = Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
+        {
+            put("火", "FIRE");
+            put("水", "WATER");
+            put("木", "LEAF");
+            put("無", "VOID");
+            put("全", "ALL");
+        }
+    });
 
     @ModelAttribute
     public OrganizeForm setUpOrganizeForm() {
@@ -45,11 +81,21 @@ public class OrganizeController {
         return cardForm;
     }
 
+    @ModelAttribute
+    public BattleForm setUpBattleForm() {
+        BattleForm battleForm = new BattleForm();
+        battleForm.setExam("basic");
+        battleForm.setDifficulty("easy");
+        battleForm.setEnemyMagicType("FIRE");
+
+        return battleForm;
+    }
+
     /**
      * 編成画面の表示
      */
     @GetMapping
-    public String input(OrganizeForm organizeForm, CalculateForm calculateForm,
+    public String input(OrganizeForm organizeForm,
             @ModelAttribute("organizeSession") OrganizeSession organizeSession,
             Model model) throws Exception {
 
@@ -94,14 +140,10 @@ public class OrganizeController {
         BigDecimal totalHp = cardService.sum(cardArray);// 最大合計HP
         BigDecimal reflectedHp = cardService.tempSum(hpArray);// バディボーナス反映後合計HP
 
-        // 計算ボタン押下時
         BigDecimal[] tempHpArray = new BigDecimal[5];// 推定HP
         BigDecimal[] tempAtkArray = new BigDecimal[5];// 推定ATk
-        Card[] tempCardArray = new Card[5];
+        Card[] tempCardArray = cardService.setTempCardArray(cardArray);
 
-        if (organizeSession.getTempCardArray() != null) {
-            tempCardArray = organizeSession.getTempCardArray();
-        }
         // sessionからステータスを取得
         if (organizeSession.getTempHpArray() != null) {
             tempHpArray = organizeSession.getTempHpArray();
@@ -121,21 +163,19 @@ public class OrganizeController {
         organizeSession.setTempCardArray(tempCardArray);
         organizeSession.setCardArray(cardArray);
 
-        BigDecimal tempTotalHp = organizeSession.getTempTotalHp();
-        BigDecimal tempReflectedHp = organizeSession.getTempReflectedHp();
-
         // modelに追加
         model.addAttribute("totalHp", totalHp); // 最大合計HP
         model.addAttribute("buddyCount", buddyCount);// バディ
         model.addAttribute("duoCount", duoCount);// デュオ
         model.addAttribute("reflectedHp", reflectedHp);// バディボーナス反映後合計HP
-        model.addAttribute("tempTotalHp", tempTotalHp);// 推定合計HP
-        model.addAttribute("tempReflectedHp", tempReflectedHp);// バディボーナス反映後推定合計HP
         model.addAttribute("arrayIndex", organizeForm.getArrayIndex());
         model.addAttribute("cardArray", cardArray);
         model.addAttribute("buddyMap", buddyMap);
         model.addAttribute("duoMap", duoMap);
-        model.addAttribute("OrganizeSession", organizeSession);
+        model.addAttribute("organizeSession", organizeSession);
+        model.addAttribute("exam", EXAM);
+        model.addAttribute("enemyMagicType", MAGIC_TYPE);
+        model.addAttribute("difficulty", DIFFICULTY);
 
         // enemy
         model.addAttribute("magic", CardEnum.getValue("magic"));
@@ -148,8 +188,7 @@ public class OrganizeController {
      */
     @PostMapping
     public String conform(CardForm cardForm, OrganizeForm organizeForm,
-            RedirectAttributes redirectAttributes,
-            Model model) {
+            RedirectAttributes redirectAttributes) {
 
         Card[] cardArray = new Card[5];
         if (organizeSession.getCardArray() != null) {
@@ -162,6 +201,7 @@ public class OrganizeController {
         card.setTableName(cardForm.getTableName());
         card.setId(cardForm.getId());
         card.setName(cardForm.getName());
+        card.setClothingName(cardForm.getClothingName());
         card.setRare(cardForm.getRare());
         card.setType(cardForm.getType());
         card.setBuddy1(cardForm.getBuddy1());
@@ -172,33 +212,30 @@ public class OrganizeController {
         card.setMinAtk(cardForm.getMinAtk());
         card.setMaxHp(cardForm.getMaxHp());
         card.setMaxAtk(cardForm.getMaxAtk());
+        card.setMagic1BuffdebuffGrouping(cardForm.getMagic1BuffdebuffGrouping());
+        card.setMagic2BuffdebuffGrouping(cardForm.getMagic2BuffdebuffGrouping());
+        card.setMagic3BuffdebuffGrouping(cardForm.getMagic3BuffdebuffGrouping());
         card.setBuddy1Effect(cardForm.getBuddy1Effect());
         card.setBuddy2Effect(cardForm.getBuddy2Effect());
         card.setBuddy3Effect(cardForm.getBuddy3Effect());
-        card.setMagic1Name(cardForm.getMagic1Name());
-        card.setMagic2Name(cardForm.getMagic2Name());
-        card.setMagic3Name(cardForm.getMagic3Name());
-        card.setMagic1Effect(cardForm.getMagic1Effect());
-        card.setMagic2Effect(cardForm.getMagic2Effect());
-        card.setMagic3Effect(cardForm.getMagic3Effect());
-        card.setMagic1Type(cardForm.getMagic1Type());
-        card.setMagic2Type(cardForm.getMagic2Type());
-        card.setMagic3Type(cardForm.getMagic3Type());
+        card.setMagic1(cardForm.getMagic1());
+        card.setMagic2(cardForm.getMagic2());
+        card.setMagic3(cardForm.getMagic3());
 
         // sessionに保存する
         cardArray[organizeForm.getArrayIndex()] = card;
         organizeSession.setCardArray(cardArray);
         redirectAttributes.addFlashAttribute("organizeSession", organizeSession);
 
-        // modelに追加する
-        model.addAttribute("cardArray", cardArray);
-        model.addAttribute("organizeSession", organizeSession);
-
         return "redirect:organize";
     }
 
-    public OrganizeController(CardService cardService) {
-        this.organizeSession = new OrganizeSession();
+    @Autowired
+    public void setCardService(CardService cardService) {
         this.cardService = cardService;
+    }
+
+    public OrganizeController() {
+        this.organizeSession = new OrganizeSession();
     }
 }
