@@ -25,12 +25,9 @@ import com.example.twst.session.OrganizeSession;
 @SessionAttributes(value = "OrganizeSession")
 public class CardService {
 
-    @Autowired
-    @Qualifier("CardDaoJdbcImpl")
-    CardDao dao;
+    private CardDao dao;
 
-    @Autowired
-    OrganizeSession organizeSession;
+    private final OrganizeSession organizeSession;
 
     /**
      * １件登録.
@@ -157,6 +154,7 @@ public class CardService {
         BigDecimal[] tempAtkArray = new BigDecimal[5];
         int buddyCount = 0;
         Map<String, List<String>> buddyMap = new HashMap<>();
+
         List<String> countList = new ArrayList<>();
         for (int i = 0; i < cardArray.length; i++) {
             // cardAがnullならスキップ
@@ -164,6 +162,8 @@ public class CardService {
                 continue;
             }
             List<String> buddyList = new ArrayList<>();
+            BigDecimal buddyBonusPowerHp = BigDecimal.ZERO;
+            BigDecimal buddyBonusPowerAtk = BigDecimal.ZERO;
             for (Card cardB : cardArray) {
                 if (tempHpArray[i] == null) {
                     tempHpArray[i] = cardArray[i].getMaxHp();
@@ -179,33 +179,35 @@ public class CardService {
 
                 // ループ中のnameとbuddyが一致する場合、カウントしてlistに追加
                 if (name.equals(cardArray[i].getBuddy1().getCharacterName())) {
-                    statusMap = buddyBonusCalc(cardArray[i].getBuddy1Effect(), cardArray[i].getMaxHp(),
-                            cardArray[i].getMaxAtk());
-                    tempHpArray[i] = statusMap.get("hp");
-                    tempAtkArray[i] = statusMap.get("atk");
+                    statusMap = getBuddyBonusPower(cardArray[i].getBuddy1Effect());
+                    buddyBonusPowerHp = buddyBonusPowerHp.add(statusMap.get("hpPower"));
+                    buddyBonusPowerAtk = buddyBonusPowerAtk.add(statusMap.get("atkPower"));
                     buddyCount++;
                     buddyList.add(name);
                 } else if (name.equals(cardArray[i].getBuddy2().getCharacterName())) {
-                    statusMap = buddyBonusCalc(cardArray[i].getBuddy2Effect(), cardArray[i].getMaxHp(),
-                            cardArray[i].getMaxAtk());
-                    tempHpArray[i] = statusMap.get("hp");
-                    tempAtkArray[i] = statusMap.get("atk");
+                    statusMap = getBuddyBonusPower(cardArray[i].getBuddy2Effect());
+                    buddyBonusPowerHp = buddyBonusPowerHp.add(statusMap.get("hpPower"));
+                    buddyBonusPowerAtk = buddyBonusPowerAtk.add(statusMap.get("atkPower"));
                     buddyCount++;
                     buddyList.add(name);
                 } else if (name.equals(cardArray[i].getBuddy3().getCharacterName())) {
-                    statusMap = buddyBonusCalc(cardArray[i].getBuddy3Effect(), cardArray[i].getMaxHp(),
-                            cardArray[i].getMaxAtk());
-                    tempHpArray[i] = statusMap.get("hp");
-                    tempAtkArray[i] = statusMap.get("atk");
+                    statusMap = getBuddyBonusPower(cardArray[i].getBuddy3Effect());
+                    buddyBonusPowerHp = buddyBonusPowerHp.add(statusMap.get("hpPower"));
+                    buddyBonusPowerAtk = buddyBonusPowerAtk.add(statusMap.get("atkPower"));
                     buddyCount++;
                     buddyList.add(name);
                 }
                 if (!buddyList.isEmpty()) {
                     buddyMap.put(cardArray[i].getName().getCharacterName(), buddyList);
+
                 }
             }
             countList.add(String.valueOf(buddyCount));
             buddyMap.put("buddyCount", countList);
+            tempHpArray[i] = cardArray[i].getMaxHp().multiply(BigDecimal.ONE.add(buddyBonusPowerHp)).setScale(0,
+                    RoundingMode.DOWN);// 小数点以下切り捨て
+            tempAtkArray[i] = cardArray[i].getMaxAtk().multiply(BigDecimal.ONE.add(buddyBonusPowerAtk)).setScale(0,
+                    RoundingMode.DOWN);// 小数点以下切り捨て
         }
         // sessionに保存する
         if (isTemp) {
@@ -225,27 +227,27 @@ public class CardService {
      * @param tempTotalMap
      * @return tempTotalMap
      */
-    private Map<String, BigDecimal> buddyBonusCalc(String buddyEffect, BigDecimal hp, BigDecimal atk) {
+    private Map<String, BigDecimal> getBuddyBonusPower(String buddyEffect) {
         Map<String, BigDecimal> statusMap = new HashMap<>();
-        BigDecimal small = BigDecimal.valueOf(1.2);// HP UP(小),ATK UP(小)
-        BigDecimal hpMedium = BigDecimal.valueOf(1.3);// HP UP(中)
-        BigDecimal atkMedium = BigDecimal.valueOf(1.35);// ATK UP(中)
+        BigDecimal hpPower = BigDecimal.ZERO;
+        BigDecimal atkPower = BigDecimal.ZERO;
+        BigDecimal small = BigDecimal.valueOf(0.2);// HP UP(小),ATK UP(小)
+        BigDecimal hpMedium = BigDecimal.valueOf(0.3);// HP UP(中)
+        BigDecimal atkMedium = BigDecimal.valueOf(0.35);// ATK UP(中)
 
         switch (buddyEffect) {
-            case "HP UP(小)" -> hp = hp.multiply(small);
-            case "HP UP(中)" -> hp = hp.multiply(hpMedium);
-            case "ATK UP(小)" -> atk = atk.multiply(small);
-            case "ATK UP(中)" -> atk = atk.multiply(atkMedium);
+            case "HP UP(小)" -> hpPower = hpPower.add(small);
+            case "HP UP(中)" -> hpPower = hpPower.add(hpMedium);
+            case "ATK UP(小)" -> atkPower = atkPower.add(small);
+            case "ATK UP(中)" -> atkPower = atkPower.add(atkMedium);
             case "HP&ATK UP(小)" -> {
-                hp = hp.multiply(small);
-                atk = atk.multiply(small);
+                hpPower = hpPower.add(small);
+                atkPower = atkPower.add(small);
             }
         }
-        hp = hp.setScale(0, RoundingMode.DOWN);// 小数点以下切り捨て
-        atk = atk.setScale(0, RoundingMode.DOWN); // 小数点以下切り捨て
 
-        statusMap.put("hp", hp);
-        statusMap.put("atk", atk);
+        statusMap.put("hpPower", hpPower);
+        statusMap.put("atkPower", atkPower);
         return statusMap;
     }
 
@@ -303,8 +305,7 @@ public class CardService {
         tempHp = tempHp.multiply(calculateForm.getMinHp());// currentCoefficient * minHp = currentHp
         tempHp = tempHp.setScale(0, RoundingMode.HALF_UP);// 四捨五入
 
-        tempAtk = tempAtk.divide(calculateForm.getMinAtk(), 6, RoundingMode.HALF_UP);// maxAtk / minAtk =
-                                                                                     // coefficient
+        tempAtk = tempAtk.divide(calculateForm.getMinAtk(), 6, RoundingMode.HALF_UP);// maxAtk / minAtk = coefficient
         tempAtk = tempAtk.divide(maxLevel, 6, RoundingMode.HALF_UP);// coefficient / maxLv = 1LvCoefficient
         tempAtk = tempAtk.multiply(level);// 1LvCoefficient * level = currentCoefficient
         tempAtk = tempAtk.multiply(calculateForm.getMinAtk());// currentCoefficient * minAtk = currentAtk
@@ -357,6 +358,12 @@ public class CardService {
         return array;
     }
 
+    /**
+     * 最大Lvを設定.
+     * @param cardArray
+     * @param array
+     * @return array
+     */
     public BigDecimal[] setLevelArray(Card[] cardArray, BigDecimal[] array) {
         for (int i = 0; i < array.length; i++) {
             if ((array[i] == BigDecimal.ZERO) || (array[i] == null)) {
@@ -376,5 +383,37 @@ public class CardService {
             }
         }
         return array;
+    }
+
+    /**
+     * tempCardArrayを設定.
+     * @param cardArray
+     * @return tempCardArray
+     */
+    public Card[] setTempCardArray(Card[] cardArray) throws CloneNotSupportedException {
+        Card[] tempCardArray = new Card[5];
+        BigDecimal[] hpArray = organizeSession.getHpArray();
+        BigDecimal[] atkArray = organizeSession.getAtkArray();
+
+        for (int i = 0; i < tempCardArray.length; i++) {
+            if (cardArray[i] == null) {
+                continue;
+            }
+            Card card = new Card();
+            tempCardArray[i] = card;
+            tempCardArray[i] = cardArray[i].clone();
+            tempCardArray[i].setMaxHp(hpArray[i]);
+            tempCardArray[i].setMaxAtk(atkArray[i]);
+        }
+        return tempCardArray;
+    }
+
+    @Autowired
+    public void setCardDao(@Qualifier("CardDaoJdbcImpl") CardDao dao) {
+        this.dao = dao;
+    }
+
+    public CardService(OrganizeSession organizeSession) {
+        this.organizeSession = organizeSession;
     }
 }
