@@ -118,9 +118,9 @@ public class CardDaoJdbcImpl implements CardDao {
                 .addValue("buddy1", cardForm.getBuddy1().getCharacterName())
                 .addValue("buddy2", cardForm.getBuddy2().getCharacterName())
                 .addValue("buddy3", cardForm.getBuddy3().getCharacterName())
-                .addValue("magic1_grouping", Integer.valueOf(cardForm.getMagic1Grouping()))
-                .addValue("magic2_grouping", Integer.valueOf(cardForm.getMagic2Grouping()))
-                .addValue("magic3_grouping", Integer.valueOf(cardForm.getMagic3Grouping()))
+                .addValue("magic1_grouping", cardForm.getMagic1().getMagicGrouping())
+                .addValue("magic2_grouping", cardForm.getMagic2().getMagicGrouping())
+                .addValue("magic3_grouping", cardForm.getMagic3().getMagicGrouping())
                 .addValue("duo", cardForm.getDuo().getCharacterName())
                 .addValue("min_hp", cardForm.getMinHp())
                 .addValue("min_atk", cardForm.getMinAtk())
@@ -132,9 +132,12 @@ public class CardDaoJdbcImpl implements CardDao {
                 .addValue("buddy1_grouping", Integer.valueOf(cardForm.getBuddy1Grouping()))
                 .addValue("buddy2_grouping", Integer.valueOf(cardForm.getBuddy2Grouping()))
                 .addValue("buddy3_grouping", Integer.valueOf(cardForm.getBuddy3Grouping()))
-                .addValue("magic1_buffdebuff_grouping", cardForm.getMagic1BuffdebuffGrouping())
-                .addValue("magic2_buffdebuff_grouping", cardForm.getMagic2BuffdebuffGrouping())
-                .addValue("magic3_buffdebuff_grouping", cardForm.getMagic3BuffdebuffGrouping());
+                .addValue("magic1_buffdebuff_grouping",
+                        cardForm.getMagic1BuffdebuffGrouping().getBuffDebuffGrouping())
+                .addValue("magic2_buffdebuff_grouping",
+                        cardForm.getMagic2BuffdebuffGrouping().getBuffDebuffGrouping())
+                .addValue("magic3_buffdebuff_grouping",
+                        cardForm.getMagic3BuffdebuffGrouping().getBuffDebuffGrouping());
 
         return jdbc.update(sql, params);
     }
@@ -397,7 +400,8 @@ public class CardDaoJdbcImpl implements CardDao {
             // 取得したデータをセット
             TableEnum tableObject = EnumUtils.getViewName(TableEnum.class, tableName);
             card.setTableName(tableObject);// テーブル名
-            card.setId(getId(tableName, (String) map.get("name")));// カードID
+            card.setId((String) map.get("id"));// カードID
+            card.setClothingName(getClothingName(tableName, (String) map.get("name")));// 衣装
             card.setNum((int) map.get("num"));// 項番
             CharacterEnum viewNameObject = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("name"));
             card.setName(viewNameObject);// キャラクター名
@@ -429,22 +433,20 @@ public class CardDaoJdbcImpl implements CardDao {
                 card.setBuddy3Effect(BuddyGroupingEnum.getEffect((int) map.get("buddy3_grouping")));// バディ３効果
             }
 
-            card.setMagic1Type(MagicGroupingEnum.getMagicType((int) map.get("magic1_grouping")));// マジック１属性
-            card.setMagic1Name(MagicGroupingEnum.getName((int) map.get("magic1_grouping")));// マジック１名称
-            card.setMagic1Effect(MagicGroupingEnum.getEffect((int) map.get("magic1_grouping")));// マジック１効果
+            MagicGroupingEnum magic1Object = MagicGroupingEnum
+                    .getValueOfMagicGrouping((int) map.get("magic1_grouping"));
+            card.setMagic1(magic1Object);// マジック１
 
-            card.setMagic2Type(MagicGroupingEnum.getMagicType((int) map.get("magic2_grouping")));// マジック２名称
-            card.setMagic2Name(MagicGroupingEnum.getName((int) map.get("magic2_grouping")));// マジック２属性
-            card.setMagic2Effect(MagicGroupingEnum.getEffect((int) map.get("magic2_grouping")));// マジック２効果
+            MagicGroupingEnum magic2Object = MagicGroupingEnum
+                    .getValueOfMagicGrouping((int) map.get("magic2_grouping"));
+            card.setMagic2(magic2Object); // マジック２
 
             if (map.get("magic3_grouping") == null) {
-                card.setMagic3Type(MagicGroupingEnum.getMagicType(0));
-                card.setMagic3Name(MagicGroupingEnum.getName(0));
-                card.setMagic3Effect(MagicGroupingEnum.getEffect(0));
+                card.setMagic3(MagicGroupingEnum.HYPHEN);
             } else {
-                card.setMagic3Type(MagicGroupingEnum.getMagicType((int) map.get("magic3_grouping")));// マジック３名称
-                card.setMagic3Name(MagicGroupingEnum.getName((int) map.get("magic3_grouping")));// マジック３属性
-                card.setMagic3Effect(MagicGroupingEnum.getEffect((int) map.get("magic3_grouping")));// マジック３効果
+                MagicGroupingEnum magic3Object = MagicGroupingEnum
+                        .getValueOfMagicGrouping((int) map.get("magic3_grouping"));
+                card.setMagic3(magic3Object);// マジック３
             }
 
             CharacterEnum duoObject = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("duo"));
@@ -454,14 +456,14 @@ public class CardDaoJdbcImpl implements CardDao {
                 card.setDuo(duoObject);// デュオ
             }
 
-            card.setMagic1BuffdebuffGrouping(
-                    BuffDebuffGroupingEnum.join((String) map.get("magic1_buffDebuff_grouping")));// マジック１バフ区分
+            card.setMagic1BuffdebuffGrouping(BuffDebuffGroupingEnum
+                    .getValueOfBuffDebuffGrouping((String) map.get("magic1_buffDebuff_grouping")));// マジック１バフ区分
 
-            card.setMagic2BuffdebuffGrouping(
-                    BuffDebuffGroupingEnum.join((String) map.get("magic2_buffDebuff_grouping")));// マジック２バフ区分
+            card.setMagic2BuffdebuffGrouping(BuffDebuffGroupingEnum
+                    .getValueOfBuffDebuffGrouping((String) map.get("magic2_buffDebuff_grouping")));// マジック２バフ区分
 
-            card.setMagic3BuffdebuffGrouping(
-                    BuffDebuffGroupingEnum.join((String) map.get("magic3_buffDebuff_grouping")));// マジック３バフ区分
+            card.setMagic3BuffdebuffGrouping(BuffDebuffGroupingEnum
+                    .getValueOfBuffDebuffGrouping((String) map.get("magic3_buffDebuff_grouping")));// マジック３バフ区分
 
             card.setMinHp((BigDecimal) map.get("min_hp"));// 初期HP
             card.setMinAtk((BigDecimal) map.get("min_atk"));// 初期ATK
@@ -537,6 +539,9 @@ public class CardDaoJdbcImpl implements CardDao {
                 + ", min_hp = :minHp"
                 + ", min_atk = :minAtk"
                 + ", duo = :duo"
+                + ", magic1_buffdebuff_grouping =:magic1BuffdebuffGrouping"
+                + ", magic2_buffdebuff_grouping =:magic2BuffdebuffGrouping"
+                + ", magic3_buffDebuff_grouping =:magic3BuffdebuffGrouping"
                 + ", valid_flg = :validFlg"
                 + " WHERE name = :name";
 
@@ -546,9 +551,12 @@ public class CardDaoJdbcImpl implements CardDao {
                 .addValue("buddy1", cardForm.getBuddy1().getCharacterName())
                 .addValue("buddy2", cardForm.getBuddy2().getCharacterName())
                 .addValue("buddy3", cardForm.getBuddy3().getCharacterName())
-                .addValue("magic1Grouping", Integer.valueOf(cardForm.getMagic1Grouping()))
-                .addValue("magic2Grouping", Integer.valueOf(cardForm.getMagic2Grouping()))
-                .addValue("magic3Grouping", Integer.valueOf(cardForm.getMagic3Grouping()))
+                .addValue("magic1Grouping", Integer.valueOf(cardForm.getMagic1().getMagicGrouping()))
+                .addValue("magic2Grouping", Integer.valueOf(cardForm.getMagic2().getMagicGrouping()))
+                .addValue("magic3Grouping", Integer.valueOf(cardForm.getMagic3().getMagicGrouping()))
+                .addValue("magic1BuffdebuffGrouping", cardForm.getMagic1BuffdebuffGrouping().getBuffDebuffGrouping())
+                .addValue("magic2BuffdebuffGrouping", cardForm.getMagic2BuffdebuffGrouping().getBuffDebuffGrouping())
+                .addValue("magic3BuffdebuffGrouping", cardForm.getMagic3BuffdebuffGrouping().getBuffDebuffGrouping())
                 .addValue("duo", cardForm.getDuo().getCharacterName())
                 .addValue("maxHp", cardForm.getMaxHp())
                 .addValue("maxAtk", cardForm.getMaxAtk())
@@ -615,7 +623,7 @@ public class CardDaoJdbcImpl implements CardDao {
      * @param name
      * @return id
      */
-    private String getId(String tableName, String name) {
+    private String getClothingName(String tableName, String name) {
         String id = tableName;
 
         switch (name) {
