@@ -33,8 +33,10 @@ public enum CharacterEnum implements NameInterface {
     CROWLEY("Nrc", "Crowley", "クロウリー"),
     CREWEL("Nrc", "Crewel", "クルーウェル"),
     TREIN("Nrc", "Trein", "トレイン"),
+    VARGAS("Nrc", "Vargas", "バルガス"),
     ROLLO("Special", "Rollo", "ロロ"),
-    FELLOW("Special", "Fellow", "フェロー");
+    FELLOW("Special", "Fellow", "フェロー"),
+    ENEMY("Enemy", "Enemy", "敵");
 
     /**
      * 寮名
@@ -139,6 +141,18 @@ public enum CharacterEnum implements NameInterface {
             }
         }
         return valueList;
+    }
+
+    /**
+     * 
+     */
+    public static CharacterEnum getName(String characterName) {
+        for (CharacterEnum characterEnum : CharacterEnum.values()) {
+            if (characterEnum.getCharacterName().equals(characterName)) {
+                return characterEnum;
+            }
+        }
+        return null;
     }
 
     /**
