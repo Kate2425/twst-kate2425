@@ -28,6 +28,11 @@ public class Card implements Cloneable {
     private CharacterEnum name;
 
     /**
+     * 衣装
+     */
+    private String clothingName;
+
+    /**
      * レア度
      */
     private String rare;
@@ -68,49 +73,19 @@ public class Card implements Cloneable {
     private String buddy3Effect;
 
     /**
-     * マジック１属性
+     * マジック１
      */
-    private String magic1Type;
+    private MagicGroupingEnum magic1;
 
     /**
-     * マジック１名称
+     * マジック２
      */
-    private String magic1Name;
+    private MagicGroupingEnum magic2;
 
     /**
-     * マジック１効果
+     * マジック３
      */
-    private String magic1Effect;
-
-    /**
-     * マジック２属性
-     */
-    private String magic2Type;
-
-    /**
-     * マジック２名称
-     */
-    private String magic2Name;
-
-    /**
-     * マジック２効果
-     */
-    private String magic2Effect;
-
-    /**
-     * マジック３属性
-     */
-    private String magic3Type;
-
-    /*
-     * マジック３名称
-     */
-    private String magic3Name;
-
-    /**
-     * マジック３効果
-     */
-    private String magic3Effect;
+    private MagicGroupingEnum magic3;
 
     /**
      * デュオ
@@ -140,17 +115,17 @@ public class Card implements Cloneable {
     /**
      * マジック１バフ区分
      */
-    private String magic1BuffdebuffGrouping;
+    private BuffDebuffGroupingEnum magic1BuffdebuffGrouping;
 
     /**
      * マジック２バフ区分
      */
-    private String magic2BuffdebuffGrouping;
+    private BuffDebuffGroupingEnum magic2BuffdebuffGrouping;
 
     /**
      * マジック３バフ区分
      */
-    private String magic3BuffdebuffGrouping;
+    private BuffDebuffGroupingEnum magic3BuffdebuffGrouping;
 
     /**
      * 登録者
