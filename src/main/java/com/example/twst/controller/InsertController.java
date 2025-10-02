@@ -23,7 +23,6 @@ import com.example.twst.session.EditSession;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
 
 @RequestMapping("insert")
@@ -31,9 +30,9 @@ import org.springframework.ui.Model;
 @SessionAttributes(value = { "SearchForm" })
 public class InsertController {
 
-    @Autowired
-    @Qualifier("CardService")
-    private final CardService cardService;
+    private CardService cardService;
+
+    private final EditSession insertSession;
 
     @ModelAttribute
     public SearchForm setUpSearchForm() {
@@ -44,6 +43,9 @@ public class InsertController {
         searchForm.setMagicChecks1(new String[0]);
         searchForm.setMagicChecks2(new String[0]);
         searchForm.setMagicChecks3(new String[0]);
+        searchForm.setBuffDebuffChecks1(new String[0]);
+        searchForm.setBuffDebuffChecks2(new String[0]);
+        searchForm.setBuffDebuffChecks3(new String[0]);
         searchForm.setBuddyChecks(new String[0]);
         searchForm.setDuoChecks(new String[0]);
         searchForm.setInclude1("include1");
@@ -59,15 +61,8 @@ public class InsertController {
         return cardForm;
     }
 
-    @ModelAttribute
-    public EditSession setUpInsertSession() {
-        EditSession insertSession = new EditSession();
-        return insertSession;
-    }
-
     @GetMapping
-    public String input(SearchForm searchForm, CardForm cardForm, EditSession insertSession,
-            Model model) {
+    public String input(SearchForm searchForm, CardForm cardForm, Model model) {
         // 対象テーブルの生成
         if (searchForm.getTableNameChecks() == null) {
             searchForm.setTableNameChecks(insertSession.getSearchForm().getTableNameChecks());
@@ -90,7 +85,7 @@ public class InsertController {
     }
 
     @PostMapping
-    public String conform(CardForm cardForm, SearchForm searchForm, EditSession insertSession,
+    public String conform(CardForm cardForm, SearchForm searchForm,
             RedirectAttributes redirectAttributes, Model model) {
         // CardFormをセットする
         String[] tableName = new String[1];
@@ -106,7 +101,12 @@ public class InsertController {
         return "redirect:insert";
     }
 
-    public InsertController(CardService cardService) {
+    @Autowired
+    public void setCardService(CardService cardService) {
         this.cardService = cardService;
+    }
+
+    public InsertController() {
+        this.insertSession = new EditSession();
     }
 }
