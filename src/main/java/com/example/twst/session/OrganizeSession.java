@@ -27,14 +27,6 @@ public class OrganizeSession implements Serializable {
      */
     private Card[] cardArray;
 
-    // /**
-    // * @param Card
-    // * @param index
-    // */
-    // public void setCard(Card card, int index) {
-    // this.cardArray[index] = card;
-    // }
-
     /**
      * arrayIndex
      */
@@ -51,22 +43,22 @@ public class OrganizeSession implements Serializable {
     private BigDecimal[] levelArray;
 
     /**
-     * hpArray
+     * バディボーナス反映後HP
      */
     private BigDecimal[] hpArray;
 
     /**
-     * atkArray
+     * バディボーナス反映後ATK
      */
     private BigDecimal[] atkArray;
 
     /**
-     * tempHpArray
+     * 推定HP
      */
     private BigDecimal[] tempHpArray;
 
     /**
-     * tempAtkArray
+     * 推定ATK
      */
     private BigDecimal[] tempAtkArray;
 
@@ -76,12 +68,12 @@ public class OrganizeSession implements Serializable {
     private Card[] tempCardArray;
 
     /*
-     * tempTotalHp
+     * 推定合計HP
      */
     private BigDecimal tempTotalHp;
 
     /**
-     * tempReflectedHp
+     * バディボーナス反映後推定合計HP
      */
     private BigDecimal tempReflectedHp;
 

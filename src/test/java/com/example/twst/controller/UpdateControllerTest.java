@@ -1,8 +1,5 @@
 package com.example.twst.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.mockito.Mock;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,9 +17,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -30,11 +32,12 @@ import org.springframework.web.context.WebApplicationContext;
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.TableEnum;
 import com.example.twst.service.CardService;
+import com.example.twst.session.EditSession;
 
 @SpringBootTest
 @Transactional
 @WebAppConfiguration
-public class InsertControllerTest {
+public class UpdateControllerTest {
         @Autowired
         WebApplicationContext webApplicationContext;
 
@@ -42,6 +45,9 @@ public class InsertControllerTest {
 
         @Mock
         private CardService service;
+
+        @Autowired
+        EditSession updateSession;
 
         @BeforeEach
         void setup() {
@@ -52,65 +58,60 @@ public class InsertControllerTest {
         @Test
         @DisplayName("input")
         void input_01() throws Exception {
-                //Arrange 
                 Card card = new Card();
-                card.setTableName(TableEnum.SENDING_STAR_DRESS);
-                card.setId("sen_deuce");
+                card.setTableName(TableEnum.OUTDOOR_WEAR);
+                card.setId("out_ruggie");
                 List<Card> cardList = new ArrayList<>();
                 cardList.add(card);
                 doReturn(cardList).when(service).selectMany(any(), anyString());
 
-                MvcResult mvcResult = mockMvc.perform(get("/insert")
-                                .param("tableNameChecks", "sending_star_dress"))
-                                .andExpect(view().name("insert.html"))
+                MvcResult mvcResult = mockMvc.perform(get("/update")
+                                .param("tableNameChecks", "outdoor_wear"))
                                 .andExpect(status().isOk())
+                                .andExpect(view().name("update.html"))
                                 .andExpect(model().attribute("cardList",
-                                                is(hasItem(hasProperty("id", is("sen_deuce"))))))
-                                .andExpect(model().attribute("tableName", is(TableEnum.SENDING_STAR_DRESS)))
+                                                allOf(hasItem(hasProperty("id", is("out_ruggie"))))))
                                 .andReturn();
 
                 MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
 
-                doReturn(true).when(service).insert(any());
+                doReturn(1).when(service).updateOne(any());
 
-                mvcResult = mockMvc.perform(post("/insert")
+                mvcResult = mockMvc.perform(post("/update")
                                 .session(mockSession)
-                                .param("tableName", "SENDING_STAR_DRESS")
+                                .param("tableName", "OUTDOOR_WEAR")
                                 .param("name", "JADE")
-                                .param("rare", "R")
+                                .param("rare", "SR")
                                 .param("type", "ATTACK")
-                                .param("buddy1", "FLOYD")
-                                .param("buddy2", "HYPHEN")
+                                .param("buddy1", "TREY")
+                                .param("buddy2", "MALLEUS")
                                 .param("buddy3", "HYPHEN")
-                                .param("magic1", "AQUA_WAVE")
-                                .param("magic2", "FOREST_STRIKE")
-                                .param("magic3", "FIRE_SHOT2")
-                                .param("magic1BuffdebuffGrouping", "DAMAGE_DOWN_LARGE_ENEMY_1T")
-                                .param("magic2BuffdebuffGrouping", "HYPHEN")
-                                .param("magic3BuffdebuffGrouping",
-                                                "ATK_UP_SMALL_SELF_1T_AND_DAMAGE_DOWN_SMALL_ENEMY_1T")
+                                .param("magic1", "WATER_SHOT")
+                                .param("magic2", "FIRE_SHOT2")
+                                .param("magic3", "HYPHEN")
+                                .param("magic1BuffdebuffGrouping", "DAMAGE_UP_MEDIUM_SELF_1T")
+                                .param("magic2BuffdebuffGrouping", "CURSE_SMALL_ENEMY_2T")
+                                .param("magic3BuffdebuffGrouping", "HYPHEN")
                                 .param("duo", "HYPHEN")
-                                .param("minHp", "0")
-                                .param("minAtk", "0")
-                                .param("maxHp", "0")
-                                .param("maxAtk", "0")
-                                .param("validFlg", "false")
-                                .param("buddy1Grouping", "3")
-                                .param("buddy2Grouping", "2")
-                                .param("buddy3Grouping", "1"))
+                                .param("minHp", "1593")
+                                .param("minAtk", "1326")
+                                .param("maxHp", "6156")
+                                .param("maxAtk", "6278")
+                                .param("validFlg", "true")
+                                .param("buddy1Grouping", "4")
+                                .param("buddy2Grouping", "1")
+                                .param("buddy3Grouping", "-"))
+                                .andExpect(view().name("redirect:update"))
                                 .andExpect(status().isFound())
-                                .andExpect(view().name("redirect:insert"))
                                 .andReturn();
 
-                doReturn(cardList).when(service).selectMany(any(), anyString());
+                updateSession = (EditSession) mockSession.getAttribute("scopedTarget.updateSession");
 
-                mockMvc.perform(get("/insert")
+                mockMvc.perform(get("/update")
                                 .session(mockSession))
-                                .andExpect(view().name("insert.html"))
                                 .andExpect(status().isOk())
+                                .andExpect(view().name("update.html"))
                                 .andExpect(model().attribute("cardList",
-                                                is(hasItem(hasProperty("id", is("sen_deuce"))))))
-                                .andExpect(model().attribute("tableName", is(TableEnum.SENDING_STAR_DRESS)));
-
+                                                allOf(hasItem(hasProperty("id", is("out_ruggie"))))));
         }
 }

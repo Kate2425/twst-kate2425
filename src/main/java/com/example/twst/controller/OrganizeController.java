@@ -235,7 +235,7 @@ public class OrganizeController {
         this.cardService = cardService;
     }
 
-    public OrganizeController() {
-        this.organizeSession = new OrganizeSession();
+    public OrganizeController(OrganizeSession organizeSession) {
+        this.organizeSession = organizeSession;
     }
 }

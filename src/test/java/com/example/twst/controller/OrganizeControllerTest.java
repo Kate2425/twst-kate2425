@@ -1,172 +1,209 @@
 package com.example.twst.controller;
 
-import org.mockito.Mock;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
-import com.example.twst.TestConfig;
-
-import com.example.twst.domain.model.CharacterEnum;
-import com.example.twst.domain.model.TableEnum;
-import com.example.twst.form.CardForm;
-import com.example.twst.service.CardService;
+import com.example.twst.session.OrganizeSession;
 
 @SpringBootTest
-@ContextConfiguration(classes = TestConfig.class)
-@AutoConfigureMockMvc
+@Transactional
+@WebAppConfiguration
+
 public class OrganizeControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
 
-    @Mock
-    private CardService service;
+        @Autowired
+        OrganizeSession organizeSession;
 
-    @InjectMocks
-    private OrganizeController target;
+        @Autowired
+        WebApplicationContext webApplicationContext;
 
-    @BeforeEach
-    void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(target)
-                .alwaysDo(log()).build();
-    }
+        MockMvc mockMvc;
 
-    @Test
-    @DisplayName("input_初期表示")
-    void input_01() throws Exception {
+        MockHttpSession mockSession = new MockHttpSession();
 
-        when(service.sum(any())).thenReturn(BigDecimal.ZERO);
-        when(service.tempSum(any())).thenReturn(BigDecimal.ZERO);
+        @BeforeEach
+        void setup() {
+                mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                                .alwaysDo(log()).build();
+        }
 
-        mockMvc.perform(get("/organize"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("organize.html"))
-                .andExpect(model().attribute("duoCount", is(0)))
-                .andExpect(model().attribute("buddyCount", is(0)))
-                .andExpect(model().attribute("totalHp", is(BigDecimal.ZERO)))
-                .andExpect(model().attribute("reflectedHp", is(BigDecimal.ZERO)));
-    }
+        @Test
+        @DisplayName("初期表示")
+        void input_01() throws Exception {
 
-    @Test
-    @DisplayName("input_cardあり")
-    void input_02() throws Exception {
-        Map<String, List<String>> duoMap = new HashMap<>();
-        List<String> countList = new ArrayList<>();
-        countList.add("2");
-        List<String> duoList = new ArrayList<>();
-        duoList.add("Floyd");
-        duoMap.put("Jade", duoList);
-        duoList.add("Jade");
-        duoMap.put("Floyd", duoList);
-        duoMap.put("duoCount", countList);
-        when(service.duoCount(any())).thenReturn(duoMap);
+                mockMvc.perform(get("/organize"))
+                                .andExpect(status().isOk())
+                                .andExpect(view().name("organize.html"))
+                                .andExpect(model().attribute("totalHp", is(BigDecimal.ZERO)))
+                                .andExpect(model().attribute("reflectedHp", is(BigDecimal.ZERO)))
+                                .andExpect(view().name("organize.html"));
+        }
 
-        Map<String, List<String>> buddyMap = new HashMap<>();
-        List<String> buddyList = new ArrayList<>();
-        buddyList.add("Floyd");
-        buddyMap.put("Jade", buddyList);
-        buddyList.add("Jade");
-        buddyMap.put("Floyd", buddyList);
-        List<String> buddyCountList = new ArrayList<>();
-        buddyCountList.add("2");
-        buddyMap.put("buddyCount", buddyCountList);
-        when(service.buddyCount(any(), anyBoolean())).thenReturn(buddyMap);
+        @Test
+        @DisplayName("post_input_sessionあり")
+        void post_input_01() throws Exception {
 
-        when(service.sum(any())).thenReturn(BigDecimal.valueOf(20000));
+                MvcResult mvcResult = mockMvc.perform(post("/organize")
+                                .param("tableName", "DORMITORY_CLOTHING")
+                                .param("id", "dor_jade")
+                                .param("num", "11")
+                                .param("name", "JADE")
+                                .param("clothingName", "dormitory_clothing")
+                                .param("rare", "SSR")
+                                .param("type", "DEFENCE")
+                                .param("buddy1", "TREY")
+                                .param("buddy1Effect", "ATK UP(小)")
+                                .param("buddy2", "AZUL")
+                                .param("buddy2Effect", "HP UP(小)")
+                                .param("buddy3", "FLOYD")
+                                .param("buddy3Effect", "HP UP(中)")
+                                .param("magic1", "AQUA_WAVE")
+                                .param("magic2", "FLAME_BLAST")
+                                .param("magic3", "LEAF_SHOT2")
+                                .param("duo", "FLOYD")
+                                .param("minHp", "3000")
+                                .param("minAtk", "1000")
+                                .param("maxHp", "10000")
+                                .param("maxAtk", "5000")
+                                .param("magic1BuffdebuffGrouping", "HYPHEN")
+                                .param("magic2BuffdebuffGrouping", "HYPHEN")
+                                .param("magic3BuffdebuffGrouping", "HYPHEN")
+                                .param("arrayIndex", "0"))
+                                .andExpect(status().isFound())
+                                .andExpect(view().name("redirect:organize"))
+                                .andReturn();
 
-        when(service.tempSum(any())).thenReturn(BigDecimal.ZERO);
+                mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
 
-        mockMvc.perform(get("/organize"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("organize.html"))
-                .andExpect(model().attribute("totalHp", is(BigDecimal.valueOf(20000))))
-                .andExpect(model().attribute("reflectedHp", is(BigDecimal.ZERO)));
-    }
+                mvcResult = mockMvc.perform(get("/organize")
+                                .session(mockSession))
+                                .andExpect(status().isOk())
+                                .andExpect(view().name("organize.html"))
+                                .andExpect(model().attribute("totalHp", is(BigDecimal.valueOf(10000))))
+                                .andExpect(model().attribute("buddyCount", 0))
+                                .andExpect(model().attribute("duoCount", 0))
+                                .andExpect(model().attribute("arrayIndex", 0))
+                                .andExpect(model().attribute("cardArray", is(arrayContaining(
+                                                hasProperty("id", is("dor_jade")),
+                                                null, null, null, null))))
+                                .andExpect(model().attribute("reflectedHp", is(BigDecimal.valueOf(10000))))
+                                .andExpect(view().name("organize.html"))
+                                .andReturn();
 
-    @Test
-    @DisplayName("conform")
-    void conform() throws Exception {
-        CardForm cardForm = new CardForm();
-        cardForm.setTableName(TableEnum.DORMITORY_CLOTHING);
-        cardForm.setId("寮服");
-        cardForm.setName(CharacterEnum.JADE);
-        cardForm.setRare("SSR");
-        cardForm.setType("DEFENCE");
-        cardForm.setBuddy1(CharacterEnum.TREY);
-        cardForm.setBuddy2(CharacterEnum.AZUL);
-        cardForm.setBuddy3(CharacterEnum.FLOYD);
-        cardForm.setDuo(CharacterEnum.FLOYD);
-        cardForm.setMinHp(BigDecimal.valueOf(3000));
-        cardForm.setMinAtk(BigDecimal.valueOf(1000));
-        cardForm.setMaxHp(BigDecimal.valueOf(10000));
-        cardForm.setMaxAtk(BigDecimal.valueOf(5000));
-        cardForm.setBuddy1Effect("ATK UP(小)");
-        cardForm.setBuddy2Effect("HP UP(小)");
-        cardForm.setBuddy3Effect("HP UP(中)");
-        cardForm.setMagic1Name("アクアウェーブ");
-        cardForm.setMagic2Name("フレイムブラスト[II]");
-        cardForm.setMagic3Name("リーフショット[II]");
-        cardForm.setMagic1Effect("水属性ダメージ（強）");
-        cardForm.setMagic2Effect("2連撃の火属性ダメージ（強）");
-        cardForm.setMagic3Effect("2連撃の木属性ダメージ（弱）");
-        cardForm.setMagic1Type("WATER");
-        cardForm.setMagic2Type("FIRE");
-        cardForm.setMagic3Type("LEAF");
+                mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
 
-        mockMvc.perform(post("/organize")
-                .param("tableName", "DORMITORY_CLOTHING")
-                .param("id", "寮服")
-                .param("num", "11")
-                .param("name", "JADE")
-                .param("rare", "SSR")
-                .param("type", "DEFENCE")
-                .param("buddy1", "TREY")
-                .param("buddy1Effect", "ATK UP(小)")
-                .param("buddy2", "AZUL")
-                .param("buddy2Effect", "HP UP(小)")
-                .param("buddy3", "FLOYD")
-                .param("buddy3Effect", "HP UP(中)")
-                .param("magic1Type", "WATER")
-                .param("magic1Name", "アクアウェーブ")
-                .param("magic1Effect", "水属性ダメージ（強）")
-                .param("magic2Type", "FIRE")
-                .param("magic2Name", "フレイムブラスト[II]")
-                .param("magic2Effect", "2連撃の火属性ダメージ（強）")
-                .param("magic3Type", "LEAF")
-                .param("magic3Name", "リーフショット[II]")
-                .param("magic3Effect", "2連撃の木属性ダメージ（弱）")
-                .param("duo", "FLOYD")
-                .param("minHp", "3000")
-                .param("minAtk", "1000")
-                .param("maxHp", "10000")
-                .param("maxAtk", "5000")
-                .param("arrayIndex", "0"))
-                .andExpect(status().isFound())
-                .andExpect(view().name("redirect:organize"));
-    }
+                mvcResult = mockMvc.perform(post("/organize")
+                                .session(mockSession)
+                                .param("tableName", "DORMITORY_CLOTHING")
+                                .param("id", "dor_jamil")
+                                .param("num", "14")
+                                .param("name", "JAMIL")
+                                .param("clothingName", "dormitory_clothing")
+                                .param("rare", "SSR")
+                                .param("type", "ATTACK")
+                                .param("buddy1", "ACE")
+                                .param("buddy1Effect", "ATK UP(小)")
+                                .param("buddy2", "KALIM")
+                                .param("buddy2Effect", "HP UP(小)")
+                                .param("buddy3", "LILIA")
+                                .param("buddy3Effect", "HP UP(中)")
+                                .param("magic1", "ZERO_RAY")
+                                .param("magic2", "FLAME_BLAST2")
+                                .param("magic3", "WATER_SHOT2")
+                                .param("duo", "KALIM")
+                                .param("minHp", "3000")
+                                .param("minAtk", "1000")
+                                .param("maxHp", "9000")
+                                .param("maxAtk", "6000")
+                                .param("magic1BuffdebuffGrouping", "HYPHEN")
+                                .param("magic2BuffdebuffGrouping", "HYPHEN")
+                                .param("magic3BuffdebuffGrouping", "HYPHEN")
+                                .param("arrayIndex", "1"))
+                                .andExpect(status().isFound())
+                                .andExpect(view().name("redirect:organize"))
+                                .andReturn();
+
+                mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
+
+                mvcResult = mockMvc.perform(get("/organize")
+                                .session(mockSession))
+                                .andExpect(status().isOk())
+                                .andExpect(view().name("organize.html"))
+                                .andExpect(model().attribute("totalHp", is(BigDecimal.valueOf(19000))))
+                                .andExpect(model().attribute("buddyCount", 0))
+                                .andExpect(model().attribute("duoCount", 0))
+                                .andExpect(model().attribute("arrayIndex", 0))
+                                .andExpect(model().attribute("cardArray", is(arrayContaining(
+                                                hasProperty("id", is("dor_jade")),
+                                                hasProperty("id", is("dor_jamil")),
+                                                null, null, null))))
+                                .andExpect(model().attribute("reflectedHp", is(BigDecimal.valueOf(19000))))
+                                .andExpect(view().name("organize.html"))
+                                .andReturn();
+
+                mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
+                organizeSession = (OrganizeSession) mockSession.getAttribute("scopedTarget.organizeSession");
+
+                assertThat(organizeSession.getHpArray(),
+                                is(arrayContaining(BigDecimal.valueOf(10000), BigDecimal.valueOf(9000), null, null,
+                                                null)));
+                assertThat(organizeSession.getLevelArray(),
+                                is(arrayContaining(BigDecimal.valueOf(110), BigDecimal.valueOf(110), null, null,
+                                                null)));
+                assertThat(organizeSession.getTempAtkArray(),
+                                is(arrayContaining(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
+                                                BigDecimal.ZERO, BigDecimal.ZERO)));
+                assertThat(organizeSession.getTempHpArray(),
+                                is(arrayContaining(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
+                                                BigDecimal.ZERO, BigDecimal.ZERO)));
+                assertThat(organizeSession.getTempCardArray(), is(arrayContaining(
+                                hasProperty("id", is("dor_jade")),
+                                hasProperty("id", is("dor_jamil")),
+                                null, null, null)));
+        }
+
+        @Test
+        @DisplayName("計算結果あり")
+        void input_02() throws Exception {
+                BigDecimal[] levelArray = new BigDecimal[5];
+                levelArray[0] = BigDecimal.valueOf(100);
+                BigDecimal[] hpArray = new BigDecimal[5];
+                hpArray[0] = BigDecimal.valueOf(10000);
+                BigDecimal[] tempHpArray = new BigDecimal[5];
+                tempHpArray[0] = BigDecimal.valueOf(8000);
+                BigDecimal[] tempAtkArray = new BigDecimal[5];
+                tempAtkArray[0] = BigDecimal.valueOf(7000);
+                organizeSession.setLevelArray(levelArray);
+                organizeSession.setHpArray(hpArray);
+                organizeSession.setTempHpArray(tempHpArray);
+                organizeSession.setTempAtkArray(tempAtkArray);
+                mockSession.setAttribute("organizeSession", organizeSession);
+
+                mockMvc.perform(get("/organize")
+                                .session(mockSession))
+                                .andExpect(status().isOk())
+                                .andExpect(view().name("organize.html"))
+                                .andExpect(model().attribute("totalHp", is(BigDecimal.ZERO)))
+                                .andExpect(model().attribute("reflectedHp", is(BigDecimal.ZERO)))
+                                .andExpect(view().name("organize.html"));
+        }
 }

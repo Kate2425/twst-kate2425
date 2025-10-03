@@ -16,9 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.TableEnum;
 import com.example.twst.domain.model.CharacterEnum;
+import com.example.twst.domain.model.MagicGroupingEnum;
 import com.example.twst.form.CardForm;
 import com.example.twst.form.SearchForm;
 import com.example.twst.form.CalculateForm;
@@ -49,9 +51,9 @@ public class CardServiceTest {
         cardForm.setBuddy1(CharacterEnum.ACE);
         cardForm.setBuddy2(CharacterEnum.HYPHEN);
         cardForm.setBuddy3(CharacterEnum.HYPHEN);
-        cardForm.setMagic1Grouping("1");
-        cardForm.setMagic2Grouping("2");
-        cardForm.setMagic3Grouping("0");
+        cardForm.setMagic1(MagicGroupingEnum.FIRE_SHOT);
+        cardForm.setMagic2(MagicGroupingEnum.ZERO_RAY2);
+        cardForm.setMagic3(MagicGroupingEnum.HYPHEN);
         cardForm.setDuo(CharacterEnum.HYPHEN);
         cardForm.setMinHp(BigDecimal.ZERO);
         cardForm.setMinAtk(BigDecimal.ZERO);
@@ -61,9 +63,9 @@ public class CardServiceTest {
         cardForm.setBuddy1Grouping("1");
         cardForm.setBuddy2Grouping("0");
         cardForm.setBuddy3Grouping("0");
-        cardForm.setMagic1BuffdebuffGrouping("1");
-        cardForm.setMagic2BuffdebuffGrouping("-");
-        cardForm.setMagic3BuffdebuffGrouping("-");
+        cardForm.setMagic1BuffdebuffGrouping(BuffDebuffGroupingEnum.ATK_DOWN_MINIMUM_ENEMY_1T);
+        cardForm.setMagic2BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
+        cardForm.setMagic3BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
 
         // Act
         boolean result = target.insert(cardForm);
@@ -84,9 +86,9 @@ public class CardServiceTest {
         cardForm.setBuddy1(CharacterEnum.ACE);
         cardForm.setBuddy2(CharacterEnum.HYPHEN);
         cardForm.setBuddy3(CharacterEnum.HYPHEN);
-        cardForm.setMagic1Grouping("1");
-        cardForm.setMagic2Grouping("2");
-        cardForm.setMagic3Grouping("0");
+        cardForm.setMagic1(MagicGroupingEnum.FIRE_SHOT);
+        cardForm.setMagic2(MagicGroupingEnum.ZERO_RAY2);
+        cardForm.setMagic3(MagicGroupingEnum.HYPHEN);
         cardForm.setDuo(CharacterEnum.HYPHEN);
         cardForm.setMinHp(BigDecimal.ZERO);
         cardForm.setMinAtk(BigDecimal.ZERO);
@@ -96,9 +98,9 @@ public class CardServiceTest {
         cardForm.setBuddy1Grouping("1");
         cardForm.setBuddy2Grouping("0");
         cardForm.setBuddy3Grouping("0");
-        cardForm.setMagic1BuffdebuffGrouping("-");
-        cardForm.setMagic2BuffdebuffGrouping("2");
-        cardForm.setMagic3BuffdebuffGrouping("-");
+        cardForm.setMagic1BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
+        cardForm.setMagic2BuffdebuffGrouping(BuffDebuffGroupingEnum.ATK_DOWN_SMALL_ENEMY_1T);
+        cardForm.setMagic3BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
 
         // Act
         DuplicateKeyException result = assertThrows(DuplicateKeyException.class, () -> target.insert(cardForm));
@@ -114,10 +116,10 @@ public class CardServiceTest {
         // Arrange
 
         // Act
-        int count = target.count();
+        int result = target.count();
 
         // Assert
-        assertThat(count, is(0));
+        assertThat(result, is(0));
     }
 
     @Test
@@ -127,10 +129,10 @@ public class CardServiceTest {
         String name = "";
 
         // Act
-        Card card = target.selectOne(name);
+        Card result = target.selectOne(name);
 
         // Assert
-        assertThat(card, is(nullValue()));
+        assertThat(result, is(nullValue()));
     }
 
     @Test
@@ -165,10 +167,10 @@ public class CardServiceTest {
         searchForm.setBuffDebuffChecks3(buffDebuffParam3);
 
         // Act
-        List<Card> resultList = target.selectMany(searchForm, tableName);
+        List<Card> result = target.selectMany(searchForm, tableName);
 
         // Assert
-        assertThat(resultList.get(0), is(allOf(hasProperty("tableName", is(TableEnum.ROLL_PLAYING_BRIDEGROOM)))));
+        assertThat(result.get(0), is(allOf(hasProperty("tableName", is(TableEnum.ROLL_PLAYING_BRIDEGROOM)))));
     }
 
     @Test
@@ -204,10 +206,10 @@ public class CardServiceTest {
         searchForm.setSort("atk");
 
         // Act
-        List<Card> resultList = target.selectAll(searchForm);
+        List<Card> result = target.selectAll(searchForm);
 
         // Assert
-        assertThat(resultList.get(0), is(allOf(hasProperty("tableName", is(TableEnum.EXPERIMENTAL_CLOTHING)))));
+        assertThat(result.get(0), is(allOf(hasProperty("tableName", is(TableEnum.EXPERIMENTAL_CLOTHING)))));
     }
 
     @Test
@@ -222,9 +224,9 @@ public class CardServiceTest {
         cardForm.setBuddy1(CharacterEnum.DEUCE);
         cardForm.setBuddy2(CharacterEnum.HYPHEN);
         cardForm.setBuddy3(CharacterEnum.HYPHEN);
-        cardForm.setMagic1Grouping("1");
-        cardForm.setMagic2Grouping("2");
-        cardForm.setMagic3Grouping("0");
+        cardForm.setMagic1(MagicGroupingEnum.FIRE_SHOT);
+        cardForm.setMagic2(MagicGroupingEnum.ZERO_RAY2);
+        cardForm.setMagic3(MagicGroupingEnum.HYPHEN);
         cardForm.setDuo(CharacterEnum.HYPHEN);
         cardForm.setMinHp(BigDecimal.ZERO);
         cardForm.setMinAtk(BigDecimal.ZERO);
@@ -234,12 +236,15 @@ public class CardServiceTest {
         cardForm.setBuddy1Grouping("1");
         cardForm.setBuddy2Grouping("0");
         cardForm.setBuddy3Grouping("0");
+        cardForm.setMagic1BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
+        cardForm.setMagic2BuffdebuffGrouping(BuffDebuffGroupingEnum.ATK_DOWN_SMALL_ENEMY_1T);
+        cardForm.setMagic3BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
 
         // Act
-        int count = target.updateOne(cardForm);
+        int result = target.updateOne(cardForm);
 
         // Assert
-        assertThat(count, is(1));
+        assertThat(result, is(1));
     }
 
     @Test
@@ -257,12 +262,12 @@ public class CardServiceTest {
         cardArray[1] = cardB;
 
         // Act
-        Map<String, List<String>> duoMap = target.duoCount(cardArray);
+        Map<String, List<String>> result = target.duoCount(cardArray);
 
         // Assert
-        assertThat(duoMap.get("duoCount"), is(contains("1", "2")));
-        assertThat(duoMap.get("Leona"), is(containsInAnyOrder("Vil")));
-        assertThat(duoMap.get("Vil"), is(containsInAnyOrder("Leona")));
+        assertThat(result.get("duoCount"), is(contains("1", "2")));
+        assertThat(result.get("Leona"), is(containsInAnyOrder("Vil")));
+        assertThat(result.get("Vil"), is(containsInAnyOrder("Leona")));
     }
 
     @Test
@@ -446,10 +451,10 @@ public class CardServiceTest {
         cardArray[1] = cardB;
 
         // Act
-        BigDecimal totalMaxHp = target.sum(cardArray);
+        BigDecimal result = target.sum(cardArray);
 
         // Assert
-        assertThat(totalMaxHp, is(BigDecimal.valueOf(3000)));
+        assertThat(result, is(BigDecimal.valueOf(3000)));
     }
 
     @Test
@@ -472,11 +477,11 @@ public class CardServiceTest {
         organizeSession.setLevelArray(levelArray);
 
         // Act
-        Card[] tempCardArray = target.calculate(calculateForm, cardArray);
+        Card[] result = target.calculate(calculateForm, cardArray);
 
         // Assert
-        assertThat(tempCardArray[0].getMaxHp(), is(BigDecimal.valueOf(3571)));
-        assertThat(tempCardArray[0].getMaxAtk(), is(BigDecimal.valueOf(3214)));
+        assertThat(result[0].getMaxHp(), is(BigDecimal.valueOf(3571)));
+        assertThat(result[0].getMaxAtk(), is(BigDecimal.valueOf(3214)));
     }
 
     @Test
@@ -499,11 +504,11 @@ public class CardServiceTest {
         organizeSession.setLevelArray(levelArray);
 
         // Act
-        Card[] tempCardArray = target.calculate(calculateForm, cardArray);
+        Card[] result = target.calculate(calculateForm, cardArray);
 
         // Assert
-        assertThat(tempCardArray[1].getMaxHp(), is(BigDecimal.valueOf(5444)));
-        assertThat(tempCardArray[1].getMaxAtk(), is(BigDecimal.valueOf(3889)));
+        assertThat(result[1].getMaxHp(), is(BigDecimal.valueOf(5444)));
+        assertThat(result[1].getMaxAtk(), is(BigDecimal.valueOf(3889)));
     }
 
     @Test
@@ -524,11 +529,11 @@ public class CardServiceTest {
         cardArray[2] = cardA;
 
         // Act
-        Card[] tempCardArray = target.calculate(calculateForm, cardArray);
+        Card[] result = target.calculate(calculateForm, cardArray);
 
         // Assert
-        assertThat(tempCardArray[2].getMaxHp(), is(BigDecimal.valueOf(10909)));
-        assertThat(tempCardArray[2].getMaxAtk(), is(BigDecimal.valueOf(4546)));
+        assertThat(result[2].getMaxHp(), is(BigDecimal.valueOf(10909)));
+        assertThat(result[2].getMaxAtk(), is(BigDecimal.valueOf(4546)));
     }
 
     @Test
@@ -550,14 +555,91 @@ public class CardServiceTest {
     @DisplayName("setArray")
     void setArray() throws Exception {
         // Arrange
-        BigDecimal[] array = new BigDecimal[5];
+        BigDecimal[] result = new BigDecimal[5];
 
         // Act
-        array = target.setArray(array);
+        result = target.setArray(result);
 
         // Assert
-        assertThat(array, is(
+        assertThat(result, is(
                 arrayContaining(BigDecimal.ZERO, BigDecimal.ZERO,
                         BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)));
+    }
+
+    @Test
+    @DisplayName("setLevelArray_R")
+    void setLevelArray_01() throws Exception {
+        // Arrange
+        Card[] cardArray = new Card[5];
+        Card card = new Card();
+        card.setRare("R");
+        cardArray[1] = card;
+        BigDecimal[] result = { BigDecimal.valueOf(50), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, null };
+
+        //Act
+        result = target.setLevelArray(cardArray, result);
+
+        // Assert
+        assertThat(result, is(arrayContaining(BigDecimal.valueOf(50), BigDecimal.valueOf(70), BigDecimal.ZERO,
+                BigDecimal.ZERO, null)));
+    }
+
+    @Test
+    @DisplayName("setLevelArray_SR")
+    void setLevelArray_02() throws Exception {
+        // Arrange
+        Card[] cardArray = new Card[5];
+        Card card = new Card();
+        card.setRare("SR");
+        cardArray[2] = card;
+        BigDecimal[] result = { null, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.valueOf(80), BigDecimal.ZERO };
+
+        //Act
+        result = target.setLevelArray(cardArray, result);
+
+        // Assert
+        assertThat(result, is(arrayContaining(null, BigDecimal.ZERO, BigDecimal.valueOf(90), BigDecimal.valueOf(80),
+                BigDecimal.ZERO)));
+    }
+
+    @Test
+    @DisplayName("setLevelArray_SSR")
+    void setLevelArray_03() throws Exception {
+        // Arrange
+        Card[] cardArray = new Card[5];
+        Card card = new Card();
+        card.setRare("SSR");
+        cardArray[3] = card;
+        BigDecimal[] result = { BigDecimal.ZERO, null, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.valueOf(90) };
+
+        //Act
+        result = target.setLevelArray(cardArray, result);
+
+        // Assert
+        assertThat(result, is(arrayContaining(BigDecimal.ZERO, null, BigDecimal.ZERO, BigDecimal.valueOf(110),
+                BigDecimal.valueOf(90))));
+    }
+
+    @Test
+    @DisplayName("setTempCardArray")
+    void setTempCardArray() throws Exception {
+        // Arrange
+        Card[] result = new Card[5];
+        Card card = new Card();
+        result[0] = card;
+        BigDecimal[] hpArray = { BigDecimal.valueOf(2000), BigDecimal.valueOf(3000), BigDecimal.valueOf(4000),
+                BigDecimal.valueOf(5000), BigDecimal.valueOf(6000) };
+        BigDecimal[] atkArray = { BigDecimal.valueOf(1500), BigDecimal.valueOf(2500), BigDecimal.valueOf(3500),
+                BigDecimal.valueOf(4500), BigDecimal.valueOf(5500) };
+
+        organizeSession.setHpArray(hpArray);
+        organizeSession.setAtkArray(atkArray);
+
+        //Act
+        result = target.setTempCardArray(result);
+
+        // Assert
+        assertThat(result[0], allOf(hasProperty("maxHp", is(BigDecimal.valueOf(2000))),
+                hasProperty("maxAtk", is(BigDecimal.valueOf(1500)))));
     }
 }

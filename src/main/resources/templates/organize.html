@@ -21,39 +21,42 @@
                     <p th:if="${record==null}">未選択</p>
                     <ul th:if="${record!=null}">
                         <th:block th:each="card ,cardSt:${record}">
-                            <li th:text="'衣装:' + ${card.id}"></li>
+                            <li th:text="'衣装:' + ${card.clothingName}"></li>
                             <li
                                 th:text="'キャラクター:' + ${card.name.viewName}"></li>
                             <li>
-                                魔法属性:<th:block th:switch="${record.magic1Type}">
+                                魔法属性:<th:block
+                                    th:switch="${record.magic1.magicType}">
                                     <span th:case="'FIRE'" th:class='fire'
-                                        th:text="${record.magic1Type}"></span>
+                                        th:text="${record.magic1.magicType}"></span>
                                     <span th:case="'WATER'" th:class='water'
-                                        th:text="${record.magic1Type}"></span>
+                                        th:text="${record.magic1.magicType}"></span>
                                     <span th:case="'LEAF'" th:class='leaf'
-                                        th:text="${record.magic1Type}"></span>
+                                        th:text="${record.magic1.magicType}"></span>
                                     <span th:case="*"
-                                        th:text="${record.magic1Type}"></span>
+                                        th:text="${record.magic1.magicType}"></span>
                                 </th:block>
-                                <th:block th:switch="${record.magic2Type}">
+                                <th:block
+                                    th:switch="${record.magic2.magicType}">
                                     <span th:case="'FIRE'" th:class='fire'
-                                        th:text="${record.magic2Type}"></span>
+                                        th:text="${record.magic2.magicType}"></span>
                                     <span th:case="'WATER'" th:class='water'
-                                        th:text="${record.magic2Type}"></span>
+                                        th:text="${record.magic2.magicType}"></span>
                                     <span th:case="'LEAF'" th:class='leaf'
-                                        th:text="${record.magic2Type}"></span>
+                                        th:text="${record.magic2.magicType}"></span>
                                     <span th:case="*"
-                                        th:text="${record.magic2Type}"></span>
+                                        th:text="${record.magic2.magicType}"></span>
                                 </th:block>
-                                <th:block th:switch="${record.magic3Type}">
+                                <th:block
+                                    th:switch="${record.magic3.magicType}">
                                     <span th:case="'FIRE'" th:class='fire'
-                                        th:text="${record.magic3Type}"></span>
+                                        th:text="${record.magic3.magicType}"></span>
                                     <span th:case="'WATER'" th:class='water'
-                                        th:text="${record.magic3Type}"></span>
+                                        th:text="${record.magic3.magicType}"></span>
                                     <span th:case="'LEAF'" th:class='leaf'
-                                        th:text="${record.magic3Type}"></span>
+                                        th:text="${record.magic3.magicType}"></span>
                                     <span th:case="*"
-                                        th:text="${record.magic3Type}"></span>
+                                        th:text="${record.magic3.magicType}"></span>
                                 </th:block>
                             </li>
 
@@ -160,6 +163,28 @@
                                 </th:block>
                             </th:block>
 
+                            <li>最大HP:<span
+                                    th:text="${record.maxHp}"></span>
+                                最大ATK:<span
+                                    th:text="${record.maxAtk}"></span>
+                            </li>
+                            <li
+                                th:if="${organizeSession.getHpArray[__${st.index}__]} != 0 and
+                                       ${organizeSession.getHpArray[__${st.index}__]} != ${record.maxHp}"
+                                th:class="'after-buddy'"
+                                th:each="hp : ${organizeSession.getHpArray[__${st.index}__]}">
+                                バディボーナス反映後HP:<span
+                                    th:text="${hp}"></span>
+                            </li>
+                            <li
+                                th:if="${organizeSession.getAtkArray[__${st.index}__]} != 0 and
+                                       ${organizeSession.getAtkArray[__${st.index}__]} != ${record.maxAtk}"
+                                th:class="'after-buddy'"
+                                th:each="atk : ${organizeSession.getAtkArray[__${st.index}__]}">
+                                バディボーナス反映後ATK:<span
+                                    th:text="${atk}"></span>
+                            </li>
+
                             <!-- 計算用データ-->
                             <form action="#" th:action="@{/calculate}"
                                 th:name="'calculateForm' + ${st.index}"
@@ -170,23 +195,6 @@
                                         th:value="${organizeSession.getLevelArray[__${st.index}__]}" />
                                     <button type="submit"
                                         class="btn semicircle light-blue-purple">計算</button>
-                                </li>
-                                <li>最大HP:<span
-                                        th:text="${card.maxHp}"></span>
-                                    最大ATK:<span
-                                        th:text="${card.maxAtk}"></span>
-                                </li>
-                                <li
-                                    th:if="${organizeSession.getHpArray[__${st.index}__]} != 0"
-                                    th:each="hp : ${organizeSession.getHpArray[__${st.index}__]}">
-                                    バディボーナス反映後HP:<span
-                                        th:text="${hp}"></span>
-                                </li>
-                                <li
-                                    th:if="${organizeSession.getAtkArray[__${st.index}__]} != 0"
-                                    th:each="atk : ${organizeSession.getAtkArray[__${st.index}__]}">
-                                    バディボーナス反映後ATK:<span
-                                        th:text="${atk}"></span>
                                 </li>
                                 <li
                                     th:if="${organizeSession.getTempCardArray[__${st.index}__]} != null">
@@ -268,54 +276,77 @@
                     </li>
                 </ul>
 
-                <!--<div class="wrap">
-                <form action="#" th:action="@{/battle}" method="get"
-                    th:object="${BattleForm}">
-                    <fieldset>
-                        <legend>Enemy</legend>
+                <div class="wrap">
+                    <form action="#" th:action="@{/battle}" method="get"
+                        th:object="${battleForm}">
+                        <fieldset>
+                            <legend>Enemy</legend>
+                            <p>魔法属性</p>
+                            <th:block th:each="item : ${enemyMagicType}">
+                                <input type="radio"
+                                    th:value="${item.value}"
+                                    th:field="*{enemyMagicType}"
+                                    class="radio-icon" />
+                                <span th:switch="${item.value}">
+                                    <label
+                                        th:for="${#ids.prev('enemyMagicType')}"
+                                        th:case="'FIRE'" th:class='fire'
+                                        th:text="${item.key}"></label>
+                                    <label
+                                        th:for="${#ids.prev('enemyMagicType')}"
+                                        th:case="'WATER'" th:class='water'
+                                        th:text="${item.key}"></label>
+                                    <label
+                                        th:for="${#ids.prev('enemyMagicType')}"
+                                        th:case="'LEAF'" th:class='leaf'
+                                        th:text="${item.key}"></label>
+                                    <label
+                                        th:for="${#ids.prev('enemyMagicType')}"
+                                        th:case="*"
+                                        th:text="${item.key}"></label>
+                                </span>
+                            </th:block>
+                            <div class="exam">
+                                <p>試験種類</p>
+                                <span th:each="item : ${exam}">
+                                    <input type="radio" th:value="${item.value}"
+                                        th:field="*{exam}"
+                                        class="radio-icon" />
+                                    <label th:for="${#ids.prev('exam')}"
+                                        th:text="${item.key}"></label>
+                                </span>
+                            </div>
+                            <div class="difficulty">
+                                <p>難易度</p>
+                                <span th:each="item : ${difficulty}">
+                                    <input type="radio" th:value="${item.value}"
+                                        th:field="*{difficulty}"
+                                        class="radio-icon" />
+                                    <label th:for="${#ids.prev('difficulty')}"
+                                        th:text="${item.key}"></label>
+                                </span>
+                            </div>
+                            <!-- <div class="tern">
+                                <p>ターン</p>
+                                <span th:each="item : ${tern}">
+                                    <input type="radio" th:value="${item.value}"
+                                        th:field="*{tern}"
+                                        class="radio-icon" />
+                                    <label th:for="${#ids.prev('tern')}"
+                                        th:text="${item.key}"></label>
+                                </span>
+                            </div> -->
+                        </fieldset>
 
-                        <th:block th:each="option : ${magic}">
-                            <input type="checkbox"
-                                th:value="${option.characterName}"
-                                th:field="*{magicChecks}"
-                                class="checkbox-icon" />
-                            <span th:switch="${option.characterName}">
-                                <label th:for="${#ids.prev('magicChecks')}"
-                                    th:case="'FIRE'" th:class='fire'
-                                    th:text="${option.viewName}"
-                                    class="checkbox"></label>
-                                <label th:for="${#ids.prev('magicChecks')}"
-                                    th:case="'WATER'" th:class='water'
-                                    th:text="${option.viewName}"
-                                    class="checkbox"></label>
-                                <label th:for="${#ids.prev('magicChecks')}"
-                                    th:case="'LEAF'" th:class='leaf'
-                                    th:text="${option.viewName}"
-                                    class="checkbox"></label>
-                                <label th:for="${#ids.prev('magicChecks')}"
-                                    th:case="*"
-                                    th:text="${option.viewName}"
-                                    class="checkbox"></label>
-                            </span>
-                        </th:block>
-                        <ul>
-                            <li>Lv <input type="text" class="textbox"
-                                    name="enemyLevel" /></li>
-                        </ul>
+                        <input type="hidden" name="reflectedHp"
+                            th:value="${reflectedHp}" />
+                        <p class="wrap">
+                            <button type="submit"
+                                class="btn circle light-red-purple">開始</button>
 
-                    </fieldset>
-
-                    <input type="hidden" name="tempTotalHp"
-                        th:value="${tempTotalHp}" />
-                    <input type="hidden" name="tempTotalAtk"
-                        th:value="${tempTotalAtk}" />
-                    <p class="wrap">
-                        <button type="submit"
-                            class="btn circle light-red-purple">開始</button>
-
-                    </p>
-                </form>
-            </div>-->
+                        </p>
+                    </form>
+                </div>
                 <p th:if="${validationError}"
                     th:each="error : ${validationError}"></p>
             </body>
