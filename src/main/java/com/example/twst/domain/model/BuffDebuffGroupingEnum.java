@@ -561,7 +561,7 @@ public enum BuffDebuffGroupingEnum {
         /**
          * 名称.
          */
-        private final String name;
+        private final String viewName;
 
         /**
          * 対象.
@@ -584,15 +584,15 @@ public enum BuffDebuffGroupingEnum {
         }
 
         /**
-         * nameを取得する.
+         * viewNameを取得する.
          *
          * @param buffDebuffGrouping
-         * @return name
+         * @return viewName
          */
-        public static String getName(final String buffDebuffGrouping) {
+        public static String getViewName(final String buffDebuffGrouping) {
                 for (BuffDebuffGroupingEnum buffDebuffGroupingEnum : BuffDebuffGroupingEnum.values()) {
                         if (buffDebuffGroupingEnum.getBuffDebuffGrouping().equals(buffDebuffGrouping)) {
-                                return buffDebuffGroupingEnum.getName();
+                                return buffDebuffGroupingEnum.getViewName();
                         }
                 }
                 return "";
@@ -647,12 +647,12 @@ public enum BuffDebuffGroupingEnum {
 
         /**
          * nameからBuffDebuffGroupingEnumを取得する.
-         * @param name
+         * @param viewName
          * @return BuffDebuffGroupingEnum
          */
-        public static BuffDebuffGroupingEnum getValueOfName(final String name) {
+        public static BuffDebuffGroupingEnum getValueOfViewName(final String name) {
                 for (BuffDebuffGroupingEnum buffDebuffGroupingEnum : BuffDebuffGroupingEnum.values()) {
-                        if (buffDebuffGroupingEnum.getName().equals(name)) {
+                        if (buffDebuffGroupingEnum.getViewName().equals(name)) {
                                 return buffDebuffGroupingEnum;
                         }
                 }
@@ -678,6 +678,20 @@ public enum BuffDebuffGroupingEnum {
         }
 
         /**
+        * 汎用のBuffDebuffGroupingEnumを取得する.
+        * @return valueList
+        */
+        public static List<BuffDebuffGroupingEnum> getAllValue() {
+                List<BuffDebuffGroupingEnum> valueList = new ArrayList<>();
+                for (BuffDebuffGroupingEnum buffDebuffGroupingEnum : BuffDebuffGroupingEnum.values()) {
+                        if (Integer.parseInt(buffDebuffGroupingEnum.getBuffDebuffGrouping()) < 98) {
+                                valueList.add(buffDebuffGroupingEnum);
+                        }
+                }
+                return valueList;
+        }
+
+        /**
          * constructor.
          *
          * @param buffDebuffGrouping
@@ -685,16 +699,16 @@ public enum BuffDebuffGroupingEnum {
          * @param tern
          * @param strength
          * @param target
-         * @param name
+         * @param viewName
          */
         private BuffDebuffGroupingEnum(final String buffDebuffGrouping, final String type, final String tern,
-                        final String strength, final String target, final String name) {
+                        final String strength, final String target, final String viewName) {
                 this.buffDebuffGrouping = buffDebuffGrouping;
                 this.type = type;
                 this.tern = tern;
                 this.strength = strength;
                 this.target = target;
-                this.name = name;
+                this.viewName = viewName;
 
         }
 }
