@@ -15,6 +15,7 @@ import com.example.twst.domain.model.EnumUtils;
 import com.example.twst.domain.model.TableEnum;
 import com.example.twst.domain.model.MagicGroupingEnum;
 import com.example.twst.domain.model.BuddyGroupingEnum;
+import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.form.CardForm;
 import com.example.twst.form.SearchForm;
 import com.example.twst.service.CardService;
@@ -80,6 +81,7 @@ public class InsertController {
         model.addAttribute("type", CardEnum.getValue("type"));
         model.addAttribute("magicGrouping", MagicGroupingEnum.values());
         model.addAttribute("buddyGrouping", BuddyGroupingEnum.values());
+        model.addAttribute("buffDebuffGrouping", BuffDebuffGroupingEnum.values());
 
         return "insert.html";
     }

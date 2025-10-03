@@ -693,6 +693,7 @@ public class CardDaoJdbcImpl implements CardDao {
             case "rabbit_wear" -> idName = "ラビット・ギア";
             case "platinum_jacket" -> idName = "プラチナ・ギア";
             case "playful_dress" -> idName = "プレイフル・ギア";
+            case "outdoor_wear" -> idName = "アウトドア・ギア";
             default -> idName = tableObject.getViewName();
         }
         return idName;
