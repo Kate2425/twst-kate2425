@@ -488,6 +488,11 @@ public enum BuffDebuffGroupingEnum {
         ANNUL_CURSE_FRIEND_1T_AND_ATK_UP_SMALL_SELF_1T("82 & 35", "呪い無効＆ATK_UP", "1＆1", "-＆小", "味方＆自",
                         "呪い無効（味方/1T）＆ATK UP（小）（自/1T）"),
         /**
+         * 凍結無効（味方/1T）＆ATK DOWN（小）（相手/1T）
+         */
+        ANNUAL_FREEZE_FRIEND_1T_AND_ATK_DOWN_SMALL_ENEMY_1T("84 & 2", "凍結無効＆ATK_DOWN", "1＆1", "-＆小", "味方＆相手",
+                        "凍結無効（味方/1T）＆ATK DOWN（小）（相手/1T）"),
+        /**
          * 凍結無効（味方/1T）＆ATK UP（小）（自/1T）
          */
         ANNUAL_FREEZE_FRIEND_1T_AND_ATK_UP_SMALL_SELF_1T("84 & 35", "凍結無効＆ATK UP", "1＆1", "-＆小", "味方＆自",
