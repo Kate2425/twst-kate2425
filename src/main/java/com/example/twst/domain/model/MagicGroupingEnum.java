@@ -25,10 +25,20 @@ public enum MagicGroupingEnum {
     FOREST_STRIKE2(15, "LEAF", "フォレストストライク[II]", "2連撃の木属性ダメージ（強）", 2, "強"),
     ZERO_RAY2(16, "VOID", "ゼロレイ[II]", "2連撃の無属性ダメージ（強）", 2, "強"),
     VOID_SHOT3(17, "VOID", "ボイドショット[III]", "3連撃の無属性ダメージ（弱）", 3, "弱"),
-    LONELINESS_OF_THE_WITCH2(18, "LEAF", "魔女の孤独[II]", "2連撃の木属性ダメージ（強）", 2, "強"),
-    RULER_OF_ALL_EVIL(19, "VOID", "全ての悪の支配者", "無属性ダメージ（強）", 1, "強"),
-    RULER_OF_ALL_EVIL2(20, "VOID", "全ての悪の支配者[II]", "2連撃の無属性ダメージ（弱）", 2, "弱"),
-    RULER_OF_ALL_EVIL3(21, "VOID", "全ての悪の支配者[III]", "3連撃の無属性ダメージ（弱）", 3, "弱");
+    RULER_OF_ALL_EVIL(18, "VOID", "全ての悪の支配者", "無属性ダメージ（強）", 1, "強"),
+    RULER_OF_ALL_EVIL2(19, "VOID", "全ての悪の支配者[II]", "2連撃の無属性ダメージ（弱）", 2, "弱"),
+    RULER_OF_ALL_EVIL3(20, "VOID", "全ての悪の支配者[III]", "3連撃の無属性ダメージ（弱）", 3, "弱"),
+    LONELINESS_OF_THE_WITCH2(21, "LEAF", "魔女の孤独[II]", "2連撃の木属性ダメージ（強）", 2, "強"),
+    PLOT_FILLED_WITH_MALICE(22, "FIRE", "悪意に満ちたたくらみ", "火属性ダメージ（強）", 1, "強"),
+    PLOT_FILLED_WITH_MALICE2(23, "FIRE", "悪意に満ちたたくらみ[II]", "2連撃の火属性ダメージ（強）", 2, "強"),
+    PLOT_FILLED_WITH_MALICE3(24, "FIRE", "悪意に満ちたたくらみ[III]", "3連撃の火属性ダメージ（弱）", 3, "弱"),
+    GRUDGE_OF_THE_KING(25, "LEAF", "王の怨嗟", "木属性ダメージ（強）", 1, "強"),
+    STOP_BREATH_FREEZE_BLOOD(26, "LEAF", "息よ止まれ。血よ凍れ", "木属性ダメージ（強）", 1, "強"),
+    STOP_BREATH_FREEZE_BLOOD2(27, "LEAF", "息よ止まれ。血よ凍れ[II]", "2連撃の木属性ダメージ（弱）", 2, "弱"),
+    STOP_BREATH_FREEZE_BLOOD3(28, "LEAF", "息よ止まれ。血よ凍れ[III]", "3連撃の木属性ダメージ（弱）", 1, "弱"),
+    PASSION_OF_THE_QUEEN2(29, "WATER", "女王の執念[II]", "2連撃の水属性ダメージ（強）", 2, "強"),
+    OVERWHELMING_POWER2(30, "WATER", "絶大なパワー[II]", "3連撃の水属性ダメージ（強）", 3, "強"),
+    RULE_OF_THE_MAGICIAN(31, "FIRE", "魔術師の支配", "火属性ダメージ（強）", 1, "強");
 
     /**
      * マジック区分

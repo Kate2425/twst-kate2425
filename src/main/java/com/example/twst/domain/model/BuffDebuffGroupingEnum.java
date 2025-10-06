@@ -412,10 +412,41 @@ public enum BuffDebuffGroupingEnum {
          */
         CRITICAL_MEDIUM_FRIEND_3T("98", "クリティカル", "3", "中", "味方", "クリティカル（中）（味方/3T）"),
         /**
+         * クリティカル（極大）（自/3T）
+         */
+        CRITICAL_MAXIMUM_SELF_3T("101", "クリティカル", "3", "極大", "自", "クリティカル（極大）（自/3T） "),
+        /**
+         * 呪い（極大）（相手全体/3T）
+         */
+        CURSE_MAXIMUM_ENEMY_ALL_3T("102", "呪い", "3", "極大", "相手全体", "呪い（極大）（相手全体/3T）"),
+        /**
+         * ガッツ（味方全体/3T）
+         */
+        GUTS_FRIEND_ALL_3T("103", "ガッツ", "3", "-", "味方全体", "ガッツ（味方全体/3T）"),
+        /**
+         * ATK UP（小）（自/5T）
+         */
+        ATK_UP_SMALL_SELF_5T("104", "ATK_UP", "5", "小", "自", "ATK UP（小）（自/5T）"),
+        /**
+         * 火属性ダメージUP（中）（味方全体/2T）
+         */
+        FIRE_DAMAGE_UP_MEDIUM_FRIEND_ALL_2T("105", "属性ダメージUP", "2", "中", "味方全体",
+                        "火属性ダメージUP（中）（味方全体/2T）"),
+        /**
+         * 水属性ダメージDOWN（中）（味方全体/3T）
+         */
+        WATER_DAMAGE_DOWN_MEDIUM_FRIEND_ALL_3T("106", "属性ダメージDOWN", "3", "中", "味方全体",
+                        "水属性ダメージDOWN（中）（味方全体/3T）"),
+        /**
          * ATK DOWN（小）（相手/1T）＆ダメージUP（小）（自/1T）.
          */
         ATK_DOWN_SMALL_ENEMY_1T_AND_DAMAGE_UP_SMALL_SELF_1T("2 & 58", "ATK_DOWN＆ダメージUP", "1＆1", "小＆小",
                         "相手＆自", "ATK DOWN（小）（相手/1T）＆ダメージUP（小）（自/1T）"),
+        /**
+         * ATK DOWN（中）（相手/1T）＆ATK UP（小）（自/1T）
+         */
+        ATK_DOWN_MEDIUM_ENEMY_1T_AND_ATK_UP_SMALL_SELF_1T(" 3 & 35", "ATK DOWN＆ATK UP", "1＆1", "中＆小", "相手＆自",
+                        "ATK DOWN（中）（相手/1T）＆ATK UP（小）（自/1T）"),
         /**
          * ATK UP（小）（自/1T）＆ダメージDOWN（小）（相手/1T）.
          */
@@ -461,7 +492,6 @@ public enum BuffDebuffGroupingEnum {
          */
         HP_CONTINUOUS_RECOVER_SMALL_SELF_3T_AND_ATK_UP_SMALL_SELF_1T("71 & 35", "HP継続回復＆ATK UP", "3＆1",
                         "小＆小", "自＆自", "HP継続回復（小）（自/3T）＆ATK UP（小）（自/1T）"),
-
         /**
          * HP継続回復（小）（自/3T）＆ダメージUP（小）（自/1T）.
          */
@@ -562,10 +592,10 @@ public enum BuffDebuffGroupingEnum {
         DAMAGE_UP_MEDIUM_SELF_1T_AND_HP_RECOVER_MINIMUM("59 & 67", "ダメージUP＆HP回復＆-", "1＆-", "中＆極小", "自＆-",
                         "ダメージUP（中）（自/1T）＆HP回復（極小）"),
         /**
-         * ATK DOWN（中）（相手/1T）＆ATK UP（小）（自/1T）
+         * ATK UP（小）（自/1T）＆ATK UP（小）（自/3T）＆ATK UP（小）（自/5T）
          */
-        ATK_DOWN_MEDIUM_ENEMY_1T_AND_ATK_UP_SMALL_SELF_1T(" 3 & 35", "ATK DOWN＆ATK UP", "1＆1", "中＆小", "相手＆自",
-                        "ATK DOWN（中）（相手/1T）＆ATK UP（小）（自/1T）");
+        ATK_UP_SMALL_SELF_1T_AND_ATK_UP_SMALL_SELF_3T_AND_ATK_UP_SMALL_SELF_5T("35 & 38 & 104", "ATK_UP＆ATK_UP＆ATK_UP",
+                        "1＆3＆5", "小＆小＆小", "自＆自＆自", "ATK UP（小）（自/1T）＆ATK UP（小）（自/3T）＆ATK UP（小）（自/5T）");
 
         /**
          * バフデバフ区分.
