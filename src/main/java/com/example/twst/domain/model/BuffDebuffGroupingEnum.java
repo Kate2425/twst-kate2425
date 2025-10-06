@@ -164,9 +164,13 @@ public enum BuffDebuffGroupingEnum {
          */
         ATK_UP_SMALL_SELF_3T("38", "ATK_UP", "3", "小", "自", "ATK UP（小）（自/3T）"),
         /**
-         * "ATK UP（中）（自/3T）.
+         * ATK UP（中）（自/3T）.
          */
         ATK_UP_MEDIUM_SELF_3T("39", "ATK_UP", "3", "中", "自", "ATK UP（中）（自/3T）"),
+        /**
+         * ATK UP（小）（自/5T）
+         */
+        ATK_UP_SMALL_SELF_5T("104", "ATK_UP", "5", "小", "自", "ATK UP（小）（自/5T）"),
         /**
          * ATK UP（小）（味方/1T）.
          */
@@ -424,10 +428,6 @@ public enum BuffDebuffGroupingEnum {
          */
         GUTS_FRIEND_ALL_3T("103", "ガッツ", "3", "-", "味方全体", "ガッツ（味方全体/3T）"),
         /**
-         * ATK UP（小）（自/5T）
-         */
-        ATK_UP_SMALL_SELF_5T("104", "ATK_UP", "5", "小", "自", "ATK UP（小）（自/5T）"),
-        /**
          * 火属性ダメージUP（中）（味方全体/2T）
          */
         FIRE_DAMAGE_UP_MEDIUM_FRIEND_ALL_2T("105", "属性ダメージUP", "2", "中", "味方全体",
@@ -482,6 +482,11 @@ public enum BuffDebuffGroupingEnum {
          */
         HP_RECOVER_SMALL_AND_HP_CONTINUOUS_RECOVER_SMALL_SELF_3T("68 & 71", "HP回復＆HP継続回復（小）", "-＆3",
                         "小＆小", "-＆自", "HP回復（小）＆HP継続回復（小）（自/3T）"),
+        /**
+         * HP回復（小）＆呪い無効（味方/1T）
+         */
+        HP_RECOVER_SMALL_AND_ANNUL_CURSE_FRIEND_1T("68 & 82", "HP回復＆呪い無効", "-＆1", "小＆-", "-＆味方",
+                        "HP回復（小）＆呪い無効（味方/1T）"),
         /** 
          *  HP継続回復（小）（自/3T）＆ダメージDOWN（小）（相手/1T）.
          */
