@@ -3,13 +3,14 @@ package com.example.twst.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -52,26 +53,6 @@ public class CardService {
     }
 
     /**
-     * カウント用メソッド.
-     * 
-     * @return count
-     */
-    public int count() {
-        return dao.countRecord();
-    }
-
-    /**
-     * １件取得.
-     * 
-     * @param name
-     * @return Card
-     */
-    public Card selectOne(String name) {
-        // SQL実行
-        return dao.selectOne(name);
-    }
-
-    /**
      * 全件取得.
      * 
      * @param SearchForm
@@ -84,13 +65,42 @@ public class CardService {
     }
 
     /**
-     * 全テーブルを取得.
-     * 
-     * @param SearchForm
-     * @return List<Card>
-     */
-    public List<Card> selectAll(SearchForm searchForm) {
-        return dao.selectAll(searchForm);
+    * 全テーブルを全取得
+    *   
+    * @param SearchForm
+    * @return resultList
+    */
+    public List<Card> selectAll(SearchForm form) {
+        String[] tableNameArray = form.getTableNameChecks();
+        // 結果返却用のList
+        List<Card> resultList = new ArrayList<>();
+
+        List<List<Card>> allCardList = new ArrayList<>();
+        for (String tableName : tableNameArray) {
+            allCardList.add(selectMany(form, tableName));
+        }
+
+        for (List<Card> tempList : allCardList) {
+            for (Card tempCard : tempList) {
+                getReflectedStatus(tempCard);
+                resultList.add(tempCard);
+            }
+        }
+
+        String sortKey = form.getSort();
+        switch (sortKey) {
+            case "hp" -> resultList = resultList.stream().sorted(Comparator.comparing(Card::getMaxHp).reversed())
+                    .collect(Collectors.toList());
+            case "atk" -> resultList = resultList.stream().sorted(Comparator.comparing(Card::getMaxAtk).reversed())
+                    .collect(Collectors.toList());
+            case "reflectedAtk" ->
+                resultList = resultList.stream().sorted(Comparator.comparing(Card::getReflectedBonusAtk).reversed())
+                        .collect(Collectors.toList());
+            case "reflectedHp" ->
+                resultList = resultList.stream().sorted(Comparator.comparing(Card::getReflectedBonusHp).reversed())
+                        .collect(Collectors.toList());
+        }
+        return resultList;
     }
 
     /**
@@ -98,11 +108,19 @@ public class CardService {
      * 
      * @param CardForm
      * @return 件数
-     * @throws DataAccessException
      */
     public int updateOne(CardForm cardForm) {
         return dao.updateOne(cardForm);
-    };
+    }
+
+    /**
+     * レコードを削除.
+     * @param cardForm
+     * @return 件数
+     */
+    public int deleteOne(CardForm cardForm) {
+        return dao.deleteOne(cardForm);
+    }
 
     /**
      * デュオをカウント.
@@ -252,6 +270,35 @@ public class CardService {
     }
 
     /**
+     * バディボーナス反映後のステータスを取得する.
+     * @param card
+     * @return card
+     */
+    private Card getReflectedStatus(Card card) {
+        BigDecimal reflectedBonusHp = BigDecimal.ZERO;
+        BigDecimal reflectedBonusAtk = BigDecimal.ZERO;
+
+        Map<String, BigDecimal> statusMap = getBuddyBonusPower(card.getBuddy1Effect());
+        reflectedBonusHp = reflectedBonusHp.add(statusMap.get("hpPower"));
+        reflectedBonusAtk = reflectedBonusAtk.add(statusMap.get("atkPower"));
+
+        statusMap = getBuddyBonusPower(card.getBuddy2Effect());
+        reflectedBonusHp = reflectedBonusHp.add(statusMap.get("hpPower"));
+        reflectedBonusAtk = reflectedBonusAtk.add(statusMap.get("atkPower"));
+
+        statusMap = getBuddyBonusPower(card.getBuddy3Effect());
+        reflectedBonusHp = reflectedBonusHp.add(statusMap.get("hpPower"));
+        reflectedBonusAtk = reflectedBonusAtk.add(statusMap.get("atkPower"));
+
+        card.setReflectedBonusHp(
+                card.getMaxHp().multiply(BigDecimal.ONE.add(reflectedBonusHp)).setScale(0, RoundingMode.DOWN));
+        card.setReflectedBonusAtk(
+                card.getMaxAtk().multiply(BigDecimal.ONE.add(reflectedBonusAtk)).setScale(0, RoundingMode.DOWN));
+
+        return card;
+    }
+
+    /**
      * 最大合計HPを取得.
      * 
      * @param cardArray
@@ -333,16 +380,16 @@ public class CardService {
      * @return tempHpArray
      */
     public BigDecimal tempSum(BigDecimal[] hpArray) {
-        BigDecimal reflectedHp = BigDecimal.ZERO;
+        BigDecimal reflectedBonusHp = BigDecimal.ZERO;
 
         for (BigDecimal hp : hpArray) {
             if (hp == null) {
                 continue;
             }
-            reflectedHp = reflectedHp.add(hp);
+            reflectedBonusHp = reflectedBonusHp.add(hp);
         }
 
-        return reflectedHp;
+        return reflectedBonusHp;
     }
 
     /**

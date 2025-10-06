@@ -121,7 +121,7 @@ input:disabled {
   border-radius: 200px;
   border: 1px solid;
   padding: 3px 12px;
-  margin: 10px 0;
+  margin: 10px 5px;
 }
 
 .circle {
@@ -150,6 +150,11 @@ input:disabled {
 
 .light-green {
   background: #5acc6b;
+  color: #fff; /*white*/
+}
+
+.light-salmon{
+  background: #ffa07a;
   color: #fff; /*white*/
 }
 

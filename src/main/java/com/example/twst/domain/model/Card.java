@@ -128,6 +128,16 @@ public class Card implements Cloneable {
     private BuffDebuffGroupingEnum magic3BuffdebuffGrouping;
 
     /**
+     * バディボーナス後HP
+     */
+    private BigDecimal reflectedBonusHp;
+
+    /*
+     * バディボーナス後ATK
+     */
+    private BigDecimal reflectedBonusAtk;
+
+    /**
      * 登録者
      */
     private String registUsr;

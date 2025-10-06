@@ -422,6 +422,11 @@ public enum BuffDebuffGroupingEnum {
         ATK_UP_SMALL_SELF_1T_AND_DAMAGE_DOWN_SMALL_ENEMY_1T("35 & 21", "ATK_UP＆ダメージDOWN", "1＆1", "小＆小",
                         "自＆相手", "ATK UP（小）（自/1T）＆ダメージDOWN（小）（相手/1T）"),
         /**
+         * ATK UP（中）（自/1T）＆ATK DOWN（小）（相手/1T）
+         */
+        ATK_UP_MEDIUM_SELF_1T_AND_ATK_DOWN_SMALL_ENEMY_1T("36 & 2", "ATK_UP＆ATK_DOWN", "1＆1", "小＆小", "自＆相手",
+                        "ATK UP（中）（自/1T）＆ATK DOWN（小）（相手/1T）"),
+        /**
          * "HP回復（小）＆ATK DOWN（小）（相手/1T）.
          */
         HP_RECOVER_SMALL_AND_ATK_DOWN_SMALL_ENEMY_1T("68 & 2", "HP回復＆ATK_DOWN", "1＆1", "小＆小",
@@ -441,15 +446,20 @@ public enum BuffDebuffGroupingEnum {
          */
         HP_RECOVER_SMALL_AND_DAMAGE_UP_SMALL_SELF_1T("68 & 58", "HP回復＆ダメージUP", "-＆1", "小＆小",
                         "-＆相手", "HP回復（小）＆ダメージUP（小）（自/1T）"),
-
         /**
-         * HP継続回復（小）（自/3T）＆ダメージDOWN（小）（相手/1T）.
-          */
+         * HP回復（小）＆HP継続回復（小）（自/3T）
+         */
+        HP_RECOVER_SMALL_AND_HP_CONTINUOUS_RECOVER_SMALL_SELF_3T("68 & 71", "HP回復＆HP継続回復（小）", "-＆3",
+                        "小＆小", "-＆自", "HP回復（小）＆HP継続回復（小）（自/3T）"),
+        /** 
+         *  HP継続回復（小）（自/3T）＆ダメージDOWN（小）（相手/1T）.
+         */
         HP_CONTINUOUS_RECOVER_SMALL_SELF_3T_AND_DAMAGE_DOWN_SMALL_ENEMY_1T("71 & 21", "HP継続回復＆ダメージDOWN",
                         "3＆1", "小＆小", "自＆相手", "HP継続回復（小）（自/3T）＆ダメージDOWN（小）（相手/1T）"),
-
-        /**HP継続復（小）（自/3T）＆ATK UP（小）（自/1T）*/
-        HP_CONTINUOUS_RECOVER_SMALL_SELF_3T_AND_ATK_UP_SMALL_SELF_1T("71 & 35", "HP 継小続小回復＆ATK UP", "3＆1",
+        /** 
+         * HP継続復（小）（自/3T）＆ATK UP（小）（自/1T）
+         */
+        HP_CONTINUOUS_RECOVER_SMALL_SELF_3T_AND_ATK_UP_SMALL_SELF_1T("71 & 35", "HP継続回復＆ATK UP", "3＆1",
                         "小＆小", "自＆自", "HP継続回復（小）（自/3T）＆ATK UP（小）（自/1T）"),
 
         /**
@@ -502,7 +512,11 @@ public enum BuffDebuffGroupingEnum {
          */
         ANNUAL_FREEZE_FRIEND_1T_AND_ATK_UP_MEDIUM_SELF_1T("84 & 36", "凍結無効＆ATK_UP", "1＆1", "-＆中", "味方＆自",
                         "凍結無効（味方/1T）＆ATK UP（中）（自/1T）"),
-
+        /**
+         * 凍結無効（味方/1T）＆ATK UP（小）（味方/1T）
+         */
+        ANNUAL_FREEZE_FRIEND_1T_AND_ATK_UP_SMALL_FRIEND_1T("84 & 40", "凍結無効＆ATK_UP", "1＆1", "-＆小", "味方＆味方",
+                        "凍結無効（味方/1T）＆ATK UP（小）（味方/1T）"),
         /**
          * 暗闇無効（自/1T）＆HP継続回復（小）（自/3T）
          */
@@ -520,8 +534,18 @@ public enum BuffDebuffGroupingEnum {
                         "-＆小", "味方＆相手", "暗闇無効（味方/1T）＆ダメージDOWN（小）（相手/1T）"),
         /**
          * デバフ解除（味方）＆ATK DOWN（小）（相手/1T） */
-        REMOVE_DEBUFF_FRIEND_AND_ATK_DOWN_SMALL_ENEMY_1T("88 & 2", "デバフ解除＆ATK DOWN", "-＆1", "-＆小", "味方＆相手",
+        REMOVE_DEBUFF_FRIEND_AND_ATK_DOWN_SMALL_ENEMY_1T("88 & 2", "デバフ解除＆ATK_DOWN", "-＆1", "-＆小", "味方＆相手",
                         "デバフ解除（味方）＆ATK DOWN（小）（相手/1T）"),
+        /**
+         * デバフ解除（味方）＆ダメージDOWN（小）（相手/1T）
+         */
+        REMOVE_DEBUFF_FRIEND_AND_DAMAGE_DOWN_SMALL_ENEMY_1T("88 & 21", "デバフ解除＆ダメージDOWN", "-＆1", "-＆小", "味方＆相手",
+                        "デバフ解除（味方）＆ダメージDOWN（小）（相手/1T）"),
+        /**
+         * デバフ解除（味方）＆ATK UP（小）（自/1T）
+         */
+        REMOVE_DEBUFF_FRIEND_AND_ATK_UP_SMALL_SELF_1T("88 & 35", "デバフ解除＆ATK_UP", "-＆1", "-＆小", "味方＆自",
+                        "デバフ解除（味方）＆ATK UP（小）（自/1T）"),
         /**
          * 回避（小）（自/1T）＆ATK DOWN（小）（相手/1T）
          */

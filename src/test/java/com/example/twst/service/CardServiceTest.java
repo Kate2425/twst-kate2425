@@ -111,31 +111,6 @@ public class CardServiceTest {
     }
 
     @Test
-    @DisplayName("count")
-    void count() throws Exception {
-        // Arrange
-
-        // Act
-        int result = target.count();
-
-        // Assert
-        assertThat(result, is(0));
-    }
-
-    @Test
-    @DisplayName("selectOne")
-    void selectOne() throws Exception {
-        // Arrange
-        String name = "";
-
-        // Act
-        Card result = target.selectOne(name);
-
-        // Assert
-        assertThat(result, is(nullValue()));
-    }
-
-    @Test
     @DisplayName("selectMany")
     void selectMany() throws Exception {
         // Arrange
@@ -174,8 +149,8 @@ public class CardServiceTest {
     }
 
     @Test
-    @DisplayName("selectAll")
-    void selectAll() throws Exception {
+    @DisplayName("selectAll_atk")
+    void selectAll_01() throws Exception {
         // Arrange
         SearchForm searchForm = new SearchForm();
         String[] tableNameChecks = { "experimental_clothing" };
@@ -209,7 +184,124 @@ public class CardServiceTest {
         List<Card> result = target.selectAll(searchForm);
 
         // Assert
-        assertThat(result.get(0), is(allOf(hasProperty("tableName", is(TableEnum.EXPERIMENTAL_CLOTHING)))));
+        assertThat(result.get(0), is(allOf(hasProperty("id", is("exp_ruggie")))));
+    }
+
+    @Test
+    @DisplayName("selectAll_hp")
+    void selectAll_02() throws Exception {
+        // Arrange
+        SearchForm searchForm = new SearchForm();
+        String[] tableNameChecks = { "experimental_clothing" };
+        searchForm.setTableNameChecks(tableNameChecks);
+        String[] nameParam = {};
+        String[] rareParam = {};
+        String[] typeParam = {};
+        String[] magicParam1 = {};
+        String[] magicParam2 = {};
+        String[] magicParam3 = {};
+        String[] buddyParam = {};
+        String[] duoParam = {};
+        String[] buffDebuffParam1 = {};
+        String[] buffDebuffParam2 = {};
+        String[] buffDebuffParam3 = {};
+        searchForm.setTableNameChecks(tableNameChecks);
+        searchForm.setNameChecks(nameParam);
+        searchForm.setRareChecks(rareParam);
+        searchForm.setTypeChecks(typeParam);
+        searchForm.setMagicChecks1(magicParam1);
+        searchForm.setMagicChecks2(magicParam2);
+        searchForm.setMagicChecks3(magicParam3);
+        searchForm.setBuddyChecks(buddyParam);
+        searchForm.setDuoChecks(duoParam);
+        searchForm.setBuffDebuffChecks1(buffDebuffParam1);
+        searchForm.setBuffDebuffChecks2(buffDebuffParam2);
+        searchForm.setBuffDebuffChecks3(buffDebuffParam3);
+        searchForm.setSort("hp");
+
+        // Act
+        List<Card> result = target.selectAll(searchForm);
+
+        // Assert
+        assertThat(result.get(0), is(allOf(hasProperty("id", is("exp_ace")))));
+    }
+
+    @Test
+    @DisplayName("selectAll_reflectedAtk")
+    void selectAll_03() throws Exception {
+        // Arrange
+        SearchForm searchForm = new SearchForm();
+        String[] tableNameChecks = { "experimental_clothing" };
+        searchForm.setTableNameChecks(tableNameChecks);
+        String[] nameParam = {};
+        String[] rareParam = {};
+        String[] typeParam = {};
+        String[] magicParam1 = {};
+        String[] magicParam2 = {};
+        String[] magicParam3 = {};
+        String[] buddyParam = {};
+        String[] duoParam = {};
+        String[] buffDebuffParam1 = {};
+        String[] buffDebuffParam2 = {};
+        String[] buffDebuffParam3 = {};
+        searchForm.setTableNameChecks(tableNameChecks);
+        searchForm.setNameChecks(nameParam);
+        searchForm.setRareChecks(rareParam);
+        searchForm.setTypeChecks(typeParam);
+        searchForm.setMagicChecks1(magicParam1);
+        searchForm.setMagicChecks2(magicParam2);
+        searchForm.setMagicChecks3(magicParam3);
+        searchForm.setBuddyChecks(buddyParam);
+        searchForm.setDuoChecks(duoParam);
+        searchForm.setBuffDebuffChecks1(buffDebuffParam1);
+        searchForm.setBuffDebuffChecks2(buffDebuffParam2);
+        searchForm.setBuffDebuffChecks3(buffDebuffParam3);
+        searchForm.setSort("reflectedAtk");
+
+        // Act
+        List<Card> result = target.selectAll(searchForm);
+
+        // Assert
+        assertThat(result.get(0), is(allOf(hasProperty("id", is("exp_sebek")))));
+    }
+
+    @Test
+    @DisplayName("selectAll_reflectedHp")
+    void selectAll_04() throws Exception {
+        // Arrange
+        SearchForm searchForm = new SearchForm();
+        String[] tableNameChecks = { "experimental_clothing" };
+        searchForm.setTableNameChecks(tableNameChecks);
+        String[] nameParam = {};
+        String[] rareParam = {};
+        String[] typeParam = {};
+        String[] magicParam1 = {};
+        String[] magicParam2 = {};
+        String[] magicParam3 = {};
+        String[] buddyParam = {};
+        String[] duoParam = {};
+        String[] buffDebuffParam1 = {};
+        String[] buffDebuffParam2 = {};
+        String[] buffDebuffParam3 = {};
+        searchForm.setTableNameChecks(tableNameChecks);
+        searchForm.setNameChecks(nameParam);
+        searchForm.setRareChecks(rareParam);
+        searchForm.setTypeChecks(typeParam);
+        searchForm.setMagicChecks1(magicParam1);
+        searchForm.setMagicChecks2(magicParam2);
+        searchForm.setMagicChecks3(magicParam3);
+        searchForm.setBuddyChecks(buddyParam);
+        searchForm.setDuoChecks(duoParam);
+        searchForm.setBuffDebuffChecks1(buffDebuffParam1);
+        searchForm.setBuffDebuffChecks2(buffDebuffParam2);
+        searchForm.setBuffDebuffChecks3(buffDebuffParam3);
+        searchForm.setSort("reflectedHp");
+
+        // Act
+        List<Card> result = target.selectAll(searchForm);
+
+        // Assert
+        assertThat(result.get(0), is(allOf(hasProperty("id", is("exp_ace")))));
     }
 
     @Test
@@ -245,6 +337,37 @@ public class CardServiceTest {
 
         // Assert
         assertThat(result, is(1));
+    }
+
+    @Test
+    @DisplayName("deleteOne")
+    void deleteOne() throws Exception {
+        // Arrange
+        CardForm cardForm = new CardForm();
+        cardForm.setTableName(TableEnum.ROLL_PLAYING_BRIDEGROOM);
+        cardForm.setRare("R");
+        cardForm.setType("ATTACK");
+        cardForm.setName(CharacterEnum.ROOK);
+        cardForm.setBuddy1(CharacterEnum.ORTHO);
+        cardForm.setBuddy2(CharacterEnum.HYPHEN);
+        cardForm.setBuddy3(CharacterEnum.HYPHEN);
+        cardForm.setMagic1(MagicGroupingEnum.FIRE_SHOT);
+        cardForm.setMagic2(MagicGroupingEnum.FIRE_SHOT2);
+        cardForm.setMagic3(MagicGroupingEnum.HYPHEN);
+        cardForm.setMagic1BuffdebuffGrouping(BuffDebuffGroupingEnum.DAMAGE_UP_SMALL_SELF_1T);
+        cardForm.setMagic2BuffdebuffGrouping(BuffDebuffGroupingEnum.ATK_DOWN_MINIMUM_ENEMY_1T);
+        cardForm.setMagic3BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
+        cardForm.setDuo(CharacterEnum.HYPHEN);
+        cardForm.setMinHp(BigDecimal.valueOf(0123));
+        cardForm.setMinAtk(BigDecimal.valueOf(1234));
+        cardForm.setMaxHp(BigDecimal.valueOf(2345));
+        cardForm.setMaxAtk(BigDecimal.valueOf(3456));
+
+        // Act
+        int count = target.deleteOne(cardForm);
+
+        // Assert
+        assertThat(count, is(1));
     }
 
     @Test

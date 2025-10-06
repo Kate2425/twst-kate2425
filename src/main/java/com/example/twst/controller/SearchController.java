@@ -40,6 +40,8 @@ public class SearchController {
         {
             put("ATK", "atk");
             put("HP", "hp");
+            put("バディ最大ATK", "reflectedAtk");
+            put("バディ最大HP", "reflectedHp");
         }
     });
 

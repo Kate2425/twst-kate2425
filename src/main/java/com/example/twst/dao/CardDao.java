@@ -11,14 +11,6 @@ import com.example.twst.form.SearchForm;
 public interface CardDao {
 
     /**
-     * テーブルの件数を取得.
-     * 
-     * @return 件数
-     * @throws DataAccessException
-     */
-    public int countRecord() throws DataAccessException;
-
-    /**
      * テーブルにデータを1件insert.
      * 
      * @param Card
@@ -26,15 +18,6 @@ public interface CardDao {
      * @throws DataAccessException
      */
     public int insertOne(CardForm cardForm) throws DataAccessException;
-
-    /**
-     * テーブルのデータを１件取得
-     * 
-     * @param name
-     * @return Card
-     * @throws DataAccessException
-     */
-    public Card selectOne(String name) throws DataAccessException;
 
     /**
      * テーブルの全データを取得.
@@ -45,15 +28,6 @@ public interface CardDao {
      * @throws DataAccessException
      */
     public List<Card> selectMany(SearchForm form, String tableName) throws DataAccessException;
-
-    /**
-     * 全テーブルを全取得.
-     * 
-     * @param SearchForm
-     * @return List<Card>
-     * @throws DataAccessException
-     */
-    List<Card> selectAll(SearchForm form) throws DataAccessException;
 
     /**
      * テーブルを１件更新.
@@ -71,7 +45,7 @@ public interface CardDao {
      * @return 件数
      * @throws DataAccessException
      */
-    public int deleteOne(String id) throws DataAccessException;
+    public int deleteOne(CardForm cardForm) throws DataAccessException;
 
     /**
      * SQL取得結果をサーバーにCSVで保存する

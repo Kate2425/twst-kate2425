@@ -31,21 +31,9 @@ import com.example.twst.form.SearchForm;
 @Repository("CardDaoJdbcImpl")
 public class CardDaoJdbcImpl implements CardDao {
 
-    @Autowired
     private NamedParameterJdbcTemplate jdbc;
 
-    /**
-     * テーブルの件数を取得.
-     * 
-     * @return count
-     */
-    @Override
-    public int countRecord() {
-        int count = 0;
-        return count;
-    }
-
-    /**
+    /** 
      * Cardテーブルにデータを1件insert.
      * 
      * @param Card
@@ -111,7 +99,9 @@ public class CardDaoJdbcImpl implements CardDao {
                 + ", :magic3_buffdebuff_grouping)";
 
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("id", tableName.substring(0, 3) + "_" + cardForm.getName().getCharacterName().toLowerCase())
+                .addValue("id",
+                        TableEnum.getIdOfCharacterName(tableName) + "_"
+                                + cardForm.getName().getCharacterName().toLowerCase())
                 .addValue("name", cardForm.getName().getCharacterName())
                 .addValue("rare", cardForm.getRare())
                 .addValue("type", cardForm.getType())
@@ -142,18 +132,7 @@ public class CardDaoJdbcImpl implements CardDao {
         return jdbc.update(sql, params);
     }
 
-    /**
-     * テーブルのデータを１件取得
-     * 
-     * @param name
-     * @return Card
-     */
-    @Override
-    public Card selectOne(String name) {
-        return null;
-    }
-
-    /**
+    /** 
      * テーブルの全データを取得.
      * 
      * @param searchForm
@@ -226,8 +205,9 @@ public class CardDaoJdbcImpl implements CardDao {
         Set<String> types = new HashSet<>();
         if (typeParam.length != 0) {
             types = getParam(typeParam);
-            // nameかつrareが未指定の場合
-            if ((nameParam.length == 0) && (rareParam.length == 0)) {
+            // name、rareが未指定の場合
+            if ((nameParam.length == 0)
+                    && (rareParam.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
@@ -241,7 +221,9 @@ public class CardDaoJdbcImpl implements CardDao {
             Integer[] magicGroupingArray1 = MagicGroupingEnum.getMagicTypeArray(magicParam1);
             magics1 = getIntParam(magicGroupingArray1);
             // name、rare、typeの全てが未指定の場合
-            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)) {
+            if ((nameParam.length == 0)
+                    && (rareParam.length == 0)
+                    && (typeParam.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
@@ -258,8 +240,10 @@ public class CardDaoJdbcImpl implements CardDao {
         if (magicParam2.length != 0) {
             Integer[] magicGroupingArray2 = MagicGroupingEnum.getMagicTypeArray(magicParam2);
             magics2 = getIntParam(magicGroupingArray2);
-            // name、rare、typeの全てが未指定の場合
-            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
+            // name、rare、type、magic1の全てが未指定の場合
+            if ((nameParam.length == 0)
+                    && (rareParam.length == 0)
+                    && (typeParam.length == 0)
                     && (magicParam1.length == 0)) {
                 sql += " WHERE";
             } else {
@@ -277,9 +261,12 @@ public class CardDaoJdbcImpl implements CardDao {
         if (magicParam3.length != 0) {
             Integer[] magicGroupingArray3 = MagicGroupingEnum.getMagicTypeArray(magicParam3);
             magics3 = getIntParam(magicGroupingArray3);
-            // name、rare、typeの全てが未指定の場合
-            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
-                    && (magicParam1.length == 0) && (magicParam2.length == 0)) {
+            // name、rare、type、magic1、magic2の全てが未指定の場合
+            if ((nameParam.length == 0)
+                    && (rareParam.length == 0)
+                    && (typeParam.length == 0)
+                    && (magicParam1.length == 0)
+                    && (magicParam2.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
@@ -295,9 +282,13 @@ public class CardDaoJdbcImpl implements CardDao {
         Set<String> buddies = new HashSet<>();
         if (buddyParam.length != 0) {
             buddies = getParam(buddyParam);
-            // name、rare、type、magicの全てが未指定の場合
-            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
-                    && (magicParam1.length == 0) && (magicParam2.length == 0) && (magicParam3.length == 0)) {
+            // name、rare、type、magic1、magic2、magic3の全てが未指定の場合
+            if ((nameParam.length == 0)
+                    && (rareParam.length == 0)
+                    && (typeParam.length == 0)
+                    && (magicParam1.length == 0)
+                    && (magicParam2.length == 0)
+                    && (magicParam3.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
@@ -311,9 +302,13 @@ public class CardDaoJdbcImpl implements CardDao {
         Set<String> duos = new HashSet<>();
         if (duoParam.length != 0) {
             duos = getParam(duoParam);
-            // name、rare、type、magic、buddyの全てが未指定の場合
-            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
-                    && (magicParam1.length == 0) && (magicParam2.length == 0) && (magicParam3.length == 0)
+            // name、rare、type、magic1、magic2、magic3、buddyの全てが未指定の場合
+            if ((nameParam.length == 0)
+                    && (rareParam.length == 0)
+                    && (typeParam.length == 0)
+                    && (magicParam1.length == 0)
+                    && (magicParam2.length == 0)
+                    && (magicParam3.length == 0)
                     && (buddyParam.length == 0)) {
                 sql += " WHERE";
             } else {
@@ -327,10 +322,15 @@ public class CardDaoJdbcImpl implements CardDao {
         if (buffDebuffParam1.length != 0) {
             String[] buffDebuffGroupingArray1 = BuffDebuffGroupingEnum.getTypeArray(buffDebuffParam1);
             buffDebuff1 = getParam(buffDebuffGroupingArray1);
-            // name、rare、typeの全てが未指定の場合
-            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
-                    && (magicParam1.length == 0) && (magicParam2.length == 0) && (magicParam3.length == 0)
-                    && (buddyParam.length == 0) && (duoParam.length == 0)) {
+            // name、rare、type、magic1、magic2、magic3、buddy、duoの全てが未指定の場合
+            if ((nameParam.length == 0)
+                    && (rareParam.length == 0)
+                    && (typeParam.length == 0)
+                    && (magicParam1.length == 0)
+                    && (magicParam2.length == 0)
+                    && (magicParam3.length == 0)
+                    && (buddyParam.length == 0)
+                    && (duoParam.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
@@ -343,10 +343,14 @@ public class CardDaoJdbcImpl implements CardDao {
         if (buffDebuffParam2.length != 0) {
             String[] buffDebuffGroupingArray2 = BuffDebuffGroupingEnum.getTypeArray(buffDebuffParam2);
             buffDebuff2 = getParam(buffDebuffGroupingArray2);
-            // name、rare、typeの全てが未指定の場合
-            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
-                    && (magicParam1.length == 0) && (magicParam2.length == 0)
-                    && (buddyParam.length == 0) && (buffDebuffParam1.length == 0)) {
+            // name、rare、type、magic1、magic2、magic3、buddy、duo、buffDebuff1の全てが未指定の場合
+            if ((nameParam.length == 0)
+                    && (rareParam.length == 0)
+                    && (typeParam.length == 0)
+                    && (magicParam1.length == 0)
+                    && (magicParam2.length == 0)
+                    && (buddyParam.length == 0)
+                    && (buffDebuffParam1.length == 0)) {
                 sql += " WHERE";
             } else {
                 sql += " AND";
@@ -359,10 +363,15 @@ public class CardDaoJdbcImpl implements CardDao {
         if (buffDebuffParam3.length != 0) {
             String[] buffDebuffGroupingArray3 = BuffDebuffGroupingEnum.getTypeArray(buffDebuffParam3);
             buffDebuff3 = getParam(buffDebuffGroupingArray3);
-            // name、rare、typeの全てが未指定の場合
-            if ((nameParam.length == 0) && (rareParam.length == 0) && (typeParam.length == 0)
-                    && (magicParam1.length == 0) && (magicParam2.length == 0) && (magicParam3.length == 0)
-                    && (buddyParam.length == 0) && (duoParam.length == 0)
+            // name、rare、type、magic1、magic2、magic3、buddy、duo、buffDebuff1、buffDebuff2の全てが未指定の場合
+            if ((nameParam.length == 0)
+                    && (rareParam.length == 0)
+                    && (typeParam.length == 0)
+                    && (magicParam1.length == 0)
+                    && (magicParam2.length == 0)
+                    && (magicParam3.length == 0)
+                    && (buddyParam.length == 0)
+                    && (duoParam.length == 0)
                     && (buffDebuffParam1.length == 0)) {
                 sql += " WHERE";
             } else {
@@ -469,6 +478,7 @@ public class CardDaoJdbcImpl implements CardDao {
             card.setMinAtk((BigDecimal) map.get("min_atk"));// 初期ATK
             card.setMaxHp((BigDecimal) map.get("max_hp"));// 最大HP
             card.setMaxAtk((BigDecimal) map.get("max_atk"));// 最大ATK
+
             card.setValidFlg((boolean) map.get("valid_flg"));// 有効フラグ
 
             // 結果返却用のListに追加
@@ -476,40 +486,6 @@ public class CardDaoJdbcImpl implements CardDao {
         }
         cardList = cardList.stream().sorted(Comparator.comparing(Card::getNum)).collect(Collectors.toList());
         return cardList;
-    }
-
-    /**
-     * 全テーブルを全取得
-     * 
-     * @param SearchForm
-     * @return resultList
-     */
-    @Override
-    public List<Card> selectAll(SearchForm form) {
-        String[] tableNameArray = form.getTableNameChecks();
-
-        // 結果返却用のList
-        List<Card> resultList = new ArrayList<>();
-
-        List<List<Card>> allCardList = new ArrayList<>();
-        for (String tableName : tableNameArray) {
-            allCardList.add(selectMany(form, tableName));
-        }
-
-        for (List<Card> tempList : allCardList) {
-            for (Card tempCard : tempList) {
-                resultList.add(tempCard);
-            }
-        }
-
-        if (form.getSort().equals("hp")) {
-            resultList = resultList.stream().sorted(Comparator.comparing(Card::getMaxHp).reversed())
-                    .collect(Collectors.toList());
-        } else {
-            resultList = resultList.stream().sorted(Comparator.comparing(Card::getMaxAtk).reversed())
-                    .collect(Collectors.toList());
-        }
-        return resultList;
     }
 
     /**
@@ -567,7 +543,6 @@ public class CardDaoJdbcImpl implements CardDao {
 
         // SQL実行
         return jdbc.update(sql, params);
-
     }
 
     /**
@@ -578,9 +553,18 @@ public class CardDaoJdbcImpl implements CardDao {
      * @throws DataAccessException
      */
     @Override
-    public int deleteOne(String cardId) throws DataAccessException {
-        int count = 0;
-        return count;
+    public int deleteOne(CardForm cardForm) throws DataAccessException {
+        String tableName = cardForm.getTableName().getCharacterName();
+
+        // SQL
+        String sql = "DELETE FROM " + tableName
+                + " WHERE name = :name";
+
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("name", cardForm.getName().getCharacterName());
+
+        // SQL実行
+        return jdbc.update(sql, params);
     }
 
     /**
@@ -617,32 +601,32 @@ public class CardDaoJdbcImpl implements CardDao {
     }
 
     /**
-     * idを取得
+     * clothingNameを取得
      * 
      * @param tableName
      * @param name
-     * @return id
+     * @return clothingName
      */
     private String getClothingName(String tableName, String name) {
-        String id = tableName;
+        String clothingName = tableName;
 
         switch (name) {
-            case "Rollo" -> id = "会長服";
-            case "Ortho" -> id = getOrthoId(tableName);
-            case "Crowley" -> id = "レイブンジャケット";
-            case "Crewel" -> id = "リッチファーコート";
-            case "Trein" -> id = "ストリクトスーツ";
+            case "Rollo" -> clothingName = "会長服";
+            case "Ortho" -> clothingName = getOrthoId(tableName);
+            case "Crowley" -> clothingName = "レイブンジャケット";
+            case "Crewel" -> clothingName = "リッチファーコート";
+            case "Trein" -> clothingName = "ストリクトスーツ";
+            case "Vargas" -> clothingName = "ハンサムジャージ";
             default -> {
                 TableEnum tableObject = EnumUtils.getViewName(TableEnum.class, tableName);
-                if (id.equals("seventh_chapter")) {
-                    id = getSeventhChapter(name);
-                } else {
-                    id = tableObject.getViewName();
+                switch (clothingName) {
+                    case "seventh_chapter" -> clothingName = getSeventhChapter(name);
+                    case "over_blot" -> clothingName = getOverBlot(name);
+                    default -> clothingName = tableObject.getViewName();
                 }
             }
         }
-
-        return id;
+        return clothingName;
     }
 
     /**
@@ -663,7 +647,6 @@ public class CardDaoJdbcImpl implements CardDao {
             case "Cater" -> name = "トリッキングジャケット";
             case "Trey" -> name = "クイーンズシェフコート";
             case "Silver" -> name = "夜明けの甲冑";
-            case "Malleus" -> name = "深淵の支配者";
         }
         return name;
     }
@@ -698,4 +681,26 @@ public class CardDaoJdbcImpl implements CardDao {
         }
         return idName;
     }
+
+    /**
+     * オーバーブロットのidNameを取得.
+     * 
+     * @param name
+     * @return name
+     */
+    private String getOverBlot(String name) {
+        switch (name) {
+            case "Malleus" -> name = "深淵の支配者";
+            case "Idea" -> name = "冥府の番人";
+            case "Vil" -> name = "美貌の圧制者";
+            case "Jamil" -> name = "熱砂の策謀家";
+        }
+        return name;
+    }
+
+    @Autowired
+    public void setJdbc(NamedParameterJdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+    }
+
 }
