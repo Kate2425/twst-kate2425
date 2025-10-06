@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+table td {
+  width: 70px;
+}
+
+#tableName {
+  width: 70px;
+}
+
+.textbox {
+  width: 5rem;
+  padding: 2px 3px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  box-sizing: border-box;
+  font-size: 1.4rem;
+}
+
+.selectbox {
+  width: 6rem;
+  padding: 2px 3px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  box-sizing: border-box;
+  font-size: 1.4rem;
+}
+
+.name {
+  width: 12rem;
+}
+
+.type {
+  width: 10rem;
+}
+
+.magic {
+  width: 19rem;
+}
+
+.valid {
+  width: 8rem;
+}
+
+.buddyGrouping {
+  width: 14rem;
+}
+
+.buffDebuffGrouping{
+  width:43rem;
+}
