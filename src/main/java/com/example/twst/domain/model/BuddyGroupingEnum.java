@@ -56,6 +56,20 @@ public enum BuddyGroupingEnum {
     }
 
     /**
+     * buddyGroupingからEnumを取得する.
+     * @param buddyGrouping
+     * @return BuddyGroupingEnum
+     */
+    public static BuddyGroupingEnum getValueOfBuddyGrouping(int buddyGrouping) {
+        for (BuddyGroupingEnum buddyGroupingEnum : BuddyGroupingEnum.values()) {
+            if (buddyGroupingEnum.getBuddyGrouping() == buddyGrouping) {
+                return buddyGroupingEnum;
+            }
+        }
+        return HYPHEN;
+    }
+
+    /**
      * constructor
      * 
      * @param buddyGrouping

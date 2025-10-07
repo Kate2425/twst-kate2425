@@ -3,7 +3,7 @@ package com.example.twst.form;
 import java.io.Serializable;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
-
+import com.example.twst.domain.model.BuddyGroupingEnum;
 import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.CharacterEnum;
 import com.example.twst.domain.model.MagicGroupingEnum;
@@ -110,34 +110,19 @@ public class CardForm implements Serializable {
     private boolean validFlg;
 
     /**
-     * バディ１効果
-     */
-    private String buddy1Effect;
-
-    /**
-     * バディ２効果
-     */
-    private String buddy2Effect;
-
-    /**
-     * バディ３効果
-     */
-    private String buddy3Effect;
-
-    /**
      * バディ１区分
      */
-    private String buddy1Grouping;
+    private BuddyGroupingEnum buddy1Grouping;
 
     /**
      * バディ２区分
      */
-    private String buddy2Grouping;
+    private BuddyGroupingEnum buddy2Grouping;
 
     /**
      * バディ３区分
      */
-    private String buddy3Grouping;
+    private BuddyGroupingEnum buddy3Grouping;
 
     /**
      * マジック１バフ区分

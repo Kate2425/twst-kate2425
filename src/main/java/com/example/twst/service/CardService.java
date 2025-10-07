@@ -42,8 +42,9 @@ public class CardService {
 
         try {
             // insert実行
-            dao.insertOne(cardForm);
-            result = true;
+            if (dao.insertOne(cardForm) == 1) {
+                result = true;
+            }
         } catch (DuplicateKeyException e) {
             throw new DuplicateKeyException(
                     cardForm.getTableName().getViewName() + " に" + cardForm.getName().getViewName() + " はすでに存在します。");
@@ -109,8 +110,15 @@ public class CardService {
      * @param CardForm
      * @return 件数
      */
-    public int updateOne(CardForm cardForm) {
-        return dao.updateOne(cardForm);
+    public boolean updateOne(CardForm cardForm) {
+        // 判定用変数
+        boolean result = false;
+
+        // update実行
+        if (dao.updateOne(cardForm) == 1) {
+            result = true;
+        }
+        return result;
     }
 
     /**
@@ -118,8 +126,15 @@ public class CardService {
      * @param cardForm
      * @return 件数
      */
-    public int deleteOne(CardForm cardForm) {
-        return dao.deleteOne(cardForm);
+    public boolean deleteOne(CardForm cardForm) {
+        // 判定用変数
+        boolean result = false;
+
+        // delete実行
+        if (dao.deleteOne(cardForm) == 1) {
+            result = true;
+        }
+        return result;
     }
 
     /**
@@ -197,19 +212,19 @@ public class CardService {
 
                 // ループ中のnameとbuddyが一致する場合、カウントしてlistに追加
                 if (name.equals(cardArray[i].getBuddy1().getCharacterName())) {
-                    statusMap = getBuddyBonusPower(cardArray[i].getBuddy1Effect());
+                    statusMap = getBuddyBonusPower(cardArray[i].getBuddy1Grouping().getEffect());
                     buddyBonusPowerHp = buddyBonusPowerHp.add(statusMap.get("hpPower"));
                     buddyBonusPowerAtk = buddyBonusPowerAtk.add(statusMap.get("atkPower"));
                     buddyCount++;
                     buddyList.add(name);
                 } else if (name.equals(cardArray[i].getBuddy2().getCharacterName())) {
-                    statusMap = getBuddyBonusPower(cardArray[i].getBuddy2Effect());
+                    statusMap = getBuddyBonusPower(cardArray[i].getBuddy2Grouping().getEffect());
                     buddyBonusPowerHp = buddyBonusPowerHp.add(statusMap.get("hpPower"));
                     buddyBonusPowerAtk = buddyBonusPowerAtk.add(statusMap.get("atkPower"));
                     buddyCount++;
                     buddyList.add(name);
                 } else if (name.equals(cardArray[i].getBuddy3().getCharacterName())) {
-                    statusMap = getBuddyBonusPower(cardArray[i].getBuddy3Effect());
+                    statusMap = getBuddyBonusPower(cardArray[i].getBuddy3Grouping().getEffect());
                     buddyBonusPowerHp = buddyBonusPowerHp.add(statusMap.get("hpPower"));
                     buddyBonusPowerAtk = buddyBonusPowerAtk.add(statusMap.get("atkPower"));
                     buddyCount++;
@@ -278,15 +293,15 @@ public class CardService {
         BigDecimal reflectedBonusHp = BigDecimal.ZERO;
         BigDecimal reflectedBonusAtk = BigDecimal.ZERO;
 
-        Map<String, BigDecimal> statusMap = getBuddyBonusPower(card.getBuddy1Effect());
+        Map<String, BigDecimal> statusMap = getBuddyBonusPower(card.getBuddy1Grouping().getEffect());
         reflectedBonusHp = reflectedBonusHp.add(statusMap.get("hpPower"));
         reflectedBonusAtk = reflectedBonusAtk.add(statusMap.get("atkPower"));
 
-        statusMap = getBuddyBonusPower(card.getBuddy2Effect());
+        statusMap = getBuddyBonusPower(card.getBuddy2Grouping().getEffect());
         reflectedBonusHp = reflectedBonusHp.add(statusMap.get("hpPower"));
         reflectedBonusAtk = reflectedBonusAtk.add(statusMap.get("atkPower"));
 
-        statusMap = getBuddyBonusPower(card.getBuddy3Effect());
+        statusMap = getBuddyBonusPower(card.getBuddy3Grouping().getEffect());
         reflectedBonusHp = reflectedBonusHp.add(statusMap.get("hpPower"));
         reflectedBonusAtk = reflectedBonusAtk.add(statusMap.get("atkPower"));
 

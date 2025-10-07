@@ -215,9 +215,9 @@ public class OrganizeController {
         card.setMagic1BuffdebuffGrouping(cardForm.getMagic1BuffdebuffGrouping());
         card.setMagic2BuffdebuffGrouping(cardForm.getMagic2BuffdebuffGrouping());
         card.setMagic3BuffdebuffGrouping(cardForm.getMagic3BuffdebuffGrouping());
-        card.setBuddy1Effect(cardForm.getBuddy1Effect());
-        card.setBuddy2Effect(cardForm.getBuddy2Effect());
-        card.setBuddy3Effect(cardForm.getBuddy3Effect());
+        card.setBuddy1Grouping(cardForm.getBuddy1Grouping());
+        card.setBuddy2Grouping(cardForm.getBuddy2Grouping());
+        card.setBuddy3Grouping(cardForm.getBuddy3Grouping());
         card.setMagic1(cardForm.getMagic1());
         card.setMagic2(cardForm.getMagic2());
         card.setMagic3(cardForm.getMagic3());

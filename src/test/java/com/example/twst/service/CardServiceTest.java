@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.twst.domain.model.BuddyGroupingEnum;
 import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.TableEnum;
@@ -60,9 +61,9 @@ public class CardServiceTest {
         cardForm.setMaxHp(BigDecimal.ZERO);
         cardForm.setMaxAtk(BigDecimal.ZERO);
         cardForm.setValidFlg(false);
-        cardForm.setBuddy1Grouping("1");
-        cardForm.setBuddy2Grouping("0");
-        cardForm.setBuddy3Grouping("0");
+        cardForm.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_SMALL);
+        cardForm.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
+        cardForm.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
         cardForm.setMagic1BuffdebuffGrouping(BuffDebuffGroupingEnum.ATK_DOWN_MINIMUM_ENEMY_1T);
         cardForm.setMagic2BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
         cardForm.setMagic3BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
@@ -95,9 +96,9 @@ public class CardServiceTest {
         cardForm.setMaxHp(BigDecimal.ZERO);
         cardForm.setMaxAtk(BigDecimal.ZERO);
         cardForm.setValidFlg(false);
-        cardForm.setBuddy1Grouping("1");
-        cardForm.setBuddy2Grouping("0");
-        cardForm.setBuddy3Grouping("0");
+        cardForm.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_SMALL);
+        cardForm.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
+        cardForm.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
         cardForm.setMagic1BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
         cardForm.setMagic2BuffdebuffGrouping(BuffDebuffGroupingEnum.ATK_DOWN_SMALL_ENEMY_1T);
         cardForm.setMagic3BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
@@ -325,18 +326,18 @@ public class CardServiceTest {
         cardForm.setMaxHp(BigDecimal.ZERO);
         cardForm.setMaxAtk(BigDecimal.ZERO);
         cardForm.setValidFlg(false);
-        cardForm.setBuddy1Grouping("1");
-        cardForm.setBuddy2Grouping("0");
-        cardForm.setBuddy3Grouping("0");
+        cardForm.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_SMALL);
+        cardForm.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
+        cardForm.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
         cardForm.setMagic1BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
         cardForm.setMagic2BuffdebuffGrouping(BuffDebuffGroupingEnum.ATK_DOWN_SMALL_ENEMY_1T);
         cardForm.setMagic3BuffdebuffGrouping(BuffDebuffGroupingEnum.HYPHEN);
 
         // Act
-        int result = target.updateOne(cardForm);
+        boolean result = target.updateOne(cardForm);
 
         // Assert
-        assertThat(result, is(1));
+        assertThat(result, is(true));
     }
 
     @Test
@@ -364,10 +365,10 @@ public class CardServiceTest {
         cardForm.setMaxAtk(BigDecimal.valueOf(3456));
 
         // Act
-        int count = target.deleteOne(cardForm);
+        boolean result = target.deleteOne(cardForm);
 
         // Assert
-        assertThat(count, is(1));
+        assertThat(result, is(true));
     }
 
     @Test
@@ -401,55 +402,55 @@ public class CardServiceTest {
         Card cardA = new Card();
         cardA.setName(CharacterEnum.DEUCE);
         cardA.setBuddy1(CharacterEnum.CATER);
-        cardA.setBuddy1Effect("HP UP(小)");
+        cardA.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_SMALL);
         cardA.setBuddy2(CharacterEnum.HYPHEN);
-        cardA.setBuddy2Effect("-");
+        cardA.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
         cardA.setBuddy3(CharacterEnum.HYPHEN);
-        cardA.setBuddy3Effect("-");
+        cardA.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
         cardA.setMaxHp(BigDecimal.valueOf(1000));
         cardA.setMaxAtk(BigDecimal.valueOf(1000));
 
         Card cardB = new Card();
         cardB.setName(CharacterEnum.CATER);
         cardB.setBuddy1(CharacterEnum.HYPHEN);
-        cardB.setBuddy1Effect("-");
+        cardB.setBuddy1Grouping(BuddyGroupingEnum.HYPHEN);
         cardB.setBuddy2(CharacterEnum.TREY);
-        cardB.setBuddy2Effect("HP UP(中)");
+        cardB.setBuddy2Grouping(BuddyGroupingEnum.HP_UP_MIDDLE);
         cardB.setBuddy3(CharacterEnum.HYPHEN);
-        cardB.setBuddy3Effect("-");
+        cardB.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
         cardB.setMaxHp(BigDecimal.valueOf(2000));
         cardB.setMaxAtk(BigDecimal.valueOf(2000));
 
         Card cardC = new Card();
         cardC.setName(CharacterEnum.TREY);
         cardC.setBuddy1(CharacterEnum.HYPHEN);
-        cardC.setBuddy1Effect("-");
+        cardC.setBuddy1Grouping(BuddyGroupingEnum.HYPHEN);
         cardC.setBuddy2(CharacterEnum.HYPHEN);
-        cardC.setBuddy2Effect("-");
+        cardC.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
         cardC.setBuddy3(CharacterEnum.LEONA);
-        cardC.setBuddy3Effect("ATK UP(小)");
+        cardC.setBuddy3Grouping(BuddyGroupingEnum.HP_UP_MIDDLE);
         cardC.setMaxHp(BigDecimal.valueOf(3000));
         cardC.setMaxAtk(BigDecimal.valueOf(3000));
 
         Card cardD = new Card();
         cardD.setName(CharacterEnum.LEONA);
         cardD.setBuddy1(CharacterEnum.RUGGIE);
-        cardD.setBuddy1Effect("ATK UP(中)");
+        cardD.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_MIDDLE);
         cardD.setBuddy2(CharacterEnum.HYPHEN);
-        cardD.setBuddy2Effect("-");
+        cardD.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
         cardD.setBuddy3(CharacterEnum.HYPHEN);
-        cardD.setBuddy3Effect("-");
+        cardD.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
         cardD.setMaxHp(BigDecimal.valueOf(4000));
         cardD.setMaxAtk(BigDecimal.valueOf(4000));
 
         Card cardE = new Card();
         cardE.setName(CharacterEnum.RUGGIE);
         cardE.setBuddy1(CharacterEnum.HYPHEN);
-        cardE.setBuddy1Effect("-");
+        cardE.setBuddy1Grouping(BuddyGroupingEnum.HYPHEN);
         cardE.setBuddy2(CharacterEnum.DEUCE);
-        cardE.setBuddy2Effect("HP&ATK UP(小)");
+        cardE.setBuddy2Grouping(BuddyGroupingEnum.HP_AND_ATK_UP_SMALL);
         cardE.setBuddy3(CharacterEnum.HYPHEN);
-        cardE.setBuddy3Effect("-");
+        cardE.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
         cardE.setMaxHp(BigDecimal.valueOf(5000));
         cardE.setMaxAtk(BigDecimal.valueOf(5000));
 
@@ -491,44 +492,44 @@ public class CardServiceTest {
         Card cardA = new Card();
         cardA.setName(CharacterEnum.DEUCE);
         cardA.setBuddy1(CharacterEnum.CATER);
-        cardA.setBuddy1Effect("HP UP(小)");
+        cardA.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_SMALL);
         cardA.setBuddy2(CharacterEnum.HYPHEN);
-        cardA.setBuddy2Effect("-");
+        cardA.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
         cardA.setBuddy3(CharacterEnum.HYPHEN);
-        cardA.setBuddy3Effect("-");
+        cardA.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
         cardA.setMaxHp(BigDecimal.valueOf(1000));
         cardA.setMaxAtk(BigDecimal.valueOf(1000));
 
         Card cardC = new Card();
         cardC.setName(CharacterEnum.TREY);
         cardC.setBuddy1(CharacterEnum.HYPHEN);
-        cardC.setBuddy1Effect("-");
+        cardC.setBuddy1Grouping(BuddyGroupingEnum.HYPHEN);
         cardC.setBuddy2(CharacterEnum.HYPHEN);
-        cardC.setBuddy2Effect("-");
+        cardC.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
         cardC.setBuddy3(CharacterEnum.LEONA);
-        cardC.setBuddy3Effect("ATK UP(小)");
+        cardC.setBuddy3Grouping(BuddyGroupingEnum.ATK_UP_SMALL);
         cardC.setMaxHp(BigDecimal.valueOf(3000));
         cardC.setMaxAtk(BigDecimal.valueOf(3000));
 
         Card cardD = new Card();
         cardD.setName(CharacterEnum.LEONA);
         cardD.setBuddy1(CharacterEnum.RUGGIE);
-        cardD.setBuddy1Effect("ATK UP(中)");
+        cardD.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_MIDDLE);
         cardD.setBuddy2(CharacterEnum.HYPHEN);
-        cardD.setBuddy2Effect("-");
+        cardD.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
         cardD.setBuddy3(CharacterEnum.HYPHEN);
-        cardD.setBuddy3Effect("-");
+        cardD.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
         cardD.setMaxHp(BigDecimal.valueOf(4000));
         cardD.setMaxAtk(BigDecimal.valueOf(4000));
 
         Card cardE = new Card();
         cardE.setName(CharacterEnum.RUGGIE);
         cardE.setBuddy1(CharacterEnum.HYPHEN);
-        cardE.setBuddy1Effect("-");
+        cardE.setBuddy1Grouping(BuddyGroupingEnum.HYPHEN);
         cardE.setBuddy2(CharacterEnum.DEUCE);
-        cardE.setBuddy2Effect("HP&ATK UP(小)");
+        cardE.setBuddy2Grouping(BuddyGroupingEnum.HP_AND_ATK_UP_SMALL);
         cardE.setBuddy3(CharacterEnum.HYPHEN);
-        cardE.setBuddy3Effect("-");
+        cardE.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
         cardE.setMaxHp(BigDecimal.valueOf(5000));
         cardE.setMaxAtk(BigDecimal.valueOf(5000));
 

@@ -119,9 +119,9 @@ public class CardDaoJdbcImpl implements CardDao {
                 .addValue("regist_usr", "Kate")
                 .addValue("regist_date", timestamp)
                 .addValue("valid_flg", cardForm.isValidFlg())
-                .addValue("buddy1_grouping", Integer.valueOf(cardForm.getBuddy1Grouping()))
-                .addValue("buddy2_grouping", Integer.valueOf(cardForm.getBuddy2Grouping()))
-                .addValue("buddy3_grouping", Integer.valueOf(cardForm.getBuddy3Grouping()))
+                .addValue("buddy1_grouping", cardForm.getBuddy1Grouping().getBuddyGrouping())
+                .addValue("buddy2_grouping", cardForm.getBuddy2Grouping().getBuddyGrouping())
+                .addValue("buddy3_grouping", cardForm.getBuddy3Grouping().getBuddyGrouping())
                 .addValue("magic1_buffdebuff_grouping",
                         cardForm.getMagic1BuffdebuffGrouping().getBuffDebuffGrouping())
                 .addValue("magic2_buffdebuff_grouping",
@@ -418,15 +418,15 @@ public class CardDaoJdbcImpl implements CardDao {
             card.setType((String) map.get("type"));// タイプ
             CharacterEnum buddy1Object = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("buddy1"));
             card.setBuddy1(buddy1Object);// バディ１
-            card.setBuddy1Effect(BuddyGroupingEnum.getEffect((int) map.get("buddy1_grouping")));// バディ１効果
+            card.setBuddy1Grouping(BuddyGroupingEnum.getValueOfBuddyGrouping((int) map.get("buddy1_grouping")));// バディ１区分
 
             CharacterEnum buddy2Object = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("buddy2"));
             card.setBuddy2(buddy2Object);// バディ２
 
             if (map.get("buddy2_grouping") == null) {
-                card.setBuddy2Effect(BuddyGroupingEnum.getEffect(0));
+                card.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
             } else {
-                card.setBuddy2Effect(BuddyGroupingEnum.getEffect((int) map.get("buddy2_grouping")));// バディ２効果
+                card.setBuddy2Grouping(BuddyGroupingEnum.getValueOfBuddyGrouping((int) map.get("buddy2_grouping")));// バディ２効果
             }
 
             CharacterEnum buddy3Object = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("buddy3"));
@@ -437,9 +437,9 @@ public class CardDaoJdbcImpl implements CardDao {
             }
 
             if (map.get("buddy3_grouping") == null) {
-                card.setBuddy3Effect(BuddyGroupingEnum.getEffect(0));
+                card.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
             } else {
-                card.setBuddy3Effect(BuddyGroupingEnum.getEffect((int) map.get("buddy3_grouping")));// バディ３効果
+                card.setBuddy3Grouping(BuddyGroupingEnum.getValueOfBuddyGrouping((int) map.get("buddy3_grouping")));// バディ３効果
             }
 
             MagicGroupingEnum magic1Object = MagicGroupingEnum
@@ -519,6 +519,9 @@ public class CardDaoJdbcImpl implements CardDao {
                 + ", magic2_buffdebuff_grouping =:magic2BuffdebuffGrouping"
                 + ", magic3_buffDebuff_grouping =:magic3BuffdebuffGrouping"
                 + ", valid_flg = :validFlg"
+                + ", buddy1_grouping =:buddy1Grouping"
+                + ", buddy2_grouping =:buddy2Grouping"
+                + ", buddy3_grouping =:buddy3Grouping"
                 + " WHERE name = :name";
 
         SqlParameterSource params = new MapSqlParameterSource()
@@ -539,6 +542,9 @@ public class CardDaoJdbcImpl implements CardDao {
                 .addValue("minHp", cardForm.getMinHp())
                 .addValue("minAtk", cardForm.getMinAtk())
                 .addValue("validFlg", cardForm.isValidFlg())
+                .addValue("buddy1Grouping", cardForm.getBuddy1Grouping().getBuddyGrouping())
+                .addValue("buddy2Grouping", cardForm.getBuddy2Grouping().getBuddyGrouping())
+                .addValue("buddy3Grouping", cardForm.getBuddy3Grouping().getBuddyGrouping())
                 .addValue("name", cardForm.getName().getCharacterName());
 
         // SQL実行

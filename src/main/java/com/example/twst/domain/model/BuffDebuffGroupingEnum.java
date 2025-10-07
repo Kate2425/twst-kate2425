@@ -64,6 +64,11 @@ public enum BuffDebuffGroupingEnum {
          */
         WATER_DAMAGE_DOWN_LARGE_ENEMY_1T("13", "属性ダメージDOWN", "1", "大", "相手", "水属性ダメージDOWN（大）（相手/1T）"),
         /**
+         * 水属性ダメージDOWN（中）（味方全体/3T）
+         */
+        WATER_DAMAGE_DOWN_MEDIUM_FRIEND_ALL_3T("106", "属性ダメージDOWN", "3", "中", "味方全体",
+                        "水属性ダメージDOWN（中）（味方全体/3T）"),
+        /**
          * 木属性ダメージDOWN（小）（相手/1T）.
          */
         LEAF_DAMAGE_DOWN_SMALL_ENEMY_1T("14", "属性ダメージDOWN", "1", "小", "相手", "木属性ダメージDOWN（小）（相手/1T）"),
@@ -180,6 +185,10 @@ public enum BuffDebuffGroupingEnum {
          */
         ATK_UP_MEDIUM_FRIEND_1T("41", "ATK_UP", "1", "中", "味方", "ATK UP（中）（味方/1T）"),
         /**
+         * 火属性ダメージUP（極大）（自/1T）.
+         */
+        FIRE_DAMAGE_UP_MAXIMUM_SELF_1T("54", "属性ダメージUP", "1", "極大", "自", "火属性ダメージUP（極大）（自/1T）"),
+        /**
          * 火属性ダメージUP（小）（味方/1T）.
          */
         FIRE_DAMAGE_UP_SMALL_FRIEND_1T("42", "属性ダメージUP", "1", "小", "味方", "火属性ダメージUP（小）（味方/1T）"),
@@ -191,6 +200,11 @@ public enum BuffDebuffGroupingEnum {
          * 火属性ダメージUP（大）（味方/1T）.
          */
         FIRE_DAMAGE_UP_LARGE_FRIEND_1T("44", "属性ダメージUP", "1", "大", "味方", "火属性ダメージUP（大）（味方/1T）"),
+        /**
+         * 火属性ダメージUP（中）（味方全体/2T）
+         */
+        FIRE_DAMAGE_UP_MEDIUM_FRIEND_ALL_2T("105", "属性ダメージUP", "2", "中", "味方全体",
+                        "火属性ダメージUP（中）（味方全体/2T）"),
         /**
          * 水属性ダメージUP（小）（味方/1T）.
          */
@@ -227,10 +241,6 @@ public enum BuffDebuffGroupingEnum {
          * 無属性ダメージUP（大）（味方/1T）.
          */
         VOID_DAMAGE_UP_LARGE_FRIEND_1T("53", "属性ダメージUP", "1", "大", "味方", "無属性ダメージUP（大）（味方/1T）"),
-        /**
-         * 火属性ダメージUP（極大）（自/1T）.
-         */
-        FIRE_DAMAGE_UP_MAXIMUM_SELF_1T("54", "属性ダメージUP", "1", "極大", "自", "火属性ダメージUP（極大）（自/1T）"),
         /**
          * 無属性ダメージUP（中）（味方全体/5T）.
          */
@@ -344,6 +354,10 @@ public enum BuffDebuffGroupingEnum {
          */
         CURSE_LARGE_ENEMY_2T("80", "呪い", "2", "大", "相手", "呪い（大）（相手/2T）"),
         /**
+         * 呪い（極大）（相手全体/3T）
+         */
+        CURSE_MAXIMUM_ENEMY_ALL_3T("102", "呪い", "3", "極大", "相手全体", "呪い（極大）（相手全体/3T）"),
+        /**
          * 呪い無効（自/1T）.
          */
         ANNUL_CURSE_SELF_1T("81", "呪い無効", "1", "-", "自", "呪い無効（自/1T）"),
@@ -420,23 +434,9 @@ public enum BuffDebuffGroupingEnum {
          */
         CRITICAL_MAXIMUM_SELF_3T("101", "クリティカル", "3", "極大", "自", "クリティカル（極大）（自/3T） "),
         /**
-         * 呪い（極大）（相手全体/3T）
-         */
-        CURSE_MAXIMUM_ENEMY_ALL_3T("102", "呪い", "3", "極大", "相手全体", "呪い（極大）（相手全体/3T）"),
-        /**
          * ガッツ（味方全体/3T）
          */
         GUTS_FRIEND_ALL_3T("103", "ガッツ", "3", "-", "味方全体", "ガッツ（味方全体/3T）"),
-        /**
-         * 火属性ダメージUP（中）（味方全体/2T）
-         */
-        FIRE_DAMAGE_UP_MEDIUM_FRIEND_ALL_2T("105", "属性ダメージUP", "2", "中", "味方全体",
-                        "火属性ダメージUP（中）（味方全体/2T）"),
-        /**
-         * 水属性ダメージDOWN（中）（味方全体/3T）
-         */
-        WATER_DAMAGE_DOWN_MEDIUM_FRIEND_ALL_3T("106", "属性ダメージDOWN", "3", "中", "味方全体",
-                        "水属性ダメージDOWN（中）（味方全体/3T）"),
         /**
          * ATK DOWN（小）（相手/1T）＆ダメージUP（小）（自/1T）.
          */
@@ -457,6 +457,11 @@ public enum BuffDebuffGroupingEnum {
          */
         ATK_UP_MEDIUM_SELF_1T_AND_ATK_DOWN_SMALL_ENEMY_1T("36 & 2", "ATK_UP＆ATK_DOWN", "1＆1", "小＆小", "自＆相手",
                         "ATK UP（中）（自/1T）＆ATK DOWN（小）（相手/1T）"),
+        /**
+         * ダメージUP（中）（自/1T）＆HP回復（極小）
+         */
+        DAMAGE_UP_MEDIUM_SELF_1T_AND_HP_RECOVER_MINIMUM("59 & 67", "ダメージUP＆HP回復＆-", "1＆-", "中＆極小", "自＆-",
+                        "ダメージUP（中）（自/1T）＆HP回復（極小）"),
         /**
          * "HP回復（小）＆ATK DOWN（小）（相手/1T）.
          */
@@ -487,9 +492,14 @@ public enum BuffDebuffGroupingEnum {
          */
         HP_RECOVER_SMALL_AND_ANNUL_CURSE_FRIEND_1T("68 & 82", "HP回復＆呪い無効", "-＆1", "小＆-", "-＆味方",
                         "HP回復（小）＆呪い無効（味方/1T）"),
-        /** 
-         *  HP継続回復（小）（自/3T）＆ダメージDOWN（小）（相手/1T）.
+        /**
+         * HP継続回復（小）（自/3T）＆ATK DOWN（小）（相手/1T）
          */
+        HP_CONTINUOUS_RECOVER_SMALL_SELF_3T_AND_ATK_DOWN_SMALL_ENEMY_1T("71 & 2", "HP継続回復＆ATK_DOWN", "3＆1",
+                        "小＆小", "自＆相手", "HP継続回復（小）（自/3T）＆ATK DOWN（小）（相手/1T）"),
+        /** 
+        *  HP継続回復（小）（自/3T）＆ダメージDOWN（小）（相手/1T）.
+        */
         HP_CONTINUOUS_RECOVER_SMALL_SELF_3T_AND_DAMAGE_DOWN_SMALL_ENEMY_1T("71 & 21", "HP継続回復＆ダメージDOWN",
                         "3＆1", "小＆小", "自＆相手", "HP継続回復（小）（自/3T）＆ダメージDOWN（小）（相手/1T）"),
         /** 
@@ -502,6 +512,11 @@ public enum BuffDebuffGroupingEnum {
          */
         HP_CONTINUOUS_RECOVER_SMALL_SELF_3T_AND_DAMAGE_UP_SMALL_SELF_1T("71 & 58", "HP継続回復＆ダメージUP", "3＆1",
                         "小＆小", "自＆自", "HP継続回復（小）（自/3T）＆ダメージUP（小）（自/1T）"),
+        /**
+         * 回避（小）（自/1T）＆ATK DOWN（小）（相手/1T）
+         */
+        EVADE_SMALL_SELF_1T_AND_ATK_DOWN_SMALL_ENEMY_1T("76 & 2", "回避＆ATK DOWN", "1＆1", "小＆小", "自＆相手",
+                        "回避（小）（自/1T）＆ATK DOWN（小）（相手/1T）"),
         /**
          * 回避（小）（自/1T）＆ATK UP（小）（自/1T）
          */
@@ -518,8 +533,14 @@ public enum BuffDebuffGroupingEnum {
         CURSE_MEDIUM_ENEMY_2T_AND_ATK_DOWN_SMALL_ENEMY_1T("79 & 2", "呪い＆ATK DOWN", "2＆1", "中＆小", "相手＆相手",
                         "呪い（中）（相手/2T）＆ATK DOWN（小）（相手/1T）"),
         /**
-         * 呪い（中）（相手/2T）＆ATK UP（小）（自/1T）
+         * 呪い（中）（相手/2T）＆ダメージDOWN（小）（相手/1T）
          */
+        CURSE_MEDIUM_ENEMY_2T_AND_DAMAGE_DOWN_SMALL_ENEMY_1T("79 & 21", "呪い＆ダメージDOWN", "2＆1", "中＆小", "相手＆相手",
+                        "呪い（中）（相手/2T）＆ダメージDOWN（小）（相手/1T）"),
+
+        /**
+        * 呪い（中）（相手/2T）＆ATK UP（小）（自/1T）
+        */
         CURSE_MEDIUM_ENEMY_2T_AND_ATK_UP_SMALL_SELF_1T("79 & 35", "呪い＆ATK_UP", "2＆1", "中＆小", "相手＆自",
                         "呪い（中）（相手/2T）＆ATK UP（小）（自/1T）"),
         /**
@@ -581,21 +602,6 @@ public enum BuffDebuffGroupingEnum {
          */
         REMOVE_DEBUFF_FRIEND_AND_ATK_UP_SMALL_SELF_1T("88 & 35", "デバフ解除＆ATK_UP", "-＆1", "-＆小", "味方＆自",
                         "デバフ解除（味方）＆ATK UP（小）（自/1T）"),
-        /**
-         * 回避（小）（自/1T）＆ATK DOWN（小）（相手/1T）
-         */
-        EVADE_SMALL_SELF_1T_AND_ATK_DOWN_SMALL_ENEMY_1T("76 & 2", "回避＆ATK DOWN", "1＆1", "小＆小", "自＆相手",
-                        "回避（小）（自/1T）＆ATK DOWN（小）（相手/1T）"),
-        /**
-         * 呪い（中）（相手/2T）＆ダメージDOWN（小）（相手/1T）
-         */
-        CURSE_MEDIUM_ENEMY_2T_AND_DAMAGE_DOWN_SMALL_ENEMY_1T("79 & 21", "呪い＆ダメージDOWN", "2＆1", "中＆小", "相手＆相手",
-                        "呪い（中）（相手/2T）＆ダメージDOWN（小）（相手/1T）"),
-        /**
-         * ダメージUP（中）（自/1T）＆HP回復（極小）
-         */
-        DAMAGE_UP_MEDIUM_SELF_1T_AND_HP_RECOVER_MINIMUM("59 & 67", "ダメージUP＆HP回復＆-", "1＆-", "中＆極小", "自＆-",
-                        "ダメージUP（中）（自/1T）＆HP回復（極小）"),
         /**
          * ATK UP（小）（自/1T）＆ATK UP（小）（自/3T）＆ATK UP（小）（自/5T）
          */

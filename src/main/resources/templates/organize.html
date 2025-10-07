@@ -72,7 +72,7 @@
                                     th:if="${#strings.contains({buddyElement},'__${card.buddy1.characterName}__')} and
                                            ${card.buddy1.characterName} != ${card.duo.characterName}"
                                     th:class='buddy'
-                                    th:text="'バディ１:' + ${card.buddy1.viewName} + ' ' + ${card.buddy1Effect}">
+                                    th:text="'バディ１:' + ${card.buddy1.viewName} + ' ' + ${card.buddy1grouping.effect}">
                                 </li>
                                 <li
                                     th:if="${!#strings.contains({buddyElement},'__${card.buddy1.characterName}__')}"
@@ -84,7 +84,7 @@
                                         th:if="${duoElement} == ${card.duo.characterName} and
                                                ${duoElement} == ${card.buddy1.characterName}"
                                         th:class='duo'
-                                        th:text="'バディ１:' + ${card.buddy1.viewName}  + ' ' + ${card.buddy1Effect}+ ' デュオ'">
+                                        th:text="'バディ１:' + ${card.buddy1.viewName}  + ' ' + ${card.buddy1grouping.effect}+ ' デュオ'">
                                     </li>
                                     <li
                                         th:if="${duoElement} != ${card.duo.characterName} and
@@ -106,7 +106,7 @@
                                     th:if="${#strings.contains({buddyElement},'__${card.buddy2.characterName}__')} and
                                            ${card.buddy2.characterName} != ${card.duo.characterName}"
                                     th:class='buddy'
-                                    th:text="'バディ２:' + ${card.buddy2.viewName} + ' ' + ${card.buddy2Effect}">
+                                    th:text="'バディ２:' + ${card.buddy2.viewName} + ' ' + ${card.buddy2Grouping.effect}">
                                 </li>
                                 <li
                                     th:if="${!#strings.contains({buddyElement},'__${card.buddy2.characterName}__')}"
@@ -118,7 +118,7 @@
                                         th:if="${duoElement} == ${card.duo.characterName} and
                                                ${duoElement} == ${card.buddy2.characterName}"
                                         th:class='duo'
-                                        th:text="'バディ２:' + ${card.buddy2.viewName}  + ' ' + ${card.buddy2Effect}+ ' デュオ'">
+                                        th:text="'バディ２:' + ${card.buddy2.viewName}  + ' ' + ${card.buddy2Grouping.effect}+ ' デュオ'">
                                     </li>
                                     <li
                                         th:if="${duoElement} != ${card.duo.characterName} and
@@ -140,7 +140,7 @@
                                     th:if="${#strings.contains({buddyElement},'__${card.buddy3.characterName}__')} and
                                            ${card.buddy3.characterName} != ${card.duo.characterName}"
                                     th:class='buddy'
-                                    th:text="'バディ３:' + ${card.buddy3.viewName} + ' ' + ${card.buddy3Effect}">
+                                    th:text="'バディ３:' + ${card.buddy3.viewName} + ' ' + ${card.buddy3Grouping.effect}">
                                 </li>
                                 <li
                                     th:if="${!#strings.contains({buddyElement},'__${card.buddy3.characterName}__')}"
@@ -152,7 +152,7 @@
                                         th:if="${duoElement} == ${card.duo.characterName} and
                                                ${duoElement} == ${card.buddy3.characterName}"
                                         th:class='duo'
-                                        th:text="'バディ３:' + ${card.buddy3.viewName}  + ' ' + ${card.buddy3Effect}+ ' デュオ'">
+                                        th:text="'バディ３:' + ${card.buddy3.viewName}  + ' ' + ${card.buddy3Grouping.effect}+ ' デュオ'">
                                     </li>
                                     <li
                                         th:if="${duoElement} != ${card.duo.characterName} and
@@ -231,12 +231,12 @@
                                     th:value="${card.maxHp}" />
                                 <input type="hidden" th:name="maxAtk"
                                     th:value="${card.maxAtk}" />
-                                <input type="hidden" th:name="buddy1Effect"
-                                    th:value="${card.buddy1Effect}" />
-                                <input type="hidden" th:name="buddy2Effect"
-                                    th:value="${card.buddy2Effect}" />
-                                <input type="hidden" th:name="buddy3Effect"
-                                    th:value="${card.buddy3Effect}" />
+                                <input type="hidden" th:name="buddy1Grouping"
+                                    th:value="${card.buddy1Grouping}" />
+                                <input type="hidden" th:name="buddy2Grouping"
+                                    th:value="${card.buddy2Grouping}" />
+                                <input type="hidden" th:name="buddy3Grouping"
+                                    th:value="${card.buddy3Grouping}" />
                                 <input type="hidden" th:name="arrayIndex"
                                     th:value="${st.index}" />
                             </form>

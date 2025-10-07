@@ -2,6 +2,9 @@ package com.example.twst.form;
 
 import java.io.Serializable;
 import org.springframework.stereotype.Component;
+
+import com.example.twst.domain.model.BuddyGroupingEnum;
+
 import java.math.BigDecimal;
 
 import jakarta.validation.constraints.Size;
@@ -37,19 +40,19 @@ public class CalculateForm implements Serializable {
     BigDecimal maxAtk;
 
     /**
-     * バディ１効果
+     * バディ１区分
      */
-    String buddy1Effect;
+    BuddyGroupingEnum buddy1Grouping;
+
+    /** 
+     * バディ２区分
+     */
+    BuddyGroupingEnum buddy2Grouping;
 
     /**
-     * バディ２効果
+     * バディ３区分
      */
-    String buddy2Effect;
-
-    /**
-     * バディ３効果
-     */
-    String buddy3Effect;
+    BuddyGroupingEnum buddy3Grouping;
 
     /**
      * インデックス

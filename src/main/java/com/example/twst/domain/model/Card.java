@@ -48,9 +48,9 @@ public class Card implements Cloneable {
     private CharacterEnum buddy1;
 
     /**
-     * バディ１効果
+     * バディ１区分
      */
-    private String buddy1Effect;
+    private BuddyGroupingEnum buddy1Grouping;
 
     /**
      * バディ２
@@ -58,9 +58,9 @@ public class Card implements Cloneable {
     private CharacterEnum buddy2;
 
     /**
-     * バディ２効果
+     * バディ２区分
      */
-    private String buddy2Effect;
+    private BuddyGroupingEnum buddy2Grouping;
 
     /**
      * バディ３
@@ -68,9 +68,9 @@ public class Card implements Cloneable {
     private CharacterEnum buddy3;
 
     /**
-     * バディ３効果
+     * バディ３区分
      */
-    private String buddy3Effect;
+    private BuddyGroupingEnum buddy3Grouping;
 
     /**
      * マジック１

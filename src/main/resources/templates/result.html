@@ -55,16 +55,16 @@
 							<input type="hidden" th:name="type" th:value="${record.type}" />
 							<input type="hidden" th:name="buddy1"
 								th:value="${record.buddy1}" />
-							<input type="hidden" th:name="buddy1Effect"
-								th:value="${record.buddy1Effect}" />
+							<input type="hidden" th:name="buddy1Grouping"
+								th:value="${record.buddy1Grouping}" />
 							<input type="hidden" th:name="buddy2"
 								th:value="${record.buddy2}" />
-							<input type="hidden" th:name="buddy2Effect"
-								th:value="${record.buddy2Effect}" />
+							<input type="hidden" th:name="buddy2Grouping"
+								th:value="${record.buddy2Grouping}" />
 							<input type="hidden" th:name="buddy3"
 								th:value="${record.buddy3}" />
-							<input type="hidden" th:name="buddy3Effect"
-								th:value="${record.buddy3Effect}" />
+							<input type="hidden" th:name="buddy3Grouping"
+								th:value="${record.buddy3Grouping}" />
 							<input type="hidden" th:name="magic1"
 								th:value="${record.magic1}" />
 							<input type="hidden" th:name="magic2"
@@ -99,9 +99,9 @@
 					<td th:text="${record.buddy1.viewName}"></td>
 					<td th:text="${record.buddy2.viewName}"></td>
 					<td th:text="${record.buddy3.viewName}"></td>
-					<td th:text="${record.buddy1Effect}"></td>
-					<td th:text="${record.buddy2Effect}"></td>
-					<td th:text="${record.buddy3Effect}"></td>
+					<td th:text="${record.buddy1Grouping.effect}"></td>
+					<td th:text="${record.buddy2Grouping.effect}"></td>
+					<td th:text="${record.buddy3Grouping.effect}"></td>
 					<th:block th:switch="${record.magic1.magicType}">
 						<td th:case="'FIRE'" th:class='fire'
 							th:text="${record.magic1.viewName}"></td>
