@@ -104,9 +104,7 @@
                     </tr>
                 </th:block>
                 <tr>
-                    <form action="#" th:action="@{/insert}"
-                        th:object="${cardForm}" method="post">
-
+                    <form>
                         <th th:text="${tableName.viewName}"> </th>
                         <td>
                             <select th:name="name" class="selectbox name">
@@ -262,8 +260,11 @@
                                 </option>
                             </select>
                         </td>
-                        <td><input type="submit" id="submit" value="登録"
-                                class="btn submit light-green" /></td>
+                        <td>
+                            <button th:formaction="@{/insert}" form="cardForm"
+                                type="button" id="submit"
+                                class="btn submit light-green">登録</button>
+                        </td>
                         <input type="hidden" th:name="tableName"
                             th:value="${tableName}" />
                         <input type="hidden" th:name="tableViewName"
@@ -273,7 +274,8 @@
             </tbody>
         </ta>
         <p th:if="${#lists.isEmpty(cardList)}">条件に一致するカードが存在しません</p>
-        <p th:if="${validationError}" th:each="error : ${validationError}"></p>
+        <p th:if="${validationError}"
+            th:each="error : ${validationError}"></p>
 
         <!--/*Bootstrapのモーダルウィンドウ*/-->
         <div class="modal fade" tabindex="-1" id="successMsg"

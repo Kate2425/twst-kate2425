@@ -108,7 +108,7 @@ public class InsertController {
         this.cardService = cardService;
     }
 
-    public InsertController() {
-        this.insertSession = new EditSession();
+    public InsertController(EditSession insertSession) {
+        this.insertSession = insertSession;
     }
 }

@@ -3,11 +3,9 @@
     <head>
         <title>Search</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1">
         <link th:href="@{/style/style.css}" rel="stylesheet">
         <link th:href="@{/style/search.css}" rel="stylesheet">
-        <script th:src="@{/style/search.js}"></script>
-        <script th:src="@{/style/jquery-3.7.1.min.js}"></script>
-        <meta name="viewport" content="width=device-width,initial-scale=1">
     </head>
 
     <body>
@@ -603,5 +601,11 @@
                 <p class="wrap"><input type="submit" value="検索" id="search"
                         class="btn circle light-red-purple" /></p>
             </form>
+        <!-- JQuery -->
+        <script
+            th:src="@{https://code.jquery.com/jquery-3.7.1.min.js}"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+        <script th:src="@{/style/search.js}"></script>
         </body>
     </html>

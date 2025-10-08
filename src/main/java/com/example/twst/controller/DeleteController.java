@@ -95,7 +95,7 @@ public class DeleteController {
         this.cardService = cardService;
     }
 
-    public DeleteController() {
-        this.deleteSession = new EditSession();
+    public DeleteController(EditSession deleteSession) {
+        this.deleteSession = deleteSession;
     }
 }

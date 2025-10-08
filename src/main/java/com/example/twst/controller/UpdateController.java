@@ -102,7 +102,7 @@ public class UpdateController {
         this.cardService = cardService;
     }
 
-    public UpdateController() {
-        this.updateSession = new EditSession();
+    public UpdateController(EditSession updateSession) {
+        this.updateSession = updateSession;
     }
 }

@@ -38,9 +38,10 @@ public class CardDaoJdbcImpl implements CardDao {
      * 
      * @param Card
      * @return 件数
+     * @throws DataAccessException 
      */
     @Override
-    public int insertOne(CardForm cardForm) {
+    public int insertOne(CardForm cardForm) throws DataAccessException {
 
         // 現在時刻を取得
         long millis = System.currentTimeMillis();
@@ -682,6 +683,7 @@ public class CardDaoJdbcImpl implements CardDao {
             case "rabbit_wear" -> idName = "ラビット・ギア";
             case "platinum_jacket" -> idName = "プラチナ・ギア";
             case "playful_dress" -> idName = "プレイフル・ギア";
+            case "rest_my_room" -> idName = "くつろぎ・ギア";
             case "outdoor_wear" -> idName = "アウトドア・ギア";
             default -> idName = tableObject.getViewName();
         }
