@@ -6,8 +6,8 @@ window.addEventListener('load', function () {
 
   // 送信処理
   $(function () {
-    $('#submit').click(async function () {
-      var message = '';
+    $('button').click(async function () {
+      let message = '';
       if (url == '/insert') {
         message = 'に登録しました。';
       } else if (url == '/update') {
@@ -16,7 +16,10 @@ window.addEventListener('load', function () {
         message = 'から削除しました。';
       }
 
-      const cardForm = $('form').serialize();
+      let $form = $(this).parents().find('form');
+      console.log('$form:%o', $form);
+
+      let cardForm = $form.serialize();
       console.log('cardForm:%o', cardForm);
 
       const postData = new URLSearchParams(cardForm);
