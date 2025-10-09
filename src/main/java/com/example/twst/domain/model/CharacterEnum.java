@@ -128,12 +128,12 @@ public enum CharacterEnum implements NameInterface {
     }
 
     /**
-     * enumのListを取得する.
+     * dormitoryNameからenumのListを取得する.
      * 
      * @param dormitoryName
      * @return List<Character>
      */
-    public static List<CharacterEnum> getValue(String dormitoryName) {
+    public static List<CharacterEnum> getValueListOfDormitoryName(String dormitoryName) {
         List<CharacterEnum> valueList = new ArrayList<>();
         for (CharacterEnum character : CharacterEnum.values()) {
             if (character.getDormitoryName().equals(dormitoryName)) {
@@ -144,9 +144,11 @@ public enum CharacterEnum implements NameInterface {
     }
 
     /**
-     * 
+     * characterNameからenumを取得する.
+     * @param characterName
+     * @return CharacterEnum
      */
-    public static CharacterEnum getName(String characterName) {
+    public static CharacterEnum getValueOfCharacterName(String characterName) {
         for (CharacterEnum characterEnum : CharacterEnum.values()) {
             if (characterEnum.getCharacterName().equals(characterName)) {
                 return characterEnum;

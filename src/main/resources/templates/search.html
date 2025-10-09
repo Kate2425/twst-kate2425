@@ -156,24 +156,23 @@
                 </fieldset>
             </fieldset>
 
-            <fieldset class="accordion" data-accordion="box">
-                <legend class="accordion-title"
-                    data-accordion="title">マジック効果
-                    <span class="toggleIcon"></span>
+            <fieldset>
+                <legend>マジック効果
+                    <!-- <span class="toggleIcon"></span> -->
                 </legend>
-                <div class="accordion_item" data-accordion="item">
+                <!-- <div class="accordion_item" data-accordion="item">
                     <fieldset>
-                        <legend>マジック１</legend>
+                        <legend>マジック１</legend> -->
                         <span th:each="item : ${buffDebuff}">
                             <input type="checkbox" th:value="${item}"
-                                th:field="*{buffDebuffChecks1}"
+                                th:field="*{buffDebuffChecks}"
                                 class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buffDebuffChecks1')}"
+                            <label th:for="${#ids.prev('buffDebuffChecks')}"
                                 th:text="${item}" class="checkbox"></label>
                         </span>
-                    </fieldset>
+                    <!-- </fieldset> -->
 
-                    <fieldset>
+                    <!-- <fieldset>
                         <legend>マジック２</legend>
                         <span th:each="item : ${buffDebuff}">
                             <input type="checkbox" th:value="${item}"
@@ -182,9 +181,9 @@
                             <label th:for="${#ids.prev('buffDebuffChecks2')}"
                                 th:text="${item}" class="checkbox"></label>
                         </span>
-                    </fieldset>
+                    </fieldset> -->
 
-                    <fieldset>
+                    <!-- <fieldset>
                         <legend>マジック３</legend>
                         <span th:each="item : ${buffDebuff}">
                             <input type="checkbox" th:value="${item}"
@@ -193,8 +192,8 @@
                             <label th:for="${#ids.prev('buffDebuffChecks3')}"
                                 th:text="${item}" class="checkbox"></label>
                         </span>
-                    </fieldset>
-                </div>
+                    </fieldset> -->
+                <!-- </div> -->
             </fieldset>
 
                     <fieldset class="accordion" data-accordion="box">

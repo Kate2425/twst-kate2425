@@ -39,9 +39,7 @@ public class DeleteController {
         searchForm.setMagicChecks1(new String[0]);
         searchForm.setMagicChecks2(new String[0]);
         searchForm.setMagicChecks3(new String[0]);
-        searchForm.setBuffDebuffChecks1(new String[0]);
-        searchForm.setBuffDebuffChecks2(new String[0]);
-        searchForm.setBuffDebuffChecks3(new String[0]);
+        searchForm.setBuffDebuffChecks(new String[0]);
         searchForm.setBuddyChecks(new String[0]);
         searchForm.setDuoChecks(new String[0]);
         searchForm.setInclude1("include1");

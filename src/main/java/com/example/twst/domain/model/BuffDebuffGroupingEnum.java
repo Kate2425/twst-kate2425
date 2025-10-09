@@ -676,8 +676,10 @@ public enum BuffDebuffGroupingEnum {
         public static List<String> getTypeList() {
                 List<String> typeList = new ArrayList<>();
                 for (BuffDebuffGroupingEnum buffDebuffGroupingEnum : BuffDebuffGroupingEnum.values()) {
-                        if ((!typeList.contains(buffDebuffGroupingEnum.getType()))
-                                        && (!buffDebuffGroupingEnum.getType().equals("-"))) {
+                        String type = buffDebuffGroupingEnum.getType();
+                        if ((!type.contains("＆"))
+                                        && (!type.equals("-"))
+                                        && (typeList.indexOf(type) == -1)) {
                                 typeList.add(buffDebuffGroupingEnum.getType());
                         }
                 }

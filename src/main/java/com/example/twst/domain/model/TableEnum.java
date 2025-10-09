@@ -21,7 +21,7 @@ public enum TableEnum implements NameInterface {
     JASMIN_SILK("jasmin_silk", "ヤーサミーナシルク", "jas"),
     UNION_BIRTHDAY("union_birthday", "ユニオンバースデー", "uni"),
     NEW_YEAR_DRESS("new_year_dress", "新春の衣", "new"),
-    APPLE_BOA("apple_boa", "アップル・ボア", "boa"), //TODO
+    APPLE_BOA("apple_boa", "アップル・ボア", "boa"),
     TSUM_STE("tsum_ste", "ツムステ", "tsu"),
     CLUB_WEAR("club_wear", "クラブ・ウェア", "clu"),
     PORT_WEAR("port_wear", "ポート・ウェア", "por"),
@@ -40,7 +40,7 @@ public enum TableEnum implements NameInterface {
     CHIFFON_OF_NIGHT_SKY("chiffon_of_night_sky", "夜空のシフォン", "chi"),
     CELEBRATE_OF_THE_BEACH("celebrate_of_the_beach", "渚のセレブレイト", "cel"),
     OVER_BLOT("over_blot", "オーバーブロット", "over"),
-    CD_DINER("cd_diner", "CDダイナー", "din"),
+    CD_DINER("cd_diner", "C&Dダイナー", "din"),
     LA_BONBONNIERE("la_bonbonniere", "ラ・ボンボニエール", "bon");
 
     /**

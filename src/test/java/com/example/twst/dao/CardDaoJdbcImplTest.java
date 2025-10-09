@@ -69,6 +69,9 @@ public class CardDaoJdbcImplTest {
                 cardForm.setBuddy1(CharacterEnum.JAMIL);
                 cardForm.setBuddy2(CharacterEnum.VIL);
                 cardForm.setBuddy3(CharacterEnum.HYPHEN);
+                cardForm.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_SMALL);
+                cardForm.setBuddy2Grouping(BuddyGroupingEnum.ATK_UP_SMALL);
+                cardForm.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
                 cardForm.setMagic1(MagicGroupingEnum.AQUA_WAVE);
                 cardForm.setMagic2(MagicGroupingEnum.LEAF_SHOT2);
                 cardForm.setMagic3(MagicGroupingEnum.HYPHEN);
@@ -100,6 +103,9 @@ public class CardDaoJdbcImplTest {
                 cardForm.setBuddy1(CharacterEnum.ORTHO);
                 cardForm.setBuddy2(CharacterEnum.HYPHEN);
                 cardForm.setBuddy3(CharacterEnum.HYPHEN);
+                cardForm.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_MIDDLE);
+                cardForm.setBuddy2Grouping(BuddyGroupingEnum.ATK_UP_MIDDLE);
+                cardForm.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
                 cardForm.setMagic1(MagicGroupingEnum.FIRE_SHOT);
                 cardForm.setMagic2(MagicGroupingEnum.FIRE_SHOT2);
                 cardForm.setMagic3(MagicGroupingEnum.HYPHEN);
@@ -113,7 +119,7 @@ public class CardDaoJdbcImplTest {
                 cardForm.setMaxAtk(BigDecimal.valueOf(3456));
 
                 // Act
-                int count = target.updateOne(cardForm);
+                int count = target.deleteOne(cardForm);
 
                 // Assert
                 assertThat(count, is(1));

@@ -148,9 +148,7 @@ public class CardDaoJdbcImpl implements CardDao {
         String[] magicParam1 = form.getMagicChecks1();
         String[] magicParam2 = form.getMagicChecks2();
         String[] magicParam3 = form.getMagicChecks3();
-        String[] buffDebuffParam1 = form.getBuffDebuffChecks1();
-        String[] buffDebuffParam2 = form.getBuffDebuffChecks2();
-        String[] buffDebuffParam3 = form.getBuffDebuffChecks3();
+        String[] buffDebuffParam = form.getBuffDebuffChecks();
         String[] buddyParam = form.getBuddyChecks();
         String[] duoParam = form.getDuoChecks();
         String include1 = form.getInclude1();
@@ -318,11 +316,11 @@ public class CardDaoJdbcImpl implements CardDao {
             sql += " duo IN (:duos)";
         }
 
-        // buffDebuff1に指定があればsqlに追加する
-        Set<String> buffDebuff1 = new HashSet<>();
-        if (buffDebuffParam1.length != 0) {
-            String[] buffDebuffGroupingArray1 = BuffDebuffGroupingEnum.getTypeArray(buffDebuffParam1);
-            buffDebuff1 = getParam(buffDebuffGroupingArray1);
+        // buffDebuffに指定があればsqlに追加する
+        Set<String> buffDebuff = new HashSet<>();
+        if (buffDebuffParam.length != 0) {
+            String[] buffDebuffGroupingArray = BuffDebuffGroupingEnum.getTypeArray(buffDebuffParam);
+            buffDebuff = getParam(buffDebuffGroupingArray);
             // name、rare、type、magic1、magic2、magic3、buddy、duoの全てが未指定の場合
             if ((nameParam.length == 0)
                     && (rareParam.length == 0)
@@ -336,49 +334,9 @@ public class CardDaoJdbcImpl implements CardDao {
             } else {
                 sql += " AND";
             }
-            sql += " magic1_buffdebuff_grouping LIKE any (array [:buffDebuff1])";
-        }
-
-        // buffDebuff2に指定があればsqlに追加する
-        Set<String> buffDebuff2 = new HashSet<>();
-        if (buffDebuffParam2.length != 0) {
-            String[] buffDebuffGroupingArray2 = BuffDebuffGroupingEnum.getTypeArray(buffDebuffParam2);
-            buffDebuff2 = getParam(buffDebuffGroupingArray2);
-            // name、rare、type、magic1、magic2、magic3、buddy、duo、buffDebuff1の全てが未指定の場合
-            if ((nameParam.length == 0)
-                    && (rareParam.length == 0)
-                    && (typeParam.length == 0)
-                    && (magicParam1.length == 0)
-                    && (magicParam2.length == 0)
-                    && (buddyParam.length == 0)
-                    && (buffDebuffParam1.length == 0)) {
-                sql += " WHERE";
-            } else {
-                sql += " AND";
-            }
-            sql += " magic2_buffdebuff_grouping LIKE any (array [:buffDebuff2])";
-        }
-
-        // buffDebuff3に指定があればsqlに追加する
-        Set<String> buffDebuff3 = new HashSet<>();
-        if (buffDebuffParam3.length != 0) {
-            String[] buffDebuffGroupingArray3 = BuffDebuffGroupingEnum.getTypeArray(buffDebuffParam3);
-            buffDebuff3 = getParam(buffDebuffGroupingArray3);
-            // name、rare、type、magic1、magic2、magic3、buddy、duo、buffDebuff1、buffDebuff2の全てが未指定の場合
-            if ((nameParam.length == 0)
-                    && (rareParam.length == 0)
-                    && (typeParam.length == 0)
-                    && (magicParam1.length == 0)
-                    && (magicParam2.length == 0)
-                    && (magicParam3.length == 0)
-                    && (buddyParam.length == 0)
-                    && (duoParam.length == 0)
-                    && (buffDebuffParam1.length == 0)) {
-                sql += " WHERE";
-            } else {
-                sql += " AND";
-            }
-            sql += " magic3_buffdebuff_grouping LIKE any (array [:buffDebuff3] ) ";
+            sql += " ( magic1_buffdebuff_grouping LIKE any (array [:buffDebuff]))";
+            sql += " OR ( magic2_buffdebuff_grouping LIKE any (array [:buffDebuff]))";
+            sql += " OR ( magic3_buffdebuff_grouping LIKE any (array [:buffDebuff]))";
         }
 
         // parameter
@@ -389,9 +347,7 @@ public class CardDaoJdbcImpl implements CardDao {
                 .addValue("magics1", magics1)
                 .addValue("magics2", magics2)
                 .addValue("magics3", magics3)
-                .addValue("buffDebuff1", buffDebuff1)
-                .addValue("buffDebuff2", buffDebuff2)
-                .addValue("buffDebuff3", buffDebuff3)
+                .addValue("buffDebuff", buffDebuff)
                 .addValue("buddies", buddies)
                 .addValue("duos", duos);
 
@@ -411,75 +367,37 @@ public class CardDaoJdbcImpl implements CardDao {
             TableEnum tableObject = EnumUtils.getViewName(TableEnum.class, tableName);
             card.setTableName(tableObject);// テーブル名
             card.setId((String) map.get("id"));// カードID
-            card.setClothingName(getClothingName(tableName, (String) map.get("name")));// 衣装
+            card.setClothingName(getClothingName(tableName, (String) map.get("name"))); // 衣装
             card.setNum((int) map.get("num"));// 項番
-            CharacterEnum viewNameObject = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("name"));
-            card.setName(viewNameObject);// キャラクター名
+            card.setName(CharacterEnum.getValueOfCharacterName((String) map.get("name")));// キャラクター名
             card.setRare((String) map.get("rare"));// レア度
             card.setType((String) map.get("type"));// タイプ
-            CharacterEnum buddy1Object = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("buddy1"));
-            card.setBuddy1(buddy1Object);// バディ１
+            card.setBuddy1(CharacterEnum.getValueOfCharacterName((String) map.get("buddy1")));// バディ１
             card.setBuddy1Grouping(BuddyGroupingEnum.getValueOfBuddyGrouping((int) map.get("buddy1_grouping")));// バディ１区分
-
-            CharacterEnum buddy2Object = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("buddy2"));
-            card.setBuddy2(buddy2Object);// バディ２
-
-            if (map.get("buddy2_grouping") == null) {
-                card.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
-            } else {
-                card.setBuddy2Grouping(BuddyGroupingEnum.getValueOfBuddyGrouping((int) map.get("buddy2_grouping")));// バディ２効果
-            }
-
-            CharacterEnum buddy3Object = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("buddy3"));
-            if (buddy3Object == null) {
-                card.setBuddy3(EnumUtils.getViewName(CharacterEnum.class, "-"));
-            } else {
-                card.setBuddy3(buddy3Object);// バディ３
-            }
-
-            if (map.get("buddy3_grouping") == null) {
-                card.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
-            } else {
-                card.setBuddy3Grouping(BuddyGroupingEnum.getValueOfBuddyGrouping((int) map.get("buddy3_grouping")));// バディ３効果
-            }
-
+            card.setBuddy2(CharacterEnum.getValueOfCharacterName((String) map.get("buddy2")));// バディ２
+            card.setBuddy2Grouping(BuddyGroupingEnum.getValueOfBuddyGrouping((int) map.get("buddy2_grouping"))); // バディ２効果 
+            card.setBuddy3(CharacterEnum.getValueOfCharacterName((String) map.get("buddy3")));// バディ３
+            card.setBuddy3Grouping(BuddyGroupingEnum.getValueOfBuddyGrouping((int) map.get("buddy3_grouping")));// バディ３効果
             MagicGroupingEnum magic1Object = MagicGroupingEnum
                     .getValueOfMagicGrouping((int) map.get("magic1_grouping"));
             card.setMagic1(magic1Object);// マジック１
-
             MagicGroupingEnum magic2Object = MagicGroupingEnum
                     .getValueOfMagicGrouping((int) map.get("magic2_grouping"));
             card.setMagic2(magic2Object); // マジック２
-
-            if (map.get("magic3_grouping") == null) {
-                card.setMagic3(MagicGroupingEnum.HYPHEN);
-            } else {
-                MagicGroupingEnum magic3Object = MagicGroupingEnum
-                        .getValueOfMagicGrouping((int) map.get("magic3_grouping"));
-                card.setMagic3(magic3Object);// マジック３
-            }
-
-            CharacterEnum duoObject = EnumUtils.getViewName(CharacterEnum.class, (String) map.get("duo"));
-            if (duoObject == null) {
-                card.setDuo(EnumUtils.getViewName(CharacterEnum.class, "-"));
-            } else {
-                card.setDuo(duoObject);// デュオ
-            }
-
+            MagicGroupingEnum magic3Object = MagicGroupingEnum
+                    .getValueOfMagicGrouping((int) map.get("magic3_grouping"));
+            card.setMagic3(magic3Object);// マジック３
+            card.setDuo(CharacterEnum.getValueOfCharacterName((String) map.get("duo")));// デュオ
             card.setMagic1BuffdebuffGrouping(BuffDebuffGroupingEnum
                     .getValueOfBuffDebuffGrouping((String) map.get("magic1_buffDebuff_grouping")));// マジック１バフ区分
-
             card.setMagic2BuffdebuffGrouping(BuffDebuffGroupingEnum
                     .getValueOfBuffDebuffGrouping((String) map.get("magic2_buffDebuff_grouping")));// マジック２バフ区分
-
             card.setMagic3BuffdebuffGrouping(BuffDebuffGroupingEnum
                     .getValueOfBuffDebuffGrouping((String) map.get("magic3_buffDebuff_grouping")));// マジック３バフ区分
-
             card.setMinHp((BigDecimal) map.get("min_hp"));// 初期HP
             card.setMinAtk((BigDecimal) map.get("min_atk"));// 初期ATK
             card.setMaxHp((BigDecimal) map.get("max_hp"));// 最大HP
             card.setMaxAtk((BigDecimal) map.get("max_atk"));// 最大ATK
-
             card.setValidFlg((boolean) map.get("valid_flg"));// 有効フラグ
 
             // 結果返却用のListに追加

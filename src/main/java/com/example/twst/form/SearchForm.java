@@ -65,17 +65,7 @@ public class SearchForm implements Serializable {
     /**
      * 魔法１効果
      */
-    private String[] buffDebuffChecks1;
-
-    /**
-     * 魔法２効果
-     */
-    private String[] buffDebuffChecks2;
-
-    /**
-     * 魔法３効果
-     */
-    private String[] buffDebuffChecks3;
+    private String[] buffDebuffChecks;
 
     /**
      * include or exclude1

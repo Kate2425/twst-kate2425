@@ -72,7 +72,7 @@
                                     th:if="${#strings.contains({buddyElement},'__${card.buddy1.characterName}__')} and
                                            ${card.buddy1.characterName} != ${card.duo.characterName}"
                                     th:class='buddy'
-                                    th:text="'バディ１:' + ${card.buddy1.viewName} + ' ' + ${card.buddy1grouping.effect}">
+                                    th:text="'バディ１:' + ${card.buddy1.viewName} + ' ' + ${card.buddy1Grouping.effect}">
                                 </li>
                                 <li
                                     th:if="${!#strings.contains({buddyElement},'__${card.buddy1.characterName}__')}"
@@ -84,7 +84,7 @@
                                         th:if="${duoElement} == ${card.duo.characterName} and
                                                ${duoElement} == ${card.buddy1.characterName}"
                                         th:class='duo'
-                                        th:text="'バディ１:' + ${card.buddy1.viewName}  + ' ' + ${card.buddy1grouping.effect}+ ' デュオ'">
+                                        th:text="'バディ１:' + ${card.buddy1.viewName}  + ' ' + ${card.buddy1Grouping.effect}+ ' デュオ'">
                                     </li>
                                     <li
                                         th:if="${duoElement} != ${card.duo.characterName} and
