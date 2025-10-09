@@ -16,7 +16,7 @@ window.addEventListener('load', function () {
         message = 'から削除しました。';
       }
 
-      let $form = $(this).parents().find('form');
+      let $form = $(this).parent().parent().find('form');
       console.log('$form:%o', $form);
 
       let cardForm = $form.serialize();

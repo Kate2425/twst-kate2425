@@ -47,188 +47,186 @@
                     <th>魔法３効果</th>
                     <th> </th>
                 </tr>
-                <th:block th:each="record , st: ${cardList}">
-                    <form th:form="'cardForm' + ${st.index}">
-                        <tr>
+                <tr th:each="record , st: ${cardList}">
+                    <th th:text="${record.clothingName}"></th>
+                    <td th:text="${record.name.viewName}"></td>
+                    <form th:form="'cardForm' + ${st.index}"
+                        th:object="${CardForm}">
+                        <td>
+                            <select th:name="rare" class="selectbox">
+                                <option th:each=" option: ${rare}"
+                                    th:value="${option.characterName}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="type" class="selectbox type">
+                                <option th:each=" option: ${type}"
+                                    th:value="${option.characterName}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="buddy1" class="selectbox name">
+                                <option th:each=" option: ${characterName}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="buddy2" class="selectbox name">
+                                <option th:each=" option: ${characterName}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="buddy3" class="selectbox name">
+                                <option th:each=" option: ${characterName}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="magic1"
+                                class="selectbox magic">
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="magic2"
+                                class="selectbox magic">
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="magic3"
+                                class="selectbox magic">
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="duo" class="selectbox name">
+                                <option th:each=" option: ${characterName}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" th:name="minHp"
+                                th:value="${record.minHp}"
+                                class="textbox" />
+                        </td>
+                        <td>
+                            <input type="text" th:name="minAtk"
+                                th:value="${record.minAtk}"
+                                class="textbox" />
+                        </td>
+                        <td>
+                            <input type="text" th:name="maxHp"
+                                th:value="${record.maxHp}"
+                                class="textbox">
+                        </td>
+                        <td>
+                            <input type="text" th:name="maxAtk"
+                                th:value="${record.maxAtk}"
+                                class="textbox">
+                        </td>
+                        <td>
+                            <select th:name="validFlg"
+                                class="selectbox valid">
+                                <option th:value="true"
+                                    th:text="所持"></option>
+                                <option th:value="false"
+                                    th:text="未所持"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="buddy1Grouping"
+                                class="selectbox buddyGrouping">
+                                <option
+                                    th:each=" option: ${buddyGrouping}"
+                                    th:value="${option.name}"
+                                    th:text="${option.effect}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="buddy2Grouping"
+                                class="selectbox buddyGrouping">
+                                <option
+                                    th:each=" option: ${buddyGrouping}"
+                                    th:value="${option.name}"
+                                    th:text="${option.effect}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="buddy3Grouping"
+                                class="selectbox buddyGrouping">
+                                <option
+                                    th:each=" option: ${buddyGrouping}"
+                                    th:value="${option.name}"
+                                    th:text="${option.effect}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="magic1BuffdebuffGrouping"
+                                class="selectbox buffDebuffGrouping">
+                                <option
+                                    th:each=" option: ${buffDebuffGrouping}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="magic2BuffdebuffGrouping"
+                                class="selectbox buffDebuffGrouping">
+                                <option
+                                    th:each=" option: ${buffDebuffGrouping}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select th:name="magic3BuffdebuffGrouping"
+                                class="selectbox buffDebuffGrouping">
+                                <option
+                                    th:each=" option: ${buffDebuffGrouping}"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
                             <input type="hidden" th:name="tableName"
                                 th:value="${record.tableName.name}" />
-                            <th th:text="${record.clothingName}"></th>
-                            <td th:text="${record.name.viewName}">
-                            </td>
                             <input type="hidden" th:name="name"
                                 th:value="${record.name.name}" />
-                            <td>
-                                <select th:name="rare" class="selectbox">
-                                    <option th:each=" option: ${rare}"
-                                        th:value="${option.characterName}"
-                                        th:text="${option.viewName}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="type" class="selectbox type">
-                                    <option th:each=" option: ${type}"
-                                        th:value="${option.characterName}"
-                                        th:text="${option.viewName}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="buddy1" class="selectbox name">
-                                    <option th:each=" option: ${characterName}"
-                                        th:value="${option.name}"
-                                        th:text="${option.viewName}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="buddy2" class="selectbox name">
-                                    <option th:each=" option: ${characterName}"
-                                        th:value="${option.name}"
-                                        th:text="${option.viewName}"></option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="buddy3" class="selectbox name">
-                                    <option th:each=" option: ${characterName}"
-                                        th:value="${option.name}"
-                                        th:text="${option.viewName}"></option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="magic1"
-                                    class="selectbox magic">
-                                    <option
-                                        th:each=" option: ${magic}"
-                                        th:value="${option.name}"
-                                        th:text="${option.viewName}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="magic2"
-                                    class="selectbox magic">
-                                    <option
-                                        th:each=" option: ${magic}"
-                                        th:value="${option.name}"
-                                        th:text="${option.viewName}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="magic3"
-                                    class="selectbox magic">
-                                    <option
-                                        th:each=" option: ${magic}"
-                                        th:value="${option.name}"
-                                        th:text="${option.viewName}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="duo" class="selectbox name">
-                                    <option th:each=" option: ${characterName}"
-                                        th:value="${option.name}"
-                                        th:text="${option.viewName}"></option>
-                                </select>
-                            </td>
-                            <td>
-                                <input type="text" th:name="minHp"
-                                    th:value="${record.minHp}"
-                                    class="textbox" />
-                            </td>
-                            <td>
-                                <input type="text" th:name="minAtk"
-                                    th:value="${record.minAtk}"
-                                    class="textbox" />
-                            </td>
-                            <td>
-                                <input type="text" th:name="maxHp"
-                                    th:value="${record.maxHp}"
-                                    class="textbox">
-                            </td>
-                            <td>
-                                <input type="text" th:name="maxAtk"
-                                    th:value="${record.maxAtk}"
-                                    class="textbox">
-                            </td>
-                            <td>
-                                <select th:name="validFlg"
-                                    class="selectbox valid">
-                                    <option th:value="true"
-                                        th:text="所持"></option>
-                                    <option th:value="false"
-                                        th:text="未所持"></option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="buddy1Grouping"
-                                    class="selectbox buddyGrouping">
-                                    <option
-                                        th:each=" option: ${buddyGrouping}"
-                                        th:value="${option.name}"
-                                        th:text="${option.effect}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="buddy2Grouping"
-                                    class="selectbox buddyGrouping">
-                                    <option
-                                        th:each=" option: ${buddyGrouping}"
-                                        th:value="${option.name}"
-                                        th:text="${option.effect}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="buddy3Grouping"
-                                    class="selectbox buddyGrouping">
-                                    <option
-                                        th:each=" option: ${buddyGrouping}"
-                                        th:value="${option.name}"
-                                        th:text="${option.effect}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="magic1BuffdebuffGrouping"
-                                    class="selectbox buffDebuffGrouping">
-                                    <option
-                                        th:each=" option: ${buffDebuffGrouping}"
-                                        th:value="${option.name}"
-                                        th:text="${option.viewName}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="magic2BuffdebuffGrouping"
-                                    class="selectbox buffDebuffGrouping">
-                                    <option
-                                        th:each=" option: ${buffDebuffGrouping}"
-                                        th:value="${option.name}"
-                                        th:text="${option.viewName}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <select th:name="magic3BuffdebuffGrouping"
-                                    class="selectbox buffDebuffGrouping">
-                                    <option
-                                        th:each=" option: ${buffDebuffGrouping}"
-                                        th:value="${option.name}"
-                                        th:text="${option.viewName}">
-                                    </option>
-                                </select>
-                            </td>
-                            <td>
-                                <button th:formaction="@{/update}"
-                                    type="button" id="'submit' + ${st.index}"
-                                    class="btn submit light-blue-purple">更新</button>
-                            </td>
-                        </tr>
+                            <button th:formaction="@{/update}"
+                                type="button" th:id="'submit' + ${st.index}"
+                                class="btn submit light-blue-purple">更新</button>
+                        </td>
                     </form>
-                </th:block>
+                </tr>
             </tbody>
         </ta>
         <!--/*Bootstrapのモーダルウィンドウ*/-->
