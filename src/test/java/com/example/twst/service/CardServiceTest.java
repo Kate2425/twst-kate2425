@@ -3,7 +3,9 @@ package com.example.twst.service;
 import java.math.BigDecimal;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 import java.util.Map;
@@ -12,10 +14,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.example.twst.dao.CardDaoJdbcImpl;
 import com.example.twst.domain.model.BuddyGroupingEnum;
 import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.Card;
@@ -36,6 +39,9 @@ public class CardServiceTest {
 
     @Autowired
     OrganizeSession organizeSession;
+
+    @MockitoSpyBean
+    CardDaoJdbcImpl spyDao;
 
     BigDecimal[] tempHpArray = new BigDecimal[5];
     BigDecimal[] tempAtkArray = new BigDecimal[5];
@@ -112,6 +118,20 @@ public class CardServiceTest {
     }
 
     @Test
+    @DisplayName("insert_異常系2")
+    void insert_03() throws Exception {
+        // Arrange
+        CardForm cardForm = new CardForm();
+        doReturn(0).when(spyDao).insertOne(cardForm);
+
+        // Act 
+        boolean result = target.insert(cardForm);
+
+        // Assert
+        assertThat(result, is(false));
+    }
+
+    @Test
     @DisplayName("selectMany")
     void selectMany() throws Exception {
         // Arrange
@@ -127,8 +147,6 @@ public class CardServiceTest {
         String[] buddyParam = {};
         String[] duoParam = {};
         String[] buffDebuffParam1 = {};
-        String[] buffDebuffParam2 = {};
-        String[] buffDebuffParam3 = {};
         searchForm.setTableNameChecks(tableNameChecks);
         searchForm.setNameChecks(nameParam);
         searchForm.setRareChecks(rareParam);
@@ -138,9 +156,7 @@ public class CardServiceTest {
         searchForm.setMagicChecks3(magicParam3);
         searchForm.setBuddyChecks(buddyParam);
         searchForm.setDuoChecks(duoParam);
-        searchForm.setBuffDebuffChecks1(buffDebuffParam1);
-        searchForm.setBuffDebuffChecks2(buffDebuffParam2);
-        searchForm.setBuffDebuffChecks3(buffDebuffParam3);
+        searchForm.setBuffDebuffChecks(buffDebuffParam1);
 
         // Act
         List<Card> result = target.selectMany(searchForm, tableName);
@@ -165,8 +181,6 @@ public class CardServiceTest {
         String[] buddyParam = {};
         String[] duoParam = {};
         String[] buffDebuffParam1 = {};
-        String[] buffDebuffParam2 = {};
-        String[] buffDebuffParam3 = {};
         searchForm.setTableNameChecks(tableNameChecks);
         searchForm.setNameChecks(nameParam);
         searchForm.setRareChecks(rareParam);
@@ -176,9 +190,7 @@ public class CardServiceTest {
         searchForm.setMagicChecks3(magicParam3);
         searchForm.setBuddyChecks(buddyParam);
         searchForm.setDuoChecks(duoParam);
-        searchForm.setBuffDebuffChecks1(buffDebuffParam1);
-        searchForm.setBuffDebuffChecks2(buffDebuffParam2);
-        searchForm.setBuffDebuffChecks3(buffDebuffParam3);
+        searchForm.setBuffDebuffChecks(buffDebuffParam1);
         searchForm.setSort("atk");
 
         // Act
@@ -204,8 +216,6 @@ public class CardServiceTest {
         String[] buddyParam = {};
         String[] duoParam = {};
         String[] buffDebuffParam1 = {};
-        String[] buffDebuffParam2 = {};
-        String[] buffDebuffParam3 = {};
         searchForm.setTableNameChecks(tableNameChecks);
         searchForm.setNameChecks(nameParam);
         searchForm.setRareChecks(rareParam);
@@ -215,9 +225,7 @@ public class CardServiceTest {
         searchForm.setMagicChecks3(magicParam3);
         searchForm.setBuddyChecks(buddyParam);
         searchForm.setDuoChecks(duoParam);
-        searchForm.setBuffDebuffChecks1(buffDebuffParam1);
-        searchForm.setBuffDebuffChecks2(buffDebuffParam2);
-        searchForm.setBuffDebuffChecks3(buffDebuffParam3);
+        searchForm.setBuffDebuffChecks(buffDebuffParam1);
         searchForm.setSort("hp");
 
         // Act
@@ -243,8 +251,6 @@ public class CardServiceTest {
         String[] buddyParam = {};
         String[] duoParam = {};
         String[] buffDebuffParam1 = {};
-        String[] buffDebuffParam2 = {};
-        String[] buffDebuffParam3 = {};
         searchForm.setTableNameChecks(tableNameChecks);
         searchForm.setNameChecks(nameParam);
         searchForm.setRareChecks(rareParam);
@@ -254,9 +260,7 @@ public class CardServiceTest {
         searchForm.setMagicChecks3(magicParam3);
         searchForm.setBuddyChecks(buddyParam);
         searchForm.setDuoChecks(duoParam);
-        searchForm.setBuffDebuffChecks1(buffDebuffParam1);
-        searchForm.setBuffDebuffChecks2(buffDebuffParam2);
-        searchForm.setBuffDebuffChecks3(buffDebuffParam3);
+        searchForm.setBuffDebuffChecks(buffDebuffParam1);
         searchForm.setSort("reflectedAtk");
 
         // Act
@@ -282,8 +286,6 @@ public class CardServiceTest {
         String[] buddyParam = {};
         String[] duoParam = {};
         String[] buffDebuffParam1 = {};
-        String[] buffDebuffParam2 = {};
-        String[] buffDebuffParam3 = {};
         searchForm.setTableNameChecks(tableNameChecks);
         searchForm.setNameChecks(nameParam);
         searchForm.setRareChecks(rareParam);
@@ -293,9 +295,7 @@ public class CardServiceTest {
         searchForm.setMagicChecks3(magicParam3);
         searchForm.setBuddyChecks(buddyParam);
         searchForm.setDuoChecks(duoParam);
-        searchForm.setBuffDebuffChecks1(buffDebuffParam1);
-        searchForm.setBuffDebuffChecks2(buffDebuffParam2);
-        searchForm.setBuffDebuffChecks3(buffDebuffParam3);
+        searchForm.setBuffDebuffChecks(buffDebuffParam1);
         searchForm.setSort("reflectedHp");
 
         // Act
@@ -306,8 +306,8 @@ public class CardServiceTest {
     }
 
     @Test
-    @DisplayName("updateOne")
-    void updateOne() throws Exception {
+    @DisplayName("updateOne_正常系")
+    void updateOne_01() throws Exception {
         // Arrange
         CardForm cardForm = new CardForm();
         cardForm.setTableName(TableEnum.GALA_COUTURE);
@@ -341,8 +341,22 @@ public class CardServiceTest {
     }
 
     @Test
+    @DisplayName("update_異常系")
+    void update_02() throws Exception {
+        // Arrange
+        CardForm cardForm = new CardForm();
+        doReturn(0).when(spyDao).updateOne(cardForm);
+
+        // Act 
+        boolean result = target.updateOne(cardForm);
+
+        // Assert
+        assertThat(result, is(false));
+    }
+
+    @Test
     @DisplayName("deleteOne")
-    void deleteOne() throws Exception {
+    void deleteOne_01() throws Exception {
         // Arrange
         CardForm cardForm = new CardForm();
         cardForm.setTableName(TableEnum.ROLL_PLAYING_BRIDEGROOM);
@@ -369,6 +383,20 @@ public class CardServiceTest {
 
         // Assert
         assertThat(result, is(true));
+    }
+
+    @Test
+    @DisplayName("delete_異常系")
+    void delete_02() throws Exception {
+        // Arrange
+        CardForm cardForm = new CardForm();
+        doReturn(0).when(spyDao).deleteOne(cardForm);
+
+        // Act 
+        boolean result = target.deleteOne(cardForm);
+
+        // Assert
+        assertThat(result, is(false));
     }
 
     @Test
@@ -477,11 +505,11 @@ public class CardServiceTest {
         assertThat(buddyMap.get("Leona"), is(containsInAnyOrder("Ruggie")));
         assertThat(buddyMap.get("Ruggie"), is(containsInAnyOrder("Deuce")));
         assertThat(hpArray,
-                is(arrayContaining(BigDecimal.valueOf(1200), BigDecimal.valueOf(2600), BigDecimal.valueOf(3000),
-                        BigDecimal.valueOf(4000), BigDecimal.valueOf(6000))));
+                is(arrayContaining(BigDecimal.valueOf(1200), BigDecimal.valueOf(2600), BigDecimal.valueOf(3900),
+                        BigDecimal.valueOf(5200), BigDecimal.valueOf(6000))));
         assertThat(atkArray,
-                is(arrayContaining(BigDecimal.valueOf(1000), BigDecimal.valueOf(2000), BigDecimal.valueOf(3600),
-                        BigDecimal.valueOf(5400), BigDecimal.valueOf(6000))));
+                is(arrayContaining(BigDecimal.valueOf(1000), BigDecimal.valueOf(2000), BigDecimal.valueOf(3000),
+                        BigDecimal.valueOf(4000), BigDecimal.valueOf(6000))));
     }
 
     @Test
@@ -553,10 +581,10 @@ public class CardServiceTest {
         assertThat(buddyMap.get("Ruggie"), is(containsInAnyOrder("Deuce")));
         assertThat(tempHpArray,
                 is(arrayContaining(BigDecimal.valueOf(1000), null, BigDecimal.valueOf(3000),
-                        BigDecimal.valueOf(4000), BigDecimal.valueOf(6000))));
+                        BigDecimal.valueOf(5200), BigDecimal.valueOf(6000))));
         assertThat(tempAtkArray,
                 is(arrayContaining(BigDecimal.valueOf(1000), null, BigDecimal.valueOf(3600),
-                        BigDecimal.valueOf(5400), BigDecimal.valueOf(6000))));
+                        BigDecimal.valueOf(4000), BigDecimal.valueOf(6000))));
     }
 
     @Test
