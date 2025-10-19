@@ -117,7 +117,7 @@
                         <td>
                             <select th:name="rare" class="selectbox">
                                 <option th:each=" option: ${rare}"
-                                    th:value="${option.characterName}"
+                                    th:value="${option.elementName}"
                                     th:text="${option.viewName}">
                                 </option>
                             </select>
@@ -125,7 +125,7 @@
                         <td>
                             <select th:name="type" class="selectbox type">
                                 <option th:each=" option: ${type}"
-                                    th:value="${option.characterName}"
+                                    th:value="${option.elementName}"
                                     th:text="${option.viewName}">
                                 </option>
                             </select>

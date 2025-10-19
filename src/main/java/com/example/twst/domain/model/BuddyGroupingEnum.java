@@ -31,12 +31,13 @@ public enum BuddyGroupingEnum {
      * @return effect
      */
     public static String getEffect(int buddyGrouping) {
+        String effect = "";
         for (BuddyGroupingEnum buddyGroupingEnum : BuddyGroupingEnum.values()) {
             if (buddyGroupingEnum.getBuddyGrouping() == buddyGrouping) {
-                return buddyGroupingEnum.getEffect();
+                effect = buddyGroupingEnum.getEffect();
             }
         }
-        return null;
+        return effect;
     }
 
     /**
@@ -61,12 +62,13 @@ public enum BuddyGroupingEnum {
      * @return BuddyGroupingEnum
      */
     public static BuddyGroupingEnum getValueOfBuddyGrouping(int buddyGrouping) {
-        for (BuddyGroupingEnum buddyGroupingEnum : BuddyGroupingEnum.values()) {
-            if (buddyGroupingEnum.getBuddyGrouping() == buddyGrouping) {
-                return buddyGroupingEnum;
+        BuddyGroupingEnum buddyGroupingEnum = BuddyGroupingEnum.HYPHEN;
+        for (BuddyGroupingEnum values : BuddyGroupingEnum.values()) {
+            if (values.getBuddyGrouping() == buddyGrouping) {
+                buddyGroupingEnum = values;
             }
         }
-        return HYPHEN;
+        return buddyGroupingEnum;
     }
 
     /**

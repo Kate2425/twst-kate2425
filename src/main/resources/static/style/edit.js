@@ -37,6 +37,7 @@ window.addEventListener('load', function () {
           $('.modal-body').find('p').remove(); //モーダルウィンドウの表示前に<p>タグを削除する
           $('.modal-body').append('<p>' + tableViewName + message + '</p>'); //<p>タグの追加。
           $('#successMsg').modal('show'); //モーダルウィンドウを表示する
+          window.location.href = url;
         })
         // エラー
         .catch(error => {

@@ -22,7 +22,6 @@ import com.example.twst.domain.model.BuddyGroupingEnum;
 import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.CharacterEnum;
-import com.example.twst.domain.model.EnumUtils;
 import com.example.twst.domain.model.MagicGroupingEnum;
 import com.example.twst.domain.model.TableEnum;
 import com.example.twst.form.CardForm;
@@ -47,7 +46,7 @@ public class CardDaoJdbcImpl implements CardDao {
         long millis = System.currentTimeMillis();
         Timestamp timestamp = new Timestamp(millis);
 
-        String tableName = cardForm.getTableName().getCharacterName();
+        String tableName = cardForm.getTableName().getTableName();
 
         // SQL文
         String sql = "INSERT INTO " + tableName + "(id"
@@ -101,7 +100,7 @@ public class CardDaoJdbcImpl implements CardDao {
 
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("id",
-                        TableEnum.getIdOfCharacterName(tableName) + "_"
+                        TableEnum.getIdOfTableName(tableName) + "_"
                                 + cardForm.getName().getCharacterName().toLowerCase())
                 .addValue("name", cardForm.getName().getCharacterName())
                 .addValue("rare", cardForm.getRare())
@@ -364,8 +363,8 @@ public class CardDaoJdbcImpl implements CardDao {
             Card card = new Card();
 
             // 取得したデータをセット
-            TableEnum tableObject = EnumUtils.getViewName(TableEnum.class, tableName);
-            card.setTableName(tableObject);// テーブル名
+            // TableEnum tableObject = EnumUtils.getViewName(TableEnum.class, tableName);
+            card.setTableName(TableEnum.getValueOfTableName(tableName));// テーブル名
             card.setId((String) map.get("id"));// カードID
             card.setClothingName(getClothingName(tableName, (String) map.get("name"))); // 衣装
             card.setNum((int) map.get("num"));// 項番
@@ -416,7 +415,7 @@ public class CardDaoJdbcImpl implements CardDao {
      */
     @Override
     public int updateOne(CardForm cardForm) throws DataAccessException {
-        String tableName = cardForm.getTableName().getCharacterName();
+        String tableName = cardForm.getTableName().getTableName();
 
         // SQL
         String sql = "UPDATE " + tableName
@@ -479,7 +478,7 @@ public class CardDaoJdbcImpl implements CardDao {
      */
     @Override
     public int deleteOne(CardForm cardForm) throws DataAccessException {
-        String tableName = cardForm.getTableName().getCharacterName();
+        String tableName = cardForm.getTableName().getTableName();
 
         // SQL
         String sql = "DELETE FROM " + tableName
@@ -543,7 +542,7 @@ public class CardDaoJdbcImpl implements CardDao {
             case "Trein" -> clothingName = "ストリクトスーツ";
             case "Vargas" -> clothingName = "ハンサムジャージ";
             default -> {
-                TableEnum tableObject = EnumUtils.getViewName(TableEnum.class, tableName);
+                TableEnum tableObject = TableEnum.getValueOfTableName(tableName);
                 switch (clothingName) {
                     case "seventh_chapter" -> clothingName = getSeventhChapter(name);
                     case "over_blot" -> clothingName = getOverBlot(name);
@@ -584,7 +583,7 @@ public class CardDaoJdbcImpl implements CardDao {
      */
     private String getOrthoId(String tableName) {
         String idName = tableName;
-        TableEnum tableObject = EnumUtils.getViewName(TableEnum.class, tableName);
+        TableEnum tableObject = TableEnum.getValueOfTableName(tableName);
         switch (idName) {
             case "dormitory_clothing" -> idName = "イグニハイド・ギア";
             case "experimental_clothing" -> idName = "プレジション・ギア";

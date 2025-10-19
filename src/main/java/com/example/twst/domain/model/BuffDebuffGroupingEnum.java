@@ -645,12 +645,13 @@ public enum BuffDebuffGroupingEnum {
          * @return type
          */
         public static String getType(final String buffDebuffGrouping) {
+                String type = "";
                 for (BuffDebuffGroupingEnum buffDebuffGroupingEnum : BuffDebuffGroupingEnum.values()) {
                         if (buffDebuffGroupingEnum.getBuffDebuffGrouping().equals(buffDebuffGrouping)) {
-                                return buffDebuffGroupingEnum.getType();
+                                type = buffDebuffGroupingEnum.getType();
                         }
                 }
-                return "";
+                return type;
         }
 
         /**
@@ -660,12 +661,13 @@ public enum BuffDebuffGroupingEnum {
          * @return viewName
          */
         public static String getViewName(final String buffDebuffGrouping) {
+                String viewName = "";
                 for (BuffDebuffGroupingEnum buffDebuffGroupingEnum : BuffDebuffGroupingEnum.values()) {
                         if (buffDebuffGroupingEnum.getBuffDebuffGrouping().equals(buffDebuffGrouping)) {
-                                return buffDebuffGroupingEnum.getViewName();
+                                viewName = buffDebuffGroupingEnum.getViewName();
                         }
                 }
-                return "";
+                return viewName;
         }
 
         /**
@@ -723,12 +725,13 @@ public enum BuffDebuffGroupingEnum {
          * @return BuffDebuffGroupingEnum
          */
         public static BuffDebuffGroupingEnum getValueOfViewName(final String name) {
-                for (BuffDebuffGroupingEnum buffDebuffGroupingEnum : BuffDebuffGroupingEnum.values()) {
-                        if (buffDebuffGroupingEnum.getViewName().equals(name)) {
-                                return buffDebuffGroupingEnum;
+                BuffDebuffGroupingEnum buffDebuffGroupingEnum = HYPHEN;
+                for (BuffDebuffGroupingEnum values : BuffDebuffGroupingEnum.values()) {
+                        if (values.getViewName().equals(name)) {
+                                buffDebuffGroupingEnum = values;
                         }
                 }
-                return HYPHEN;
+                return buffDebuffGroupingEnum;
         }
 
         /**

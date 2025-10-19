@@ -21,7 +21,7 @@
             <fieldset>
                 <legend>レア度</legend>
                 <span th:each="item : ${rare}">
-                    <input type="checkbox" th:value="${item.characterName}"
+                    <input type="checkbox" th:value="${item.elementName}"
                         th:field="*{rareChecks}" class="checkbox-icon" />
                     <label th:for="${#ids.prev('rareChecks')}"
                         th:text="${item.viewName}" class="checkbox"></label>
@@ -31,7 +31,7 @@
             <fieldset>
                 <legend>タイプ</legend>
                 <span th:each="item : ${type}">
-                    <input type="checkbox" th:value="${item.characterName}"
+                    <input type="checkbox" th:value="${item.elementName}"
                         th:field="*{typeChecks}" class="checkbox-icon" />
                     <label th:for="${#ids.prev('typeChecks')}"
                         th:text="${item.viewName}" class="checkbox"></label>
@@ -48,10 +48,10 @@
                         <p>
                             <span th:each="item : ${magic}">
                                 <input type="checkbox"
-                                    th:value="${item.characterName}"
+                                    th:value="${item.elementName}"
                                     th:field="*{magicChecks1}"
                                     class="checkbox-icon" />
-                                <th:block th:switch="${item.characterName}">
+                                <th:block th:switch="${item.elementName}">
                                     <label th:for="${#ids.prev('magicChecks1')}"
                                         th:case="'FIRE'" th:class='fire'
                                         th:text="${item.viewName}"
@@ -86,10 +86,10 @@
                         <p>
                             <span th:each="item : ${magic}">
                                 <input type="checkbox"
-                                    th:value="${item.characterName}"
+                                    th:value="${item.elementName}"
                                     th:field="*{magicChecks2}"
                                     class="checkbox-icon" />
-                                <th:block th:switch="${item.characterName}">
+                                <th:block th:switch="${item.elementName}">
                                     <label th:for="${#ids.prev('magicChecks2')}"
                                         th:case="'FIRE'" th:class='fire'
                                         th:text="${item.viewName}"
@@ -122,10 +122,10 @@
                         <legend>マジック属性３</legend>
                         <p><span th:each="item : ${magic}">
                                 <input type="checkbox"
-                                    th:value="${item.characterName}"
+                                    th:value="${item.elementName}"
                                     th:field="*{magicChecks3}"
                                     class="checkbox-icon" />
-                                <th:block th:switch="${item.characterName}">
+                                <th:block th:switch="${item.elementName}">
                                     <label th:for="${#ids.prev('magicChecks3')}"
                                         th:case="'FIRE'" th:class='fire'
                                         th:text="${item.viewName}"
@@ -158,11 +158,7 @@
 
             <fieldset>
                 <legend>マジック効果
-                    <!-- <span class="toggleIcon"></span> -->
                 </legend>
-                <!-- <div class="accordion_item" data-accordion="item">
-                    <fieldset>
-                        <legend>マジック１</legend> -->
                         <span th:each="item : ${buffDebuff}">
                             <input type="checkbox" th:value="${item}"
                                 th:field="*{buffDebuffChecks}"
@@ -170,30 +166,6 @@
                             <label th:for="${#ids.prev('buffDebuffChecks')}"
                                 th:text="${item}" class="checkbox"></label>
                         </span>
-                    <!-- </fieldset> -->
-
-                    <!-- <fieldset>
-                        <legend>マジック２</legend>
-                        <span th:each="item : ${buffDebuff}">
-                            <input type="checkbox" th:value="${item}"
-                                th:field="*{buffDebuffChecks2}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buffDebuffChecks2')}"
-                                th:text="${item}" class="checkbox"></label>
-                        </span>
-                    </fieldset> -->
-
-                    <!-- <fieldset>
-                        <legend>マジック３</legend>
-                        <span th:each="item : ${buffDebuff}">
-                            <input type="checkbox" th:value="${item}"
-                                th:field="*{buffDebuffChecks3}"
-                                class="checkbox-icon" />
-                            <label th:for="${#ids.prev('buffDebuffChecks3')}"
-                                th:text="${item}" class="checkbox"></label>
-                        </span>
-                    </fieldset> -->
-                <!-- </div> -->
             </fieldset>
 
                     <fieldset class="accordion" data-accordion="box">
@@ -578,7 +550,7 @@
                         <span class="checkbox">全て選択・解除</span>
                     </p>
                     <span th:each="item : ${tableName}">
-                        <input type="checkbox" th:value="${item.characterName}"
+                        <input type="checkbox" th:value="${item.tableName}"
                             th:field="*{tableNameChecks}" required="required"
                             class="tableChecks checkbox-icon" />
                         <label th:for="${#ids.prev('tableNameChecks')}"

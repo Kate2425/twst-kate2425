@@ -27,7 +27,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.example.twst.domain.model.BuddyGroupingEnum;
+import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.Card;
+import com.example.twst.domain.model.CardEnum;
+import com.example.twst.domain.model.CharacterEnum;
+import com.example.twst.domain.model.MagicGroupingEnum;
 import com.example.twst.domain.model.TableEnum;
 import com.example.twst.service.CardService;
 
@@ -67,6 +72,12 @@ public class InsertControllerTest {
                                 .andExpect(model().attribute("cardList",
                                                 is(hasItem(hasProperty("id", is("sen_deuce"))))))
                                 .andExpect(model().attribute("tableName", is(TableEnum.SENDING_STAR_DRESS)))
+                                .andExpect(model().attribute("characterName", CharacterEnum.values()))
+                                .andExpect(model().attribute("rare", CardEnum.getValueListOfFormName("rare")))
+                                .andExpect(model().attribute("type", CardEnum.getValueListOfFormName("type")))
+                                .andExpect(model().attribute("magicGrouping", MagicGroupingEnum.values()))
+                                .andExpect(model().attribute("buddyGrouping", BuddyGroupingEnum.values()))
+                                .andExpect(model().attribute("buffDebuffGrouping", BuffDebuffGroupingEnum.values()))
                                 .andReturn();
 
                 MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
@@ -95,9 +106,9 @@ public class InsertControllerTest {
                                 .param("maxHp", "0")
                                 .param("maxAtk", "0")
                                 .param("validFlg", "false")
-                                .param("buddy1Grouping", "3")
-                                .param("buddy2Grouping", "2")
-                                .param("buddy3Grouping", "1"))
+                                .param("buddy1Grouping", "ATK_UP_SMALL")
+                                .param("buddy2Grouping", "HP_UP_MIDDLE")
+                                .param("buddy3Grouping", "HP_UP_SMALL"))
                                 .andExpect(status().isFound())
                                 .andExpect(view().name("redirect:insert"))
                                 .andReturn();
@@ -109,7 +120,7 @@ public class InsertControllerTest {
                                 .andExpect(view().name("insert.html"))
                                 .andExpect(status().isOk())
                                 .andExpect(model().attribute("cardList",
-                                                is(hasItem(hasProperty("id", is("sen_deuce"))))))
+                                                is(hasItem(hasProperty("id", is("sen_jade"))))))
                                 .andExpect(model().attribute("tableName", is(TableEnum.SENDING_STAR_DRESS)));
 
         }

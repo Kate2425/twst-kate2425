@@ -326,16 +326,18 @@
                                         th:text="${item.key}"></label>
                                 </span>
                             </div>
-                            <!-- <div class="tern">
-                                <p>ターン</p>
-                                <span th:each="item : ${tern}">
-                                    <input type="radio" th:value="${item.value}"
-                                        th:field="*{tern}"
-                                        class="radio-icon" />
-                                    <label th:for="${#ids.prev('tern')}"
-                                        th:text="${item.key}"></label>
+                            <div class="buffDebuff">
+                                <p>バフデバフ</p>
+                                <span th:each="item : ${buffDebuff}">
+                                    <input type="checkbox" th:value="${item}"
+                                        th:field="*{enemyBuffDebuffChecks}"
+                                        class="checkbox-icon" />
+                                    <label
+                                        th:for="${#ids.prev('enemyBuffDebuffChecks')}"
+                                        th:text="${item}"
+                                        class="checkbox"></label>
                                 </span>
-                            </div> -->
+                            </div>
                         </fieldset>
 
                         <input type="hidden" name="reflectedHp"

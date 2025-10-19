@@ -22,6 +22,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.example.twst.domain.model.BuffDebuffGroupingEnum;
+import com.example.twst.domain.model.CardEnum;
 import com.example.twst.session.OrganizeSession;
 
 @SpringBootTest
@@ -52,9 +54,15 @@ public class OrganizeControllerTest {
 
                 mockMvc.perform(get("/organize"))
                                 .andExpect(status().isOk())
-                                .andExpect(view().name("organize.html"))
                                 .andExpect(model().attribute("totalHp", is(BigDecimal.ZERO)))
+                                .andExpect(model().attribute("buddyCount", is(0)))
+                                .andExpect(model().attribute("duoCount", is(0)))
                                 .andExpect(model().attribute("reflectedHp", is(BigDecimal.ZERO)))
+                                .andExpect(model().attribute("arrayIndex", is(0)))
+                                .andExpect(model().attribute("cardArray",
+                                                is(arrayContaining(null, null, null, null, null))))
+                                .andExpect(model().attribute("magic", CardEnum.getValueListOfFormName("magic")))
+                                .andExpect(model().attribute("buffDebuff", BuffDebuffGroupingEnum.getTypeList()))
                                 .andExpect(view().name("organize.html"));
         }
 
@@ -71,11 +79,11 @@ public class OrganizeControllerTest {
                                 .param("rare", "SSR")
                                 .param("type", "DEFENCE")
                                 .param("buddy1", "TREY")
-                                .param("buddy1Effect", "ATK UP(小)")
+                                .param("buddy1Grouping", "ATK_UP_SMALL")
                                 .param("buddy2", "AZUL")
-                                .param("buddy2Effect", "HP UP(小)")
+                                .param("buddy2Grouping", "HP_UP_SMALL")
                                 .param("buddy3", "FLOYD")
-                                .param("buddy3Effect", "HP UP(中)")
+                                .param("buddy3Grouping", "HP_UP_MIDDLE")
                                 .param("magic1", "AQUA_WAVE")
                                 .param("magic2", "FLAME_BLAST")
                                 .param("magic3", "LEAF_SHOT2")
@@ -97,7 +105,6 @@ public class OrganizeControllerTest {
                 mvcResult = mockMvc.perform(get("/organize")
                                 .session(mockSession))
                                 .andExpect(status().isOk())
-                                .andExpect(view().name("organize.html"))
                                 .andExpect(model().attribute("totalHp", is(BigDecimal.valueOf(10000))))
                                 .andExpect(model().attribute("buddyCount", 0))
                                 .andExpect(model().attribute("duoCount", 0))
@@ -121,11 +128,11 @@ public class OrganizeControllerTest {
                                 .param("rare", "SSR")
                                 .param("type", "ATTACK")
                                 .param("buddy1", "ACE")
-                                .param("buddy1Effect", "ATK UP(小)")
+                                .param("buddy1Grouping", "ATK_UP_SMALL")
                                 .param("buddy2", "KALIM")
-                                .param("buddy2Effect", "HP UP(小)")
+                                .param("buddy2Grouping", "HP_UP_SMALL")
                                 .param("buddy3", "LILIA")
-                                .param("buddy3Effect", "HP UP(中)")
+                                .param("buddy3Grouping", "HP_UP_MIDDLE")
                                 .param("magic1", "ZERO_RAY")
                                 .param("magic2", "FLAME_BLAST2")
                                 .param("magic3", "WATER_SHOT2")

@@ -47,7 +47,6 @@
                     <th>魔法３効果</th>
                     <th> </th>
                 </tr>
-<<<<<<< HEAD
                 <th:block th:each="record , st: ${cardList}">
                     <tr>
                         <th th:text="${record.clothingName}"></th>
@@ -57,7 +56,7 @@
                             <td>
                                 <select th:name="rare" class="selectbox">
                                     <option th:each=" option: ${rare}"
-                                        th:value="${option.characterName}"
+                                        th:value="${option.elementName}"
                                         th:text="${option.viewName}">
                                     </option>
                                 </select>
@@ -65,7 +64,7 @@
                             <td>
                                 <select th:name="type" class="selectbox type">
                                     <option th:each=" option: ${type}"
-                                        th:value="${option.characterName}"
+                                        th:value="${option.elementName}"
                                         th:text="${option.viewName}">
                                     </option>
                                 </select>
@@ -232,7 +231,6 @@
                         </form>
                     </tr>
                 </th:block>
-=======
                 <tr th:each="record , st: ${cardList}">
                     <th th:text="${record.clothingName}"></th>
                     <td th:text="${record.name.viewName}"></td>
@@ -413,7 +411,6 @@
                         </td>
                     </form>
                 </tr>
->>>>>>> 8c31ae98f5eb9d33b8a61b42c60f2278c135ce55
             </tbody>
         </ta>
         <!--/*Bootstrapのモーダルウィンドウ*/-->

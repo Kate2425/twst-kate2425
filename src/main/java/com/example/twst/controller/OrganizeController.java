@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.CardEnum;
 import com.example.twst.form.BattleForm;
@@ -26,7 +25,6 @@ import com.example.twst.session.OrganizeSession;
 
 @Controller
 @RequestMapping("/organize")
-@SessionAttributes(value = "OrganizeSession")
 public class OrganizeController {
 
     private CardService cardService;
@@ -89,6 +87,11 @@ public class OrganizeController {
         battleForm.setEnemyMagicType("FIRE");
 
         return battleForm;
+    }
+
+    @ModelAttribute
+    public OrganizeSession getOrganizeSession() {
+        return this.organizeSession;
     }
 
     /**
@@ -177,8 +180,9 @@ public class OrganizeController {
         model.addAttribute("enemyMagicType", MAGIC_TYPE);
         model.addAttribute("difficulty", DIFFICULTY);
 
-        // enemy
-        model.addAttribute("magic", CardEnum.getValue("magic"));
+        // enemy 
+        model.addAttribute("magic", CardEnum.getValueListOfFormName("magic"));
+        model.addAttribute("buffDebuff", BuffDebuffGroupingEnum.getTypeList());
 
         return "organize.html";
     }
@@ -187,8 +191,7 @@ public class OrganizeController {
      * 編成画面にセット
      */
     @PostMapping
-    public String conform(CardForm cardForm, OrganizeForm organizeForm,
-            RedirectAttributes redirectAttributes) {
+    public String conform(CardForm cardForm, OrganizeForm organizeForm) {
 
         Card[] cardArray = new Card[5];
         if (organizeSession.getCardArray() != null) {
@@ -225,7 +228,6 @@ public class OrganizeController {
         // sessionに保存する
         cardArray[organizeForm.getArrayIndex()] = card;
         organizeSession.setCardArray(cardArray);
-        redirectAttributes.addFlashAttribute("organizeSession", organizeSession);
 
         return "redirect:organize";
     }

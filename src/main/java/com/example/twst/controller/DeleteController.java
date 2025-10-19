@@ -4,11 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.twst.domain.model.Card;
-import com.example.twst.domain.model.EnumUtils;
 import com.example.twst.domain.model.TableEnum;
 import com.example.twst.form.CardForm;
 import com.example.twst.form.SearchForm;
@@ -23,7 +20,6 @@ import org.springframework.ui.Model;
 
 @RequestMapping("delete")
 @Controller
-@SessionAttributes(value = { "SearchForm" })
 public class DeleteController {
 
     private CardService cardService;
@@ -55,6 +51,11 @@ public class DeleteController {
         return cardForm;
     }
 
+    @ModelAttribute
+    public EditSession getDeleteSession() {
+        return this.deleteSession;
+    }
+
     @GetMapping
     public String input(SearchForm searchForm, CardForm cardForm, Model model) {
         // 対象テーブルの生成
@@ -64,24 +65,21 @@ public class DeleteController {
 
         String[] tableNames = searchForm.getTableNameChecks();
         List<Card> cardList = cardService.selectMany(searchForm, tableNames[0]);
-        TableEnum tableName = EnumUtils.getViewName(TableEnum.class, tableNames[0]);
         model.addAttribute("cardList", cardList);
-        model.addAttribute("tableName", tableName);
+        model.addAttribute("tableName", TableEnum.getValueOfTableName(tableNames[0]));
 
         return "delete.html";
     }
 
     @PostMapping
-    public String conform(CardForm cardForm, SearchForm searchForm,
-            RedirectAttributes redirectAttributes, Model model) {
+    public String conform(CardForm cardForm, SearchForm searchForm, Model model) {
         // CardFormをセットする
         String[] tableName = new String[1];
-        tableName[0] = cardForm.getTableName().getCharacterName();
+        tableName[0] = cardForm.getTableName().getTableName();
         searchForm.setTableNameChecks(tableName);
 
         deleteSession.setTableNameChecks(tableName);
         deleteSession.setSearchForm(searchForm);
-        redirectAttributes.addFlashAttribute("deleteSession", deleteSession);
 
         cardService.deleteOne(cardForm);
 

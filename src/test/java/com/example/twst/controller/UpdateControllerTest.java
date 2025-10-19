@@ -29,10 +29,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.example.twst.domain.model.BuddyGroupingEnum;
+import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.Card;
+import com.example.twst.domain.model.CardEnum;
+import com.example.twst.domain.model.CharacterEnum;
+import com.example.twst.domain.model.MagicGroupingEnum;
 import com.example.twst.domain.model.TableEnum;
 import com.example.twst.service.CardService;
-import com.example.twst.session.EditSession;
 
 @SpringBootTest
 @Transactional
@@ -45,9 +49,6 @@ public class UpdateControllerTest {
 
         @Mock
         private CardService service;
-
-        @Autowired
-        EditSession updateSession;
 
         @BeforeEach
         void setup() {
@@ -71,11 +72,17 @@ public class UpdateControllerTest {
                                 .andExpect(view().name("update.html"))
                                 .andExpect(model().attribute("cardList",
                                                 allOf(hasItem(hasProperty("id", is("out_ruggie"))))))
+                                .andExpect(model().attribute("characterName", CharacterEnum.values()))
+                                .andExpect(model().attribute("rare", CardEnum.getValueListOfFormName("rare")))
+                                .andExpect(model().attribute("type", CardEnum.getValueListOfFormName("type")))
+                                .andExpect(model().attribute("magic", MagicGroupingEnum.values()))
+                                .andExpect(model().attribute("buddyGrouping", BuddyGroupingEnum.values()))
+                                .andExpect(model().attribute("buffDebuffGrouping", BuffDebuffGroupingEnum.values()))
                                 .andReturn();
 
                 MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
 
-                doReturn(1).when(service).updateOne(any());
+                doReturn(true).when(service).updateOne(any());
 
                 mvcResult = mockMvc.perform(post("/update")
                                 .session(mockSession)
@@ -97,21 +104,20 @@ public class UpdateControllerTest {
                                 .param("minAtk", "1326")
                                 .param("maxHp", "6156")
                                 .param("maxAtk", "6278")
-                                .param("validFlg", "true")
-                                .param("buddy1Grouping", "4")
-                                .param("buddy2Grouping", "1")
-                                .param("buddy3Grouping", "-"))
+                                .param("validFlg", "false")
+                                .param("buddy1Grouping", "ATK_UP_MIDDLE")
+                                .param("buddy2Grouping", "HP_UP_SMALL")
+                                .param("buddy3Grouping", "HYPHEN"))
                                 .andExpect(view().name("redirect:update"))
                                 .andExpect(status().isFound())
                                 .andReturn();
-
-                updateSession = (EditSession) mockSession.getAttribute("scopedTarget.updateSession");
 
                 mockMvc.perform(get("/update")
                                 .session(mockSession))
                                 .andExpect(status().isOk())
                                 .andExpect(view().name("update.html"))
                                 .andExpect(model().attribute("cardList",
-                                                allOf(hasItem(hasProperty("id", is("out_ruggie"))))));
+                                                allOf(hasItem(allOf(hasProperty("id", is("out_jade")),
+                                                                hasProperty("validFlg", is(false)))))));
         }
 }

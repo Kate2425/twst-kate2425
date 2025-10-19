@@ -5,13 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.twst.domain.model.Card;
 import com.example.twst.domain.model.CardEnum;
 import com.example.twst.domain.model.CharacterEnum;
-import com.example.twst.domain.model.EnumUtils;
 import com.example.twst.domain.model.TableEnum;
 import com.example.twst.domain.model.MagicGroupingEnum;
 import com.example.twst.domain.model.BuddyGroupingEnum;
@@ -28,7 +25,6 @@ import org.springframework.ui.Model;
 
 @RequestMapping("insert")
 @Controller
-@SessionAttributes(value = { "SearchForm" })
 public class InsertController {
 
     private CardService cardService;
@@ -60,6 +56,11 @@ public class InsertController {
         return cardForm;
     }
 
+    @ModelAttribute
+    public EditSession getInsertSession() {
+        return this.insertSession;
+    }
+
     @GetMapping
     public String input(SearchForm searchForm, CardForm cardForm, Model model) {
         // 対象テーブルの生成
@@ -69,14 +70,13 @@ public class InsertController {
 
         String[] tableNames = searchForm.getTableNameChecks();
         List<Card> cardList = cardService.selectMany(searchForm, tableNames[0]);
-        TableEnum tableName = EnumUtils.getViewName(TableEnum.class, tableNames[0]);
         model.addAttribute("cardList", cardList);
-        model.addAttribute("tableName", tableName);
+        model.addAttribute("tableName", TableEnum.getValueOfTableName(tableNames[0]));
 
         // セレクトボックス名をセット
         model.addAttribute("characterName", CharacterEnum.values());
-        model.addAttribute("rare", CardEnum.getValue("rare"));
-        model.addAttribute("type", CardEnum.getValue("type"));
+        model.addAttribute("rare", CardEnum.getValueListOfFormName("rare"));
+        model.addAttribute("type", CardEnum.getValueListOfFormName("type"));
         model.addAttribute("magicGrouping", MagicGroupingEnum.values());
         model.addAttribute("buddyGrouping", BuddyGroupingEnum.values());
         model.addAttribute("buffDebuffGrouping", BuffDebuffGroupingEnum.values());
@@ -85,16 +85,14 @@ public class InsertController {
     }
 
     @PostMapping
-    public String conform(CardForm cardForm, SearchForm searchForm,
-            RedirectAttributes redirectAttributes, Model model) {
+    public String conform(CardForm cardForm, SearchForm searchForm, Model model) {
         // CardFormをセットする
         String[] tableName = new String[1];
-        tableName[0] = cardForm.getTableName().getCharacterName();
+        tableName[0] = cardForm.getTableName().getTableName();
         searchForm.setTableNameChecks(tableName);
 
         insertSession.setTableNameChecks(tableName);
         insertSession.setSearchForm(searchForm);
-        redirectAttributes.addFlashAttribute("insertSession", insertSession);
 
         cardService.insert(cardForm);
 

@@ -12,7 +12,7 @@
             <form method="get" action="#" th:object="${SearchForm}"
                 id="editForm">
                 <span th:each="item : ${tableName}">
-                    <input type="radio" th:value="${item.characterName}"
+                    <input type="radio" th:value="${item.tableName}"
                         th:field="*{tableNameChecks}" />
                     <label th:for="${#ids.prev('tableNameChecks')}"
                         th:text="${item.viewName}"></label>

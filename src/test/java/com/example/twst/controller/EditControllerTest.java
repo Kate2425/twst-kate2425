@@ -14,6 +14,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.example.twst.domain.model.TableEnum;
+import com.example.twst.form.SearchForm;
+
 @SpringBootTest
 @WebAppConfiguration
 public class EditControllerTest {
@@ -33,6 +36,8 @@ public class EditControllerTest {
     void input() throws Exception {
         mockMvc.perform(get("/edit"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("edit.html"));
+                .andExpect(view().name("edit.html"))
+                .andExpect(model().attribute("SearchForm", new SearchForm()))
+                .andExpect(model().attribute("tableName", TableEnum.getViewNameList()));
     }
 }

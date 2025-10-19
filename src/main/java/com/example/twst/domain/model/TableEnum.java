@@ -3,10 +3,11 @@ package com.example.twst.domain.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.twst.NameInterface;
+import lombok.Getter;
 
-public enum TableEnum implements NameInterface {
-
+@Getter
+public enum TableEnum {
+    HYPHEN("-", "-", "-"),
     DORMITORY_CLOTHING("dormitory_clothing", "寮服", "dor"),
     EXPERIMENTAL_CLOTHING("experimental_clothing", "実験着", "exp"),
     CEREMONY_CLOTHING("ceremony_clothing", "式典服", "cer"),
@@ -46,7 +47,7 @@ public enum TableEnum implements NameInterface {
     /**
      * テーブル名.
      */
-    private final String characterName;
+    private final String tableName;
 
     /**
      * 表示名.
@@ -59,64 +60,54 @@ public enum TableEnum implements NameInterface {
     private final String id;
 
     /**
-     * characterNameを取得する.
-     * 
-     * @return characterName
-     */
-    @Override
-    public String getCharacterName() {
-        return characterName;
-    }
-
-    /**
-     * viewNameを取得する.
-     * 
-     * @return viewName
-     */
-    @Override
-    public String getViewName() {
-        return viewName;
-    }
-
-    /**
-     * idを取得する.
+      * tableNameからidを取得する.
+     * @param tableName
      * @return id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * characterNameからidを取得する.
-     * @param characterName
-     * @return id
-     */
-    public static String getIdOfCharacterName(String characterName) {
+      */
+    public static String getIdOfTableName(String tableName) {
+        String tempId = "";
         for (TableEnum tableEnum : TableEnum.values()) {
-            if (tableEnum.getCharacterName().equals(characterName)) {
-                return tableEnum.getId();
+            if (tableEnum.getTableName().equals(tableName)) {
+                tempId = tableEnum.getId();
             }
         }
-        return null;
+        return tempId;
     }
 
     /**
-     * viewNameListのリストを取得する.
-     * @return viewNameList
+     * tableNameからTableEnumを取得する.
+     * @param tableName
+     * @return viewName
      */
-    public List<String> getViewNameList() {
-        List<String> viewNameList = new ArrayList<>();
-        for (TableEnum tableEnum : TableEnum.values()) {
-            viewNameList.add(tableEnum.getViewName());
+    public static TableEnum getValueOfTableName(String tableName) {
+        TableEnum tableEnum = HYPHEN;
+        for (TableEnum values : TableEnum.values()) {
+            if (values.getTableName().equals(tableName)) {
+                tableEnum = values;
+            }
         }
-        return viewNameList;
+        return tableEnum;
+    }
+
+    /**
+     * TableEnumのリストを取得する.
+     * @return tableEnumList
+     */
+    public static List<TableEnum> getViewNameList() {
+        List<TableEnum> tableEnumList = new ArrayList<>();
+        for (TableEnum tableEnum : TableEnum.values()) {
+            if (tableEnum != HYPHEN) {
+                tableEnumList.add(tableEnum);
+            }
+        }
+        return tableEnumList;
     }
 
     /**
      * constructor
      */
-    private TableEnum(String characterName, String viewName, String id) {
-        this.characterName = characterName;
+    private TableEnum(String tableName, String viewName, String id) {
+        this.tableName = tableName;
         this.viewName = viewName;
         this.id = id;
     }

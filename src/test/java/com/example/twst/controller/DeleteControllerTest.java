@@ -36,81 +36,60 @@ import com.example.twst.service.CardService;
 @WebAppConfiguration
 
 public class DeleteControllerTest {
-    @Autowired
-    WebApplicationContext webApplicationContext;
+        @Autowired
+        WebApplicationContext webApplicationContext;
 
-    private MockMvc mockMvc;
+        private MockMvc mockMvc;
 
-    @Mock
-    private CardService service;
+        @Mock
+        private CardService service;
 
-    @BeforeEach
-    void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .alwaysDo(log()).build();
-    }
+        @BeforeEach
+        void setup() {
+                mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                                .alwaysDo(log()).build();
+        }
 
-    @Test
-    @DisplayName("input")
-    void input_01() throws Exception {
-        //Arrange 
-        Card card = new Card();
-        card.setTableName(TableEnum.GALA_COUTURE);
-        card.setId("gal_ruggie");
-        List<Card> cardList = new ArrayList<>();
-        cardList.add(card);
-        doReturn(cardList).when(service).selectMany(any(), anyString());
+        @Test
+        @DisplayName("input")
+        void input_01() throws Exception {
+                //Arrange 
+                Card card = new Card();
+                card.setTableName(TableEnum.GALA_COUTURE);
+                card.setId("gal_ruggie");
+                List<Card> cardList = new ArrayList<>();
+                cardList.add(card);
+                doReturn(cardList).when(service).selectMany(any(), anyString());
 
-        MvcResult mvcResult = mockMvc.perform(get("/delete")
-                .param("tableNameChecks", "gala_couture"))
-                .andExpect(view().name("delete.html"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("cardList",
-                        is(hasItem(hasProperty("id", is("gal_ruggie"))))))
-                .andExpect(model().attribute("tableName", is(TableEnum.GALA_COUTURE)))
-                .andReturn();
+                MvcResult mvcResult = mockMvc.perform(get("/delete")
+                                .param("tableNameChecks", "gala_couture"))
+                                .andExpect(view().name("delete.html"))
+                                .andExpect(status().isOk())
+                                .andExpect(model().attribute("cardList",
+                                                is(hasItem(hasProperty("id", is("gal_ruggie"))))))
+                                .andExpect(model().attribute("tableName", is(TableEnum.GALA_COUTURE)))
+                                .andReturn();
 
-        MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
+                MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
 
-        doReturn(true).when(service).deleteOne(any());
+                doReturn(true).when(service).deleteOne(any());
 
-        mvcResult = mockMvc.perform(post("/delete")
-                .session(mockSession)
-                .param("tableName", "GALA_COUTURE")
-                .param("name", "RUGGIE")
-                .param("rare", "R")
-                .param("type", "ATTACK")
-                .param("buddy1", "JAMIL")
-                .param("buddy2", "HYPHEN")
-                .param("buddy3", "HYPHEN")
-                .param("magic1", "VOID_SHOT")
-                .param("magic2", "LEAF_SHOT2")
-                .param("magic3", "HYPHEN")
-                .param("magic1BuffdebuffGrouping", "DAMAGE_DOWN_LARGE_ENEMY_1T")
-                .param("magic2BuffdebuffGrouping", "HYPHEN")
-                .param("magic3BuffdebuffGrouping",
-                        "ATK_UP_SMALL_SELF_1T_AND_DAMAGE_DOWN_SMALL_ENEMY_1T")
-                .param("duo", "HYPHEN")
-                .param("minHp", "0")
-                .param("minAtk", "0")
-                .param("maxHp", "0")
-                .param("maxAtk", "0")
-                .param("validFlg", "false")
-                .param("buddy1Grouping", "3")
-                .param("buddy2Grouping", "2")
-                .param("buddy3Grouping", "1"))
-                .andExpect(status().isFound())
-                .andExpect(view().name("redirect:insert"))
-                .andReturn();
+                mvcResult = mockMvc.perform(post("/delete")
+                                .session(mockSession)
+                                .param("tableName", "GALA_COUTURE")
+                                .param("name", "RUGGIE"))
+                                .andExpect(status().isFound())
+                                .andExpect(view().name("redirect:delete"))
+                                .andReturn();
 
-        doReturn(cardList).when(service).selectMany(any(), anyString());
+                doReturn(cardList).when(service).selectMany(any(), anyString());
 
-        mockMvc.perform(get("/delete")
-                .session(mockSession))
-                .andExpect(view().name("delete.html"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("cardList",
-                        is(hasItem(hasProperty("id", is("gal_ruggie"))))))
-                .andExpect(model().attribute("tableName", is(TableEnum.GALA_COUTURE)));
-    }
+                mockMvc.perform(get("/delete")
+                                .session(mockSession))
+                                .andExpect(view().name("delete.html"))
+                                .andExpect(status().isOk())
+                                .andExpect(model().attribute("cardList",
+                                                is(hasItem(hasProperty("id", is(not("gal_ruggie")))))))
+                                .andExpect(model().attribute("tableName", is(TableEnum.GALA_COUTURE)));
+        }
 }

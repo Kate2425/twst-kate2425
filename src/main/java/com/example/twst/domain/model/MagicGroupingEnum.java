@@ -77,12 +77,13 @@ public enum MagicGroupingEnum {
      * @return magicType
      */
     public static String getMagicType(int magicGrouping) {
+        String tempMagicType = "";
         for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
             if (magicGroupingEnum.getMagicGrouping() == magicGrouping) {
-                return magicGroupingEnum.getMagicType();
+                tempMagicType = magicGroupingEnum.getMagicType();
             }
         }
-        return null;
+        return tempMagicType;
     }
 
     /**
@@ -92,12 +93,13 @@ public enum MagicGroupingEnum {
      * @return viewName
      */
     public static String getViewName(int magicGrouping) {
+        String tempViewName = "";
         for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
             if (magicGroupingEnum.getMagicGrouping() == magicGrouping) {
-                return magicGroupingEnum.getViewName();
+                tempViewName = magicGroupingEnum.getViewName();
             }
         }
-        return null;
+        return tempViewName;
     }
 
     /**
@@ -107,24 +109,29 @@ public enum MagicGroupingEnum {
      * @return effect
      */
     public static String getEffect(int magicGrouping) {
+        String tempEffect = "";
         for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
             if (magicGroupingEnum.getMagicGrouping() == magicGrouping) {
-                return magicGroupingEnum.getEffect();
+                tempEffect = magicGroupingEnum.getEffect();
             }
         }
-        return null;
+        return tempEffect;
     }
 
-    /*
+    /**
      * consecutiveを取得する.
+     *
+     *@param magicGrouping
+      @return consecutive
      */
     public static int getConsecutive(int magicGrouping) {
+        int tempConsecutive = 0;
         for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
             if (magicGroupingEnum.getMagicGrouping() == magicGrouping) {
-                return magicGroupingEnum.getConsecutive();
+                tempConsecutive = magicGroupingEnum.getConsecutive();
             }
         }
-        return 0;
+        return tempConsecutive;
     }
 
     /**
@@ -152,12 +159,13 @@ public enum MagicGroupingEnum {
      * @return MagicGroupingEnum
      */
     public static MagicGroupingEnum getValueOfViewName(String viewName) {
-        for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
-            if (magicGroupingEnum.getViewName().equals(viewName)) {
-                return magicGroupingEnum;
+        MagicGroupingEnum magicGroupingEnum = HYPHEN;
+        for (MagicGroupingEnum values : MagicGroupingEnum.values()) {
+            if (values.getViewName().equals(viewName)) {
+                magicGroupingEnum = values;
             }
         }
-        return null;
+        return magicGroupingEnum;
     }
 
     /**
@@ -167,12 +175,13 @@ public enum MagicGroupingEnum {
      * @return MagicGroupingEnum
      */
     public static MagicGroupingEnum getValueOfMagicGrouping(int magicGrouping) {
-        for (MagicGroupingEnum magicGroupingEnum : MagicGroupingEnum.values()) {
-            if (magicGroupingEnum.getMagicGrouping() == magicGrouping) {
-                return magicGroupingEnum;
+        MagicGroupingEnum magicGroupingEnum = HYPHEN;
+        for (MagicGroupingEnum values : MagicGroupingEnum.values()) {
+            if (values.getMagicGrouping() == magicGrouping) {
+                magicGroupingEnum = values;
             }
         }
-        return null;
+        return magicGroupingEnum;
     }
 
     /**

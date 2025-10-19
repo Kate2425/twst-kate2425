@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.twst.domain.model.BuffDebuffGroupingEnum;
 import com.example.twst.domain.model.CardEnum;
@@ -20,7 +19,6 @@ import com.example.twst.form.SearchForm;
 
 @RequestMapping("search")
 @Controller
-@SessionAttributes(value = "OrganizeSession")
 public class SearchController {
 
     /**
@@ -33,8 +31,8 @@ public class SearchController {
         }
     });
 
-    /**
-     * sort buttonの表示に使用するアイテム
+    /** 
+     * sort buttonの表示に使用するアイテム 
      */
     static final Map<String, String> SORT = Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
         {
@@ -54,7 +52,7 @@ public class SearchController {
         searchForm.setInclude2("include2");
         searchForm.setInclude3("include3");
 
-        // sort set
+        // sort set 
         searchForm.setSort("atk");
 
         return searchForm;
@@ -65,9 +63,9 @@ public class SearchController {
      */
     @GetMapping
     public String input(SearchForm searchForm, OrganizeForm organizeForm, Model model) {
-        model.addAttribute("rare", CardEnum.getValue("rare"));
-        model.addAttribute("type", CardEnum.getValue("type"));
-        model.addAttribute("magic", CardEnum.getValue("magic"));
+        model.addAttribute("rare", CardEnum.getValueListOfFormName("rare"));
+        model.addAttribute("type", CardEnum.getValueListOfFormName("type"));
+        model.addAttribute("magic", CardEnum.getValueListOfFormName("magic"));
         model.addAttribute("buffDebuff", BuffDebuffGroupingEnum.getTypeList());
         model.addAttribute("heartslabyul", CharacterEnum.getValueListOfDormitoryName("Heartslabyul"));
         model.addAttribute("savanaclaw", CharacterEnum.getValueListOfDormitoryName("Savanaclaw"));
@@ -78,7 +76,7 @@ public class SearchController {
         model.addAttribute("diasomnia", CharacterEnum.getValueListOfDormitoryName("Diasomnia"));
         model.addAttribute("nrc", CharacterEnum.getValueListOfDormitoryName("Nrc"));
         model.addAttribute("special", CharacterEnum.getValueListOfDormitoryName("Special"));
-        model.addAttribute("tableName", TableEnum.values());
+        model.addAttribute("tableName", TableEnum.getViewNameList());
         model.addAttribute("include1", INCLUDE);
         model.addAttribute("include2", INCLUDE);
         model.addAttribute("include3", INCLUDE);

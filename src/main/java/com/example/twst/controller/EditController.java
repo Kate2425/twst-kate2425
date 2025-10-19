@@ -19,7 +19,7 @@ public class EditController {
     @GetMapping
     public String input(SearchForm searchForm, Model model) {
         model.addAttribute("SearchForm", searchForm);
-        model.addAttribute("tableName", TableEnum.values());
+        model.addAttribute("tableName", TableEnum.getViewNameList());
         return "edit.html";
     }
 

@@ -3,9 +3,10 @@ package com.example.twst.domain.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.twst.NameInterface;
+import lombok.Getter;
 
-public enum CharacterEnum implements NameInterface {
+@Getter
+public enum CharacterEnum {
     HYPHEN("Hyphen", "-", "-"),
     RIDDLE("Heartslabyul", "Riddle", "リドル"),
     ACE("Heartslabyul", "Ace", "エース"),
@@ -63,38 +64,19 @@ public enum CharacterEnum implements NameInterface {
     }
 
     /**
-     * characterNameを取得する.
-     * 
-     * @return characterName
-     */
-    @Override
-    public String getCharacterName() {
-        return characterName;
-    }
-
-    /**
-     * viewNameを取得する.
-     * 
-     * @return viewName
-     */
-    @Override
-    public String getViewName() {
-        return viewName;
-    }
-
-    /**
      * dormitoryNameを取得する.
      * 
      * @param characterName
      * @return dormitoryName
      */
     public String getDormitoryName(String characterName) {
+        String tempDormitoryName = "";
         for (CharacterEnum character : CharacterEnum.values()) {
             if (character.getCharacterName().equals(characterName)) {
-                return character.getDormitoryName();
+                tempDormitoryName = character.getDormitoryName();
             }
         }
-        return null;
+        return tempDormitoryName;
     }
 
     /**
@@ -104,12 +86,13 @@ public enum CharacterEnum implements NameInterface {
      * @return characterName
      */
     public String getCharacterName(String viewName) {
+        String tempCharacterName = "";
         for (CharacterEnum character : CharacterEnum.values()) {
             if (character.getViewName().equals(viewName)) {
-                return character.getCharacterName();
+                tempCharacterName = character.getCharacterName();
             }
         }
-        return null;
+        return tempCharacterName;
     }
 
     /**
@@ -119,12 +102,13 @@ public enum CharacterEnum implements NameInterface {
      * @return viewName
      */
     public String getViewName(String characterName) {
+        String tempViewName = "";
         for (CharacterEnum character : CharacterEnum.values()) {
             if (character.getCharacterName().equals(characterName)) {
-                return character.getViewName();
+                tempViewName = character.getViewName();
             }
         }
-        return null;
+        return tempViewName;
     }
 
     /**
@@ -149,12 +133,13 @@ public enum CharacterEnum implements NameInterface {
      * @return CharacterEnum
      */
     public static CharacterEnum getValueOfCharacterName(String characterName) {
-        for (CharacterEnum characterEnum : CharacterEnum.values()) {
-            if (characterEnum.getCharacterName().equals(characterName)) {
-                return characterEnum;
+        CharacterEnum characterEnum = HYPHEN;
+        for (CharacterEnum values : CharacterEnum.values()) {
+            if (values.getCharacterName().equals(characterName)) {
+                characterEnum = values;
             }
         }
-        return null;
+        return characterEnum;
     }
 
     /**

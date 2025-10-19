@@ -4,8 +4,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.twst.domain.model.BuddyGroupingEnum;
 import com.example.twst.domain.model.BuffDebuffGroupingEnum;
@@ -26,7 +24,6 @@ import org.springframework.ui.Model;
 
 @RequestMapping("update")
 @Controller
-@SessionAttributes(value = { "SearchForm" })
 public class UpdateController {
 
     private CardService cardService;
@@ -58,6 +55,11 @@ public class UpdateController {
         return cardForm;
     }
 
+    @ModelAttribute
+    public EditSession getUpdateSession() {
+        return this.updateSession;
+    }
+
     @GetMapping
     public String input(SearchForm searchForm, Model model) {
         // 対象テーブルの生成
@@ -71,8 +73,8 @@ public class UpdateController {
 
         // セレクトボックス名をセット
         model.addAttribute("characterName", CharacterEnum.values());
-        model.addAttribute("rare", CardEnum.getValue("rare"));
-        model.addAttribute("type", CardEnum.getValue("type"));
+        model.addAttribute("rare", CardEnum.getValueListOfFormName("rare"));
+        model.addAttribute("type", CardEnum.getValueListOfFormName("type"));
         model.addAttribute("magic", MagicGroupingEnum.values());
         model.addAttribute("buddyGrouping", BuddyGroupingEnum.values());
         model.addAttribute("buffDebuffGrouping", BuffDebuffGroupingEnum.values());
@@ -81,14 +83,12 @@ public class UpdateController {
     }
 
     @PostMapping
-    public String conform(CardForm cardForm, SearchForm searchForm,
-            RedirectAttributes redirectAttributes, Model model) {
+    public String conform(CardForm cardForm, SearchForm searchForm, Model model) {
         String[] tableName = new String[1];
-        tableName[0] = cardForm.getTableName().getCharacterName();
+        tableName[0] = cardForm.getTableName().getTableName();
         searchForm.setTableNameChecks(tableName);
         updateSession.setTableNameChecks(tableName);
         updateSession.setSearchForm(searchForm);
-        redirectAttributes.addFlashAttribute("updateSession", updateSession);
 
         cardService.updateOne(cardForm);
 

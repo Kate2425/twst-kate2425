@@ -30,4 +30,9 @@ public class BattleForm implements Serializable {
      * バディボーナス反映後合計HP
      */
     BigDecimal reflectedHp;
+
+    /**
+     * 敵のバフデバフ
+     */
+    String[] enemyBuffDebuffChecks;
 }
