@@ -333,9 +333,9 @@ public class CardDaoJdbcImpl implements CardDao {
             } else {
                 sql += " AND";
             }
-            sql += " ( magic1_buffdebuff_grouping LIKE any (array [:buffDebuff]))";
-            sql += " OR ( magic2_buffdebuff_grouping LIKE any (array [:buffDebuff]))";
-            sql += " OR ( magic3_buffdebuff_grouping LIKE any (array [:buffDebuff]))";
+            sql += " ( magic1_buffdebuff_grouping LIKE any (array [:buffDebuff])";
+            sql += " OR magic2_buffdebuff_grouping LIKE any (array [:buffDebuff])";
+            sql += " OR magic3_buffdebuff_grouping LIKE any (array [:buffDebuff]))";
         }
 
         // parameter

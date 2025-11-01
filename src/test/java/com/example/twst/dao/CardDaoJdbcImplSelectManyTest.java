@@ -1355,7 +1355,7 @@ public class CardDaoJdbcImplSelectManyTest {
                                 hasProperty("maxAtk", is(BigDecimal.valueOf(7000))),
                                 hasProperty("validFlg", is(false)),
                                 hasProperty("magic1BuffdebuffGrouping",
-                                                is(BuffDebuffGroupingEnum.ANNUAL_FREEZE_FRIEND_3T)),
+                                                is(BuffDebuffGroupingEnum.ANNUL_FREEZE_FRIEND_3T)),
                                 hasProperty("magic2BuffdebuffGrouping", is(BuffDebuffGroupingEnum.HYPHEN)),
                                 hasProperty("magic3BuffdebuffGrouping",
                                                 is(BuffDebuffGroupingEnum.DAMAGE_UP_LARGE_SELF_1T))));

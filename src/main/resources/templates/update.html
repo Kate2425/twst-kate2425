@@ -51,8 +51,8 @@
                     <tr>
                         <th th:text="${record.clothingName}"></th>
                         <td th:text="${record.name.viewName}"></td>
-                        <form th:form="'cardForm' + ${st.index}"
-                            th:object="${CardForm}">
+                        <form th:form="'cardForm' + ${st.index}" method="post"
+                            th:object="${CardForm}" th:action="@{/update}">
                             <td>
                                 <select th:name="rare" class="selectbox">
                                     <option th:each=" option: ${rare}"
@@ -239,7 +239,7 @@
                         <td>
                             <select th:name="rare" class="selectbox">
                                 <option th:each=" option: ${rare}"
-                                    th:value="${option.characterName}"
+                                    th:value="${option.name}"
                                     th:text="${option.viewName}">
                                 </option>
                             </select>
@@ -247,7 +247,7 @@
                         <td>
                             <select th:name="type" class="selectbox type">
                                 <option th:each=" option: ${type}"
-                                    th:value="${option.characterName}"
+                                    th:value="${option.name}"
                                     th:text="${option.viewName}">
                                 </option>
                             </select>
