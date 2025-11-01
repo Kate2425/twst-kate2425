@@ -214,16 +214,6 @@ public class BuffDebuffService {
                         .multiply(BigDecimal.valueOf(magicLevel));
                 evadePower = evadePower.add(BigDecimal.ONE);
             }
-            // case "大" -> {
-            //     evadePower = evadePower.add(BigDecimal.valueOf(0.1))
-            //             .multiply(BigDecimal.valueOf(magicLevel));
-            //     evadePower = evadePower.add(BigDecimal.valueOf(1.5));
-            // }
-            // case "極大" -> {
-            //     evadePower = evadePower.add(BigDecimal.valueOf(0.2))
-            //             .multiply(BigDecimal.valueOf(magicLevel));
-            //     evadePower = evadePower.add(BigDecimal.valueOf(3));
-            // }
         }
 
         boolean isEvade = (evadePower.compareTo(evadeRange)) != 1;
@@ -231,4 +221,107 @@ public class BuffDebuffService {
         return isEvade;
     }
 
+    /**
+     *  呪い判定.
+     * @param buff
+     * @param curseRange
+     * @param magicLevel
+     * @return isCurse
+     */
+    public boolean isCurse(BuffDebuffGroupingEnum buff, BigDecimal curseRange, int magicLevel) {
+        BigDecimal cursePower = BigDecimal.ZERO;
+        String strength = buff.getStrength();
+
+        switch (strength) {
+            case "小" -> {
+                cursePower = cursePower.add(BigDecimal.valueOf(0.01))
+                        .multiply(BigDecimal.valueOf(magicLevel));
+                cursePower = cursePower.add(BigDecimal.valueOf(0.1));
+            }
+            case "中" -> {
+                cursePower = cursePower.add(BigDecimal.valueOf(0.015))
+                        .multiply(BigDecimal.valueOf(magicLevel));
+                cursePower = cursePower.add(BigDecimal.valueOf(0.15));
+            }
+            case "大" -> {
+                cursePower = cursePower.add(BigDecimal.valueOf(0.035))
+                        .multiply(BigDecimal.valueOf(magicLevel));
+                cursePower = cursePower.add(BigDecimal.valueOf(0.35));
+            }
+            case "極大" -> {//FIXME
+                cursePower = cursePower.add(BigDecimal.valueOf(0.04))
+                        .multiply(BigDecimal.valueOf(magicLevel));
+                cursePower = cursePower.add(BigDecimal.valueOf(0.4));
+            }
+        }
+
+        boolean isCurse = (cursePower.compareTo(curseRange)) != 1;
+        return isCurse;
+    }
+
+    /**
+     * 暗闇判定.
+     * @param buff
+     * @param darknessRange
+     * @param magicLevel
+     * @return isDarkness
+     */
+    public boolean isDarkness(BuffDebuffGroupingEnum buff, BigDecimal darknessRange, int magicLevel) {
+        BigDecimal darknessPower = BigDecimal.ZERO;
+        String strength = buff.getStrength();
+
+        switch (strength) {
+            case "小" -> {
+                darknessPower = darknessPower.add(BigDecimal.valueOf(0.01))
+                        .multiply(BigDecimal.valueOf(magicLevel));
+                darknessPower = darknessPower.add(BigDecimal.valueOf(0.1));
+            }
+            case "中" -> {
+                darknessPower = darknessPower.add(BigDecimal.valueOf(0.015))
+                        .multiply(BigDecimal.valueOf(magicLevel));
+                darknessPower = darknessPower.add(BigDecimal.valueOf(0.15));
+            }
+            case "大" -> {
+                darknessPower = darknessPower.add(BigDecimal.valueOf(0.035))
+                        .multiply(BigDecimal.valueOf(magicLevel));
+                darknessPower = darknessPower.add(BigDecimal.valueOf(0.35));
+            }
+            case "極大" -> {//FIXME
+                darknessPower = darknessPower.add(BigDecimal.valueOf(0.04))
+                        .multiply(BigDecimal.valueOf(magicLevel));
+                darknessPower = darknessPower.add(BigDecimal.valueOf(0.4));
+            }
+        }
+
+        boolean isDarkness = (darknessPower.compareTo(darknessRange)) != 1;
+        return isDarkness;
+    }
+
+    /**
+     * クリティカル判定.
+     * @param buff
+     * @param criticalRange
+     * @param magicLevel
+     * @return isCritical
+     */
+    public boolean isCritical(BuffDebuffGroupingEnum buff, BigDecimal criticalRange, int magicLevel) {
+        BigDecimal criticalPower = BigDecimal.ZERO;
+        String strength = buff.getStrength();
+
+        switch (strength) {
+            case "中" -> {
+                criticalPower = criticalPower.add(BigDecimal.valueOf(0.0125))
+                        .multiply(BigDecimal.valueOf(magicLevel));
+                criticalPower = criticalPower.add(BigDecimal.valueOf(0.125));
+            }
+            case "極大" -> {//FIXME
+                criticalPower = criticalPower.add(BigDecimal.valueOf(0.04))
+                        .multiply(BigDecimal.valueOf(magicLevel));
+                criticalPower = criticalPower.add(BigDecimal.valueOf(0.4));
+            }
+        }
+
+        boolean isCritical = (criticalPower.compareTo(criticalRange)) != 1;
+        return isCritical;
+    }
 }

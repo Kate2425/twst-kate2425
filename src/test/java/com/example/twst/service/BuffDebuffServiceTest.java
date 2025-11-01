@@ -266,4 +266,44 @@ public class BuffDebuffServiceTest {
         assertThat(result, is(false));
     }
 
+    @Test
+    @DisplayName("isCurse_呪い_小")
+    void isCurse_01() throws Exception {
+        //Act
+        boolean result = target.isCurse(BuffDebuffGroupingEnum.CURSE_SMALL_ENEMY_2T, BigDecimal.valueOf(0.15), 5);
+
+        // Assert
+        assertThat(result, is(true));
+    }
+
+    @Test
+    @DisplayName("isCurse_呪い_中")
+    void isCurse_02() throws Exception {
+        //Act
+        boolean result = target.isCurse(BuffDebuffGroupingEnum.CURSE_MEDIUM_ENEMY_2T, BigDecimal.valueOf(0.224), 5);
+
+        // Assert
+        assertThat(result, is(false));
+    }
+
+    @Test
+    @DisplayName("isCurse_呪い_大")
+    void isCurse_03() throws Exception {
+        //Act
+        boolean result = target.isCurse(BuffDebuffGroupingEnum.CURSE_LARGE_ENEMY_2T, BigDecimal.valueOf(0.525), 5);
+
+        // Assert
+        assertThat(result, is(true));
+    }
+
+    @Test
+    @DisplayName("isCurse_呪い_極大")
+    void isCurse_04() throws Exception {
+        //Act
+        boolean result = target.isCurse(BuffDebuffGroupingEnum.CURSE_MAXIMUM_ENEMY_ALL_3T, BigDecimal.valueOf(0.5), 5);
+
+        // Assert
+        assertThat(result, is(false));
+    }
+
 }

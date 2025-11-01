@@ -244,7 +244,7 @@ public enum BuffDebuffGroupingEnum {
         /**
          * 無属性ダメージUP（中）（味方全体/5T）.
          */
-        VOID_DAMAGE_UP_MEDIUM_SELF_ALL_5T("55", "属性ダメージUP", "5", "中", "味方全体", "無属性ダメージUP（中）（味方全体/5T）"),
+        VOID_DAMAGE_UP_MEDIUM_FRIEND_ALL_5T("55", "属性ダメージUP", "5", "中", "味方全体", "無属性ダメージUP（中）（味方全体/5T）"),
         /**
          * 無属性ダメージUP（大）（味方全体/5T）.
          */
@@ -368,23 +368,23 @@ public enum BuffDebuffGroupingEnum {
         /**
          * 凍結無効（自/1T）.
          */
-        ANNUAL_FREEZE_SELF_1T("83", "凍結無効", "1", "-", "自", "凍結無効（自/1T）"),
+        ANNUL_FREEZE_SELF_1T("83", "凍結無効", "1", "-", "自", "凍結無効（自/1T）"),
         /**
          * 凍結無効（味方/1T）.
          */
-        ANNUAL_FREEZE_FRIEND_1T("84", "凍結無効", "1", "-", "味方", "凍結無効（味方/1T）"),
+        ANNUL_FREEZE_FRIEND_1T("84", "凍結無効", "1", "-", "味方", "凍結無効（味方/1T）"),
         /**
          * 凍結無効（味方/3T）.
          */
-        ANNUAL_FREEZE_FRIEND_3T("85", "凍結無効", "1", "-", "味方", "凍結無効（味方/3T）"),
+        ANNUL_FREEZE_FRIEND_3T("85", "凍結無効", "1", "-", "味方", "凍結無効（味方/3T）"),
         /**
          * 暗闇無効（自/1T）.
          */
-        ANNUAL_DARKNESS_SELF_1T("86", "暗闇無効", "1", "-", "自", "暗闇無効（自/1T）"),
+        ANNUL_DARKNESS_SELF_1T("86", "暗闇無効", "1", "-", "自", "暗闇無効（自/1T）"),
         /**
          * 暗闇無効（味方/1T）.
          */
-        ANNUAL_DARKNESS_FRIEND_1T("87", "暗闇無効", "1", "-", "味方", "暗闇無効（味方/1T）"),
+        ANNUL_DARKNESS_FRIEND_1T("87", "暗闇無効", "1", "-", "味方", "暗闇無効（味方/1T）"),
         /**
          * デバフ解除（味方）.
          */
@@ -402,9 +402,9 @@ public enum BuffDebuffGroupingEnum {
          */
         RECEIVE_DAMAGE_UP_LARGE_ENEMY_1T("91", "被ダメージUP", "1", "大", "相手", "被ダメージUP（大）（相手/1T）"),
         /**
-         * 被ダメージUP（小）（相手/1T）.
+         * 被ダメージUP（中）（相手/2T）.
          */
-        RECEIVE_DAMAGE_UP_MEDIUM_ENEMY_2T("92", "被ダメージUP", "2", "小", "相手", "被ダメージUP（小）（相手/1T）"),
+        RECEIVE_DAMAGE_UP_MEDIUM_ENEMY_2T("92", "被ダメージUP", "2", "中", "相手", "被ダメージUP（中）（相手/2T）"),
         /**
          * 被ダメージUP（中）（相手全体/2T）.
          */
@@ -437,6 +437,14 @@ public enum BuffDebuffGroupingEnum {
          * ガッツ（味方全体/3T）
          */
         GUTS_FRIEND_ALL_3T("103", "ガッツ", "3", "-", "味方全体", "ガッツ（味方全体/3T）"),
+        /**
+         * 凍結（相手/2T）
+         */
+        FREEZE_ENEMY_2T("999", "凍結", "2", "-", "相手", "凍結（相手/2T）"), //FIXME
+        /**
+         * 暗闇（相手/2T）
+         */
+        DARKNESS_ENEMY_2T("998", "暗闇", "2", "-", "相手", ""), //FIXME
         /**
          * ATK DOWN（小）（相手/1T）＆ダメージUP（小）（自/1T）.
          */
@@ -766,6 +774,14 @@ public enum BuffDebuffGroupingEnum {
                 return valueList;
         }
 
+        public static int getFreeze(BuffDebuffGroupingEnum buffDebuffGrouping1) {
+                int count = 0;
+                if (buffDebuffGrouping1.getType().equals("凍結")) {
+                        count = 1;
+                }
+                return count;
+        }
+
         /**
          * constructor.
          *
@@ -784,6 +800,5 @@ public enum BuffDebuffGroupingEnum {
                 this.strength = strength;
                 this.target = target;
                 this.viewName = viewName;
-
         }
 }
