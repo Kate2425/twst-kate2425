@@ -107,7 +107,7 @@ public class CardForm implements Serializable {
     /**
      * 有効フラグ
      */
-    private boolean validFlg;
+    private String validFlg;
 
     /**
      * バディ１区分

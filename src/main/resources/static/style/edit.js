@@ -33,14 +33,12 @@ window.addEventListener('load', function () {
       let message = '';
       if (url == '/insert') {
         message = tableViewName + ' ' + characterViewName + 'を登録しました。';
-      } else if (url == '/update') {
-        message = tableViewName + ' ' + characterViewName + 'を更新しました。';
       } else if (url == '/delete') {
         message = tableViewName + ' ' + characterViewName + 'を削除しました。';
       }
 
       let form = $(this).parent().parent().find('form');
-      console.log('$form:%o', form);
+      console.log('form:%o', form);
 
       // フォーム送信
       form.submit();

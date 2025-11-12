@@ -12,6 +12,7 @@
             crossorigin="anonymous">
         <link th:href="@{/style/style.css}" rel="stylesheet">
         <link th:href="@{/style/edit.css}" rel="stylesheet">
+        <link th:href="@{/style/update.css}" rel="stylesheet">
     </head>
 
     <body>
@@ -52,9 +53,15 @@
                         <th th:text="${record.clothingName}"></th>
                         <td th:text="${record.name.viewName}"></td>
                         <form th:form="'cardForm' + ${st.index}" method="post"
+                            th:id="'cardForm' + ${st.index}"
                             th:object="${CardForm}" th:action="@{/update}">
                             <td>
-                                <select th:name="rare" class="selectbox">
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputRare"
+                                    th:id="'inputRare' + ${st.index}" />
+                                <span th:text="${record.rare}"></span>
+                                <select th:name="rare" class="selectbox"
+                                    th:id="'selectRare' + ${st.index}">
                                     <option th:each=" option: ${rare}"
                                         th:value="${option.elementName}"
                                         th:text="${option.viewName}">
@@ -62,7 +69,12 @@
                                 </select>
                             </td>
                             <td>
-                                <select th:name="type" class="selectbox type">
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputType"
+                                    th:id="'inputType' + ${st.index}" />
+                                <span th:text="${record.type}"></span>
+                                <select th:name="type" class="selectbox type"
+                                    th:id="'selectType' + ${st.index}">
                                     <option th:each=" option: ${type}"
                                         th:value="${option.elementName}"
                                         th:text="${option.viewName}">
@@ -70,7 +82,13 @@
                                 </select>
                             </td>
                             <td>
-                                <select th:name="buddy1" class="selectbox name">
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputBuddy1"
+                                    th:id="'inputBuddy1' + ${st.index}" />
+                                <span
+                                    th:text="${record.buddy1.viewName}"></span>
+                                <select th:name="buddy1" class="selectbox name"
+                                    th:id="'selectBuddy1' + ${st.index}">
                                     <option th:each=" option: ${characterName}"
                                         th:value="${option.name}"
                                         th:text="${option.viewName}">
@@ -78,79 +96,260 @@
                                 </select>
                             </td>
                             <td>
-                                <select th:name="buddy2" class="selectbox name">
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputBuddy2"
+                                    th:id="'inputBuddy2' + ${st.index}" />
+                                <span
+                                    th:text="${record.buddy2.viewName}"></span>
+                                <select th:name="buddy2" class="selectbox name"
+                                    th:id="'selectBuddy2' + ${st.index}">
+                                    <option th:each=" option: ${characterName}"
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}"></option>
+                                </select>
+                            </td>
+                            <td><input type="checkbox" class="checkbox-icon"
+                                    name="inputBuddy3"
+                                    th:id="'inputBuddy3' + ${st.index}" />
+                                <span
+                                    th:text="${record.buddy3.viewName}"></span>
+                                <select th:name="buddy3" class="selectbox name"
+                                    th:id="'selectBuddy3' + ${st.index}">
                                     <option th:each=" option: ${characterName}"
                                         th:value="${option.name}"
                                         th:text="${option.viewName}"></option>
                                 </select>
                             </td>
                             <td>
-                                <select th:name="buddy3" class="selectbox name">
-                                    <option th:each=" option: ${characterName}"
-                                        th:value="${option.name}"
-                                        th:text="${option.viewName}"></option>
-                                </select>
-                            </td>
-                            <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputMagic1"
+                                    th:id="'inputMagic1' + ${st.index}" />
+                                <th:block
+                                    th:switch="${record.magic1.magicType}">
+                                    <span th:case="'FIRE'" th:class='fire'
+                                        th:text="${record.magic1.viewName}"></span>
+                                    <span th:case="'WATER'" th:class='water'
+                                        th:text="${record.magic1.viewName}"></span>
+                                    <span th:case="'LEAF'" th:class='leaf'
+                                        th:text="${record.magic1.viewName}"></span>
+                                    <span th:case="*"
+                                        th:text="${record.magic1.viewName}"></span>
+                                </th:block>
                                 <select th:name="magic1"
-                                    class="selectbox magic">
+                                    class="selectbox magic"
+                                    th:id="'selectMagic1' + ${st.index}">
                                     <option
                                         th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='-'"
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='FIRE'"
+                                        th:class='fire'
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='WATER'"
+                                        th:class='water'
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='LEAF'"
+                                        th:class='leaf'
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='VOID'"
                                         th:value="${option.name}"
                                         th:text="${option.viewName}">
                                     </option>
                                 </select>
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputMagic2"
+                                    th:id="'inputMagic2' + ${st.index}" />
+                                <th:block
+                                    th:switch="${record.magic2.magicType}">
+                                    <span th:case="'FIRE'" th:class='fire'
+                                        th:text="${record.magic2.viewName}"></span>
+                                    <span th:case="'WATER'" th:class='water'
+                                        th:text="${record.magic2.viewName}"></span>
+                                    <span th:case="'LEAF'" th:class='leaf'
+                                        th:text="${record.magic2.viewName}"></span>
+                                    <span th:case="*"
+                                        th:text="${record.magic2.viewName}"></span>
+                                </th:block>
                                 <select th:name="magic2"
-                                    class="selectbox magic">
+                                    class="selectbox magic"
+                                    th:id="'selectMagic2' + ${st.index}">
                                     <option
                                         th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='-'"
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='FIRE'"
+                                        th:class='fire'
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='WATER'"
+                                        th:class='water'
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='LEAF'"
+                                        th:class='leaf'
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='VOID'"
                                         th:value="${option.name}"
                                         th:text="${option.viewName}">
                                     </option>
                                 </select>
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputMagic3"
+                                    th:id="'inputMagic3' + ${st.index}" />
+                                <th:block
+                                    th:switch="${record.magic3.magicType}">
+                                    <span th:case="'FIRE'" th:class='fire'
+                                        th:text="${record.magic3.viewName}"></span>
+                                    <span th:case="'WATER'" th:class='water'
+                                        th:text="${record.magic3.viewName}"></span>
+                                    <span th:case="'LEAF'" th:class='leaf'
+                                        th:text="${record.magic3.viewName}"></span>
+                                    <span th:case="*"
+                                        th:text="${record.magic3.viewName}"></span>
+                                </th:block>
                                 <select th:name="magic3"
-                                    class="selectbox magic">
+                                    class="selectbox magic"
+                                    th:id="'selectMagic3' + ${st.index}">
                                     <option
                                         th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='-'"
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='FIRE'"
+                                        th:class='fire'
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='WATER'"
+                                        th:class='water'
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='LEAF'"
+                                        th:class='leaf'
+                                        th:value="${option.name}"
+                                        th:text="${option.viewName}">
+                                    </option>
+                                    <option
+                                        th:each=" option: ${magic}"
+                                        th:if="${option.magicType}=='VOID'"
                                         th:value="${option.name}"
                                         th:text="${option.viewName}">
                                     </option>
                                 </select>
                             </td>
                             <td>
-                                <select th:name="duo" class="selectbox name">
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputDuo"
+                                    th:id="'inputDuo' + ${st.index}" />
+                                <span
+                                    th:text="${record.duo.viewName}"></span>
+                                <select th:name="duo" class="selectbox name"
+                                    th:id="'selectDuo' + ${st.index}">
                                     <option th:each=" option: ${characterName}"
                                         th:value="${option.name}"
                                         th:text="${option.viewName}"></option>
                                 </select>
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputMinHp"
+                                    th:id="'inputMinHp' + ${st.index}" />
+                                <span
+                                    th:text="${record.minHp}"></span>
                                 <input type="text" th:name="minHp"
                                     th:value="${record.minHp}"
-                                    class="textbox" />
+                                    class="textbox"
+                                    th:id="'selectMinHp' + ${st.index}" />
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputMinAtk"
+                                    th:id="'inputMinAtk' + ${st.index}" />
+                                <span
+                                    th:text="${record.minAtk}"></span>
                                 <input type="text" th:name="minAtk"
                                     th:value="${record.minAtk}"
-                                    class="textbox" />
+                                    class="textbox"
+                                    th:id="'selectMinAtk' + ${st.index}" />
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputMaxHp"
+                                    th:id="'inputMaxHp' + ${st.index}" />
+                                <span
+                                    th:text="${record.maxHp}"></span>
                                 <input type="text" th:name="maxHp"
                                     th:value="${record.maxHp}"
-                                    class="textbox">
+                                    class="textbox"
+                                    th:id="'selectMaxHp' + ${st.index}">
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputMaxAtk"
+                                    th:id="'inputMaxAtk' + ${st.index}" />
+                                <span
+                                    th:text="${record.maxAtk}"></span>
                                 <input type="text" th:name="maxAtk"
                                     th:value="${record.maxAtk}"
-                                    class="textbox">
+                                    class="textbox"
+                                    th:id="'selectMaxAtk' + ${st.index}">
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputValidFlg"
+                                    th:id="'inputValidFlg' + ${st.index}" />
+                                <th:block
+                                    th:switch="${record.validFlg}">
+                                    <span th:case="true"
+                                        th:text="所持"></span>
+                                    <span th:case="false"
+                                        th:text="未所持"></span>
+                                </th:block>
                                 <select th:name="validFlg"
-                                    class="selectbox valid">
+                                    class="selectbox valid"
+                                    th:id="'selectValidFlg' + ${st.index}">
                                     <option th:value="true"
                                         th:text="所持"></option>
                                     <option th:value="false"
@@ -158,8 +357,14 @@
                                 </select>
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputBuddy1Grouping"
+                                    th:id="'inputBuddy1Grouping' + ${st.index}" />
+                                <span
+                                    th:text="${record.buddy1Grouping.effect}"></span>
                                 <select th:name="buddy1Grouping"
-                                    class="selectbox buddyGrouping">
+                                    class="selectbox buddyGrouping"
+                                    th:id="'selectBuddy1Grouping' + ${st.index}">
                                     <option
                                         th:each=" option: ${buddyGrouping}"
                                         th:value="${option.name}"
@@ -168,7 +373,13 @@
                                 </select>
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputBuddy2Grouping"
+                                    th:id="'inputBuddy2Grouping' + ${st.index}" />
+                                <span
+                                    th:text="${record.buddy2Grouping.effect}"></span>
                                 <select th:name="buddy2Grouping"
+                                    th:id="'selectBuddy2Grouping' + ${st.index}"
                                     class="selectbox buddyGrouping">
                                     <option
                                         th:each=" option: ${buddyGrouping}"
@@ -178,7 +389,13 @@
                                 </select>
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="'inputBuddy3Grouping' + ${st.index}"
+                                    th:id="inputBuddy3Grouping" />
+                                <span
+                                    th:text="${record.buddy3Grouping.effect}"></span>
                                 <select th:name="buddy3Grouping"
+                                    th:id="'selectBuddy3Grouping' + ${st.index}"
                                     class="selectbox buddyGrouping">
                                     <option
                                         th:each=" option: ${buddyGrouping}"
@@ -188,7 +405,13 @@
                                 </select>
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputMagic1BuffdebuffGrouping"
+                                    th:id="'inputMagic1BuffdebuffGrouping' + ${st.index}" />
+                                <span
+                                    th:text="${record.magic1BuffdebuffGrouping.viewName}"></span>
                                 <select th:name="magic1BuffdebuffGrouping"
+                                    th:id="'selectMagic1BuffdebuffGrouping' + ${st.index}"
                                     class="selectbox buffDebuffGrouping">
                                     <option
                                         th:each=" option: ${buffDebuffGrouping}"
@@ -198,7 +421,13 @@
                                 </select>
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputMagic2BuffdebuffGrouping"
+                                    th:id="'inputMagic2BuffdebuffGrouping' + ${st.index}" />
+                                <span
+                                    th:text="${record.magic2BuffdebuffGrouping.viewName}"></span>
                                 <select th:name="magic2BuffdebuffGrouping"
+                                    th:id="'selectMagic2BuffdebuffGrouping' + ${st.index}"
                                     class="selectbox buffDebuffGrouping">
                                     <option
                                         th:each=" option: ${buffDebuffGrouping}"
@@ -208,7 +437,13 @@
                                 </select>
                             </td>
                             <td>
+                                <input type="checkbox" class="checkbox-icon"
+                                    name="inputMagic3BuffdebuffGrouping"
+                                    th:id="'inputMagic3BuffdebuffGrouping' + ${st.index}" />
+                                <span
+                                    th:text="${record.magic3BuffdebuffGrouping.viewName}"></span>
                                 <select th:name="magic3BuffdebuffGrouping"
+                                    th:id="'selectMagic3BuffdebuffGrouping' + ${st.index}"
                                     class="selectbox buffDebuffGrouping">
                                     <option
                                         th:each=" option: ${buffDebuffGrouping}"
@@ -233,186 +468,6 @@
                         </form>
                     </tr>
                 </th:block>
-                <tr th:each="record , st: ${cardList}">
-                    <th th:text="${record.clothingName}"></th>
-                    <td th:text="${record.name.viewName}"></td>
-                    <form th:form="'cardForm' + ${st.index}"
-                        th:object="${CardForm}">
-                        <td>
-                            <select th:name="rare" class="selectbox">
-                                <option th:each=" option: ${rare}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="type" class="selectbox type">
-                                <option th:each=" option: ${type}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="buddy1" class="selectbox name">
-                                <option th:each=" option: ${characterName}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="buddy2" class="selectbox name">
-                                <option th:each=" option: ${characterName}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}"></option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="buddy3" class="selectbox name">
-                                <option th:each=" option: ${characterName}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}"></option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="magic1"
-                                class="selectbox magic">
-                                <option
-                                    th:each=" option: ${magic}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="magic2"
-                                class="selectbox magic">
-                                <option
-                                    th:each=" option: ${magic}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="magic3"
-                                class="selectbox magic">
-                                <option
-                                    th:each=" option: ${magic}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="duo" class="selectbox name">
-                                <option th:each=" option: ${characterName}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}"></option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" th:name="minHp"
-                                th:value="${record.minHp}"
-                                class="textbox" />
-                        </td>
-                        <td>
-                            <input type="text" th:name="minAtk"
-                                th:value="${record.minAtk}"
-                                class="textbox" />
-                        </td>
-                        <td>
-                            <input type="text" th:name="maxHp"
-                                th:value="${record.maxHp}"
-                                class="textbox">
-                        </td>
-                        <td>
-                            <input type="text" th:name="maxAtk"
-                                th:value="${record.maxAtk}"
-                                class="textbox">
-                        </td>
-                        <td>
-                            <select th:name="validFlg"
-                                class="selectbox valid">
-                                <option th:value="true"
-                                    th:text="所持"></option>
-                                <option th:value="false"
-                                    th:text="未所持"></option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="buddy1Grouping"
-                                class="selectbox buddyGrouping">
-                                <option
-                                    th:each=" option: ${buddyGrouping}"
-                                    th:value="${option.name}"
-                                    th:text="${option.effect}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="buddy2Grouping"
-                                class="selectbox buddyGrouping">
-                                <option
-                                    th:each=" option: ${buddyGrouping}"
-                                    th:value="${option.name}"
-                                    th:text="${option.effect}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="buddy3Grouping"
-                                class="selectbox buddyGrouping">
-                                <option
-                                    th:each=" option: ${buddyGrouping}"
-                                    th:value="${option.name}"
-                                    th:text="${option.effect}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="magic1BuffdebuffGrouping"
-                                class="selectbox buffDebuffGrouping">
-                                <option
-                                    th:each=" option: ${buffDebuffGrouping}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="magic2BuffdebuffGrouping"
-                                class="selectbox buffDebuffGrouping">
-                                <option
-                                    th:each=" option: ${buffDebuffGrouping}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select th:name="magic3BuffdebuffGrouping"
-                                class="selectbox buffDebuffGrouping">
-                                <option
-                                    th:each=" option: ${buffDebuffGrouping}"
-                                    th:value="${option.name}"
-                                    th:text="${option.viewName}">
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="hidden" th:name="tableName"
-                                th:value="${record.tableName.name}" />
-                            <input type="hidden" th:name="name"
-                                th:value="${record.name.name}" />
-                            <button th:formaction="@{/update}"
-                                type="button" th:id="'submit' + ${st.index}"
-                                class="btn submit light-blue-purple">更新</button>
-                        </td>
-                    </form>
-                </tr>
             </tbody>
         </ta>
         <!--/*Bootstrapのモーダルウィンドウ*/-->
@@ -430,7 +485,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary"
+                        <button type="button" class="btn btn-primary" id="modal"
                             data-bs-dismiss="modal">OK</button>
                     </div>
                 </div>
@@ -450,6 +505,6 @@
             th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js}"
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
             crossorigin="anonymous"></script>
-        <script th:src="@{/style/edit.js}"></script>
+        <script th:src="@{/style/update.js}"></script>
     </body>
 </html>

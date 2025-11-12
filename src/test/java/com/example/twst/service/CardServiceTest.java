@@ -66,7 +66,7 @@ public class CardServiceTest {
         cardForm.setMinAtk(BigDecimal.ZERO);
         cardForm.setMaxHp(BigDecimal.ZERO);
         cardForm.setMaxAtk(BigDecimal.ZERO);
-        cardForm.setValidFlg(false);
+        cardForm.setValidFlg("false");
         cardForm.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_SMALL);
         cardForm.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
         cardForm.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
@@ -101,7 +101,7 @@ public class CardServiceTest {
         cardForm.setMinAtk(BigDecimal.ZERO);
         cardForm.setMaxHp(BigDecimal.ZERO);
         cardForm.setMaxAtk(BigDecimal.ZERO);
-        cardForm.setValidFlg(false);
+        cardForm.setValidFlg("false");
         cardForm.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_SMALL);
         cardForm.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
         cardForm.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
@@ -325,7 +325,7 @@ public class CardServiceTest {
         cardForm.setMinAtk(BigDecimal.ZERO);
         cardForm.setMaxHp(BigDecimal.ZERO);
         cardForm.setMaxAtk(BigDecimal.ZERO);
-        cardForm.setValidFlg(false);
+        cardForm.setValidFlg("false");
         cardForm.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_SMALL);
         cardForm.setBuddy2Grouping(BuddyGroupingEnum.HYPHEN);
         cardForm.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);

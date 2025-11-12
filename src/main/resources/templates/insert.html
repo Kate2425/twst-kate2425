@@ -157,7 +157,36 @@
                         <td>
                             <select th:name="magic1"
                                 class="selectbox magic">
-                                <option th:each=" option: ${magicGrouping}"
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='-'"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='FIRE'"
+                                    th:class='fire'
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='WATER'"
+                                    th:class='water'
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='LEAF'"
+                                    th:class='leaf'
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='VOID'"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
                                 </option>
@@ -166,7 +195,36 @@
                         <td>
                             <select th:name="magic2"
                                 class="selectbox magic">
-                                <option th:each=" option: ${magicGrouping}"
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='-'"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='FIRE'"
+                                    th:class='fire'
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='WATER'"
+                                    th:class='water'
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='LEAF'"
+                                    th:class='leaf'
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='VOID'"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
                                 </option>
@@ -175,7 +233,36 @@
                         <td>
                             <select th:name="magic3"
                                 class="selectbox magic">
-                                <option th:each=" option: ${magicGrouping}"
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='-'"
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='FIRE'"
+                                    th:class='fire'
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='WATER'"
+                                    th:class='water'
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='LEAF'"
+                                    th:class='leaf'
+                                    th:value="${option.name}"
+                                    th:text="${option.viewName}">
+                                </option>
+                                <option
+                                    th:each=" option: ${magic}"
+                                    th:if="${option.magicType}=='VOID'"
                                     th:value="${option.name}"
                                     th:text="${option.viewName}">
                                 </option>

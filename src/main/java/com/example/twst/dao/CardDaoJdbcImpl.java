@@ -118,7 +118,7 @@ public class CardDaoJdbcImpl implements CardDao {
                 .addValue("max_atk", cardForm.getMaxAtk())
                 .addValue("regist_usr", "Kate")
                 .addValue("regist_date", timestamp)
-                .addValue("valid_flg", cardForm.isValidFlg())
+                .addValue("valid_flg", cardForm.getValidFlg())
                 .addValue("buddy1_grouping", cardForm.getBuddy1Grouping().getBuddyGrouping())
                 .addValue("buddy2_grouping", cardForm.getBuddy2Grouping().getBuddyGrouping())
                 .addValue("buddy3_grouping", cardForm.getBuddy3Grouping().getBuddyGrouping())
@@ -419,50 +419,331 @@ public class CardDaoJdbcImpl implements CardDao {
 
         // SQL
         String sql = "UPDATE " + tableName
-                + " SET"
-                + " rare = :rare"
-                + ", type = :type"
-                + ", buddy1 = :buddy1"
-                + ", buddy2 = :buddy2"
-                + ", buddy3 = :buddy3"
-                + ", magic1_grouping = :magic1Grouping"
-                + ", magic2_grouping = :magic2Grouping"
-                + ", magic3_grouping = :magic3Grouping"
-                + ", max_hp = :maxHp"
-                + ", max_atk = :maxAtk"
-                + ", min_hp = :minHp"
-                + ", min_atk = :minAtk"
-                + ", duo = :duo"
-                + ", magic1_buffdebuff_grouping =:magic1BuffdebuffGrouping"
-                + ", magic2_buffdebuff_grouping =:magic2BuffdebuffGrouping"
-                + ", magic3_buffDebuff_grouping =:magic3BuffdebuffGrouping"
-                + ", valid_flg = :validFlg"
-                + ", buddy1_grouping =:buddy1Grouping"
-                + ", buddy2_grouping =:buddy2Grouping"
-                + ", buddy3_grouping =:buddy3Grouping"
-                + " WHERE name = :name";
+                + " SET";
+
+        // rareに指定があればsqlに追加する
+        String rare = "";
+        if (cardForm.getRare() != null) {
+            sql += " rare = :rare";
+            rare = cardForm.getRare();
+        }
+
+        // typeに指定があればsqlに追加する
+        Set<String> type = new HashSet<>();
+        if (cardForm.getType() != null) {
+            if (cardForm.getRare() != null) {
+                sql += ", type = :type";
+                type.add(cardForm.getType());
+            } else {
+                sql += " type = :type";
+            }
+        }
+
+        //buddy1に指定があればsqlに追加する
+        Set<String> buddy1 = new HashSet<>();
+        if (cardForm.getBuddy1() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null)) {
+                sql += ", buddy1 = :buddy1";
+            } else {
+                sql += " buddy1 = :buddy1";
+            }
+            buddy1.add(cardForm.getBuddy1().getCharacterName());
+        }
+
+        //buddy2に指定があればsqlに追加する
+        Set<String> buddy2 = new HashSet<>();
+        if (cardForm.getBuddy2() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)) {
+                sql += ", buddy2 = :buddy2";
+            } else {
+                sql += " buddy2 = :buddy2";
+            }
+            buddy2.add(cardForm.getBuddy2().getCharacterName());
+        }
+
+        //buddy3に指定があればsqlに追加する
+        Set<String> buddy3 = new HashSet<>();
+        if (cardForm.getBuddy3() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null)) {
+                sql += ", buddy3 = :buddy3";
+            } else {
+                sql += " buddy3 = :buddy3";
+            }
+            buddy3.add(cardForm.getBuddy3().getCharacterName());
+        }
+
+        //magic1Groupingに指定があればsqlに追加する
+        Set<Integer> magic1Grouping = new HashSet<>();
+        if (cardForm.getMagic1() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)) {
+                sql += ", magic1_grouping = :magic1Grouping";
+            } else {
+                sql += " magic1_grouping = :magic1Grouping";
+            }
+            magic1Grouping.add(cardForm.getMagic1().getMagicGrouping());
+        }
+
+        //magic2Groupingに指定があればsqlに追加する
+        Set<Integer> magic2Grouping = new HashSet<>();
+        if (cardForm.getMagic2() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null)) {
+                sql += ", magic2_grouping = :magic2Grouping";
+            } else {
+                sql += " magic2_grouping = :magic2Grouping";
+            }
+            magic2Grouping.add(cardForm.getMagic2().getMagicGrouping());
+        }
+
+        //magic3Groupingに指定があればsqlに追加する
+        Set<Integer> magic3Grouping = new HashSet<>();
+        if (cardForm.getMagic3() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)) {
+                sql += ", magic3_grouping = :magic3Grouping";
+            } else {
+                sql += " magic3_grouping = :magic3Grouping";
+            }
+            magic3Grouping.add(cardForm.getMagic3().getMagicGrouping());
+        }
+
+        //maxHpに指定があればsqlに追加する
+        Set<BigDecimal> maxHp = new HashSet<>();
+        if (cardForm.getMaxHp() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null)) {
+                sql += ", max_hp = :maxHp";
+            } else {
+                sql += " max_hp = :maxHp";
+            }
+            maxHp.add(cardForm.getMaxHp());
+        }
+
+        //maxAtkに指定があればsqlに追加する
+        Set<BigDecimal> maxAtk = new HashSet<>();
+        if (cardForm.getMaxAtk() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)) {
+                sql += ", max_atk = :maxAtk";
+            } else {
+                sql += " max_atk = :maxAtk";
+            }
+            maxAtk.add(cardForm.getMaxAtk());
+        }
+
+        //minHpに指定があればsqlに追加する
+        Set<BigDecimal> minHp = new HashSet<>();
+        if (cardForm.getMinHp() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
+                    && (cardForm.getMaxAtk() != null)) {
+                sql += ", min_hp = :minHp";
+            } else {
+                sql += " min_hp = :minHp";
+            }
+            minHp.add(cardForm.getMinHp());
+        }
+
+        //minAtkに指定があればsqlに追加する
+        Set<BigDecimal> minAtk = new HashSet<>();
+        if (cardForm.getMinAtk() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
+                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)) {
+                sql += ", min_atk = :minAtk";
+            } else {
+                sql += " min_atk = :minAtk";
+            }
+            minAtk.add(cardForm.getMinAtk());
+        }
+
+        //duoに指定があればsqlに追加する
+        Set<String> duo = new HashSet<>();
+        if (cardForm.getDuo() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
+                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
+                    && (cardForm.getMinAtk() != null)) {
+                sql += ", duo = :duo";
+            } else {
+                sql += " duo = :duo";
+            }
+            duo.add(cardForm.getDuo().getCharacterName());
+        }
+
+        //magic1BuffdebuffGroupingに指定があればsqlに追加する
+        Set<String> magic1BuffdebuffGrouping = new HashSet<>();
+        if (cardForm.getMagic1BuffdebuffGrouping() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
+                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
+                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)) {
+                sql += ", magic1_buffdebuff_grouping =:magic1BuffdebuffGrouping";
+            } else {
+                sql += " magic1_buffdebuff_grouping =:magic1BuffdebuffGrouping";
+            }
+            magic1BuffdebuffGrouping.add(cardForm.getMagic1BuffdebuffGrouping().getBuffDebuffGrouping());
+        }
+
+        //magic2BuffdebuffGroupingに指定があればsqlに追加する
+        Set<String> magic2BuffdebuffGrouping = new HashSet<>();
+        if (cardForm.getMagic2BuffdebuffGrouping() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
+                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
+                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
+                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    && (cardForm.getMagic1BuffdebuffGrouping() != null)) {
+                sql += ", magic2_buffdebuff_grouping =:magic2BuffdebuffGrouping";
+            } else {
+                sql += " magic2_buffdebuff_grouping =:magic2BuffdebuffGrouping";
+            }
+            magic2BuffdebuffGrouping.add(cardForm.getMagic2BuffdebuffGrouping().getBuffDebuffGrouping());
+        }
+
+        //magic3BuffdebuffGroupingに指定があればsqlに追加する
+        Set<String> magic3BuffdebuffGrouping = new HashSet<>();
+        if (cardForm.getMagic3BuffdebuffGrouping() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
+                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
+                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
+                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    && (cardForm.getMagic2BuffdebuffGrouping() != null)) {
+                sql += ", magic3_buffdebuff_grouping =:magic3BuffdebuffGrouping";
+            } else {
+                sql += " magic3_buffdebuff_grouping =:magic3BuffdebuffGrouping";
+            }
+            magic3BuffdebuffGrouping.add(cardForm.getMagic3BuffdebuffGrouping().getBuffDebuffGrouping());
+        }
+
+        //validFlgに指定があればsqlに追加する
+        Set<Boolean> validFlg = new HashSet<>();
+        if (cardForm.getValidFlg() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
+                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
+                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
+                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    && (cardForm.getMagic2BuffdebuffGrouping() != null)
+                    && (cardForm.getMagic3BuffdebuffGrouping() != null)) {
+                sql += ", valid_flg = :validFlg";
+            } else {
+                sql += " valid_flg = :validFlg";
+            }
+            if (cardForm.getValidFlg().equals("true")) {
+                validFlg.add(true);
+            } else {
+                validFlg.add(false);
+            }
+        }
+
+        //buddy1Groupingに指定があればsqlに追加する
+        Set<Integer> buddy1Grouping = new HashSet<>();
+        if (cardForm.getBuddy1Grouping() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
+                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
+                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
+                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    && (cardForm.getMagic2BuffdebuffGrouping() != null)
+                    && (cardForm.getMagic3BuffdebuffGrouping() != null)
+                    && (cardForm.getValidFlg() != null)) {
+                sql += ", buddy1_grouping =:buddy1Grouping";
+            } else {
+                sql += " buddy1_grouping =:buddy1Grouping";
+            }
+            buddy1Grouping.add(cardForm.getBuddy1Grouping().getBuddyGrouping());
+        }
+
+        //buddy2Groupingに指定があればsqlに追加する
+        Set<Integer> buddy2Grouping = new HashSet<>();
+        if (cardForm.getBuddy2Grouping() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
+                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
+                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
+                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    && (cardForm.getMagic2BuffdebuffGrouping() != null)
+                    && (cardForm.getMagic3BuffdebuffGrouping() != null)
+                    && (cardForm.getValidFlg() != null) && (cardForm.getBuddy1Grouping() != null)) {
+                sql += ", buddy2_grouping =:buddy2Grouping";
+            } else {
+                sql += " buddy2_grouping =:buddy2Grouping";
+            }
+            buddy2Grouping.add(cardForm.getBuddy2Grouping().getBuddyGrouping());
+        }
+
+        //buddy3Groupingに指定があればsqlに追加する
+        Set<Integer> buddy3Grouping = new HashSet<>();
+        if (cardForm.getBuddy3Grouping() != null) {
+            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
+                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
+                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
+                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
+                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
+                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
+                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    && (cardForm.getMagic2BuffdebuffGrouping() != null)
+                    && (cardForm.getMagic3BuffdebuffGrouping() != null)
+                    && (cardForm.getValidFlg() != null) && (cardForm.getBuddy1Grouping() != null)
+                    && (cardForm.getBuddy2Grouping() != null)) {
+                sql += ", buddy3_grouping =:buddy3Grouping";
+            } else {
+                sql += " buddy3_grouping =:buddy3Grouping";
+            }
+            buddy3Grouping.add(cardForm.getBuddy3Grouping().getBuddyGrouping());
+        }
+
+        sql += " WHERE name = :name";
 
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("rare", cardForm.getRare())
-                .addValue("type", cardForm.getType())
-                .addValue("buddy1", cardForm.getBuddy1().getCharacterName())
-                .addValue("buddy2", cardForm.getBuddy2().getCharacterName())
-                .addValue("buddy3", cardForm.getBuddy3().getCharacterName())
-                .addValue("magic1Grouping", cardForm.getMagic1().getMagicGrouping())
-                .addValue("magic2Grouping", cardForm.getMagic2().getMagicGrouping())
-                .addValue("magic3Grouping", cardForm.getMagic3().getMagicGrouping())
-                .addValue("magic1BuffdebuffGrouping", cardForm.getMagic1BuffdebuffGrouping().getBuffDebuffGrouping())
-                .addValue("magic2BuffdebuffGrouping", cardForm.getMagic2BuffdebuffGrouping().getBuffDebuffGrouping())
-                .addValue("magic3BuffdebuffGrouping", cardForm.getMagic3BuffdebuffGrouping().getBuffDebuffGrouping())
-                .addValue("duo", cardForm.getDuo().getCharacterName())
-                .addValue("maxHp", cardForm.getMaxHp())
-                .addValue("maxAtk", cardForm.getMaxAtk())
-                .addValue("minHp", cardForm.getMinHp())
-                .addValue("minAtk", cardForm.getMinAtk())
-                .addValue("validFlg", cardForm.isValidFlg())
-                .addValue("buddy1Grouping", cardForm.getBuddy1Grouping().getBuddyGrouping())
-                .addValue("buddy2Grouping", cardForm.getBuddy2Grouping().getBuddyGrouping())
-                .addValue("buddy3Grouping", cardForm.getBuddy3Grouping().getBuddyGrouping())
+                .addValue("rare", rare)
+                .addValue("type", type)
+                .addValue("buddy1", buddy1)
+                .addValue("buddy2", buddy2)
+                .addValue("buddy3", buddy3)
+                .addValue("magic1Grouping", magic1Grouping)
+                .addValue("magic2Grouping", magic2Grouping)
+                .addValue("magic3Grouping", magic3Grouping)
+                .addValue("magic1BuffdebuffGrouping", magic1BuffdebuffGrouping)
+                .addValue("magic2BuffdebuffGrouping", magic2BuffdebuffGrouping)
+                .addValue("magic3BuffdebuffGrouping", magic3BuffdebuffGrouping)
+                .addValue("duo", duo)
+                .addValue("maxHp", maxHp)
+                .addValue("maxAtk", maxAtk)
+                .addValue("minHp", minHp)
+                .addValue("minAtk", minAtk)
+                .addValue("validFlg", validFlg)
+                .addValue("buddy1Grouping", buddy1Grouping)
+                .addValue("buddy2Grouping", buddy2Grouping)
+                .addValue("buddy3Grouping", buddy3Grouping)
                 .addValue("name", cardForm.getName().getCharacterName());
 
         // SQL実行
@@ -472,7 +753,7 @@ public class CardDaoJdbcImpl implements CardDao {
     /**
      * テーブルを１件削除.
      * 
-     * @param cardId
+      * @param cardId
      * @return count
      * @throws DataAccessException
      */

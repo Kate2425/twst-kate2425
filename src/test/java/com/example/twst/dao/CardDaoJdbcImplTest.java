@@ -42,7 +42,7 @@ public class CardDaoJdbcImplTest {
                 cardForm.setMinAtk(BigDecimal.valueOf(2222));
                 cardForm.setMaxHp(BigDecimal.valueOf(3333));
                 cardForm.setMaxAtk(BigDecimal.valueOf(4444));
-                cardForm.setValidFlg(true);
+                cardForm.setValidFlg("true");
                 cardForm.setBuddy1Grouping(BuddyGroupingEnum.HP_UP_MIDDLE);
                 cardForm.setBuddy2Grouping(BuddyGroupingEnum.HP_AND_ATK_UP_SMALL);
                 cardForm.setBuddy3Grouping(BuddyGroupingEnum.HYPHEN);
