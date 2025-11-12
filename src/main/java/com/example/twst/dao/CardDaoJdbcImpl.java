@@ -442,7 +442,7 @@ public class CardDaoJdbcImpl implements CardDao {
         //buddy1に指定があればsqlに追加する
         Set<String> buddy1 = new HashSet<>();
         if (cardForm.getBuddy1() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null)) {
                 sql += ", buddy1 = :buddy1";
             } else {
                 sql += " buddy1 = :buddy1";
@@ -453,7 +453,7 @@ public class CardDaoJdbcImpl implements CardDao {
         //buddy2に指定があればsqlに追加する
         Set<String> buddy2 = new HashSet<>();
         if (cardForm.getBuddy2() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)) {
                 sql += ", buddy2 = :buddy2";
             } else {
                 sql += " buddy2 = :buddy2";
@@ -464,8 +464,8 @@ public class CardDaoJdbcImpl implements CardDao {
         //buddy3に指定があればsqlに追加する
         Set<String> buddy3 = new HashSet<>();
         if (cardForm.getBuddy3() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null)) {
                 sql += ", buddy3 = :buddy3";
             } else {
                 sql += " buddy3 = :buddy3";
@@ -476,8 +476,8 @@ public class CardDaoJdbcImpl implements CardDao {
         //magic1Groupingに指定があればsqlに追加する
         Set<Integer> magic1Grouping = new HashSet<>();
         if (cardForm.getMagic1() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)) {
                 sql += ", magic1_grouping = :magic1Grouping";
             } else {
                 sql += " magic1_grouping = :magic1Grouping";
@@ -488,9 +488,9 @@ public class CardDaoJdbcImpl implements CardDao {
         //magic2Groupingに指定があればsqlに追加する
         Set<Integer> magic2Grouping = new HashSet<>();
         if (cardForm.getMagic2() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null)) {
                 sql += ", magic2_grouping = :magic2Grouping";
             } else {
                 sql += " magic2_grouping = :magic2Grouping";
@@ -501,9 +501,9 @@ public class CardDaoJdbcImpl implements CardDao {
         //magic3Groupingに指定があればsqlに追加する
         Set<Integer> magic3Grouping = new HashSet<>();
         if (cardForm.getMagic3() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)) {
                 sql += ", magic3_grouping = :magic3Grouping";
             } else {
                 sql += " magic3_grouping = :magic3Grouping";
@@ -514,10 +514,10 @@ public class CardDaoJdbcImpl implements CardDao {
         //maxHpに指定があればsqlに追加する
         Set<BigDecimal> maxHp = new HashSet<>();
         if (cardForm.getMaxHp() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null)) {
                 sql += ", max_hp = :maxHp";
             } else {
                 sql += " max_hp = :maxHp";
@@ -528,10 +528,10 @@ public class CardDaoJdbcImpl implements CardDao {
         //maxAtkに指定があればsqlに追加する
         Set<BigDecimal> maxAtk = new HashSet<>();
         if (cardForm.getMaxAtk() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null) || (cardForm.getMaxHp() != null)) {
                 sql += ", max_atk = :maxAtk";
             } else {
                 sql += " max_atk = :maxAtk";
@@ -542,11 +542,11 @@ public class CardDaoJdbcImpl implements CardDao {
         //minHpに指定があればsqlに追加する
         Set<BigDecimal> minHp = new HashSet<>();
         if (cardForm.getMinHp() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
-                    && (cardForm.getMaxAtk() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null) || (cardForm.getMaxHp() != null)
+                    || (cardForm.getMaxAtk() != null)) {
                 sql += ", min_hp = :minHp";
             } else {
                 sql += " min_hp = :minHp";
@@ -557,11 +557,11 @@ public class CardDaoJdbcImpl implements CardDao {
         //minAtkに指定があればsqlに追加する
         Set<BigDecimal> minAtk = new HashSet<>();
         if (cardForm.getMinAtk() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
-                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null) || (cardForm.getMaxHp() != null)
+                    || (cardForm.getMaxAtk() != null) || (cardForm.getMinHp() != null)) {
                 sql += ", min_atk = :minAtk";
             } else {
                 sql += " min_atk = :minAtk";
@@ -572,12 +572,12 @@ public class CardDaoJdbcImpl implements CardDao {
         //duoに指定があればsqlに追加する
         Set<String> duo = new HashSet<>();
         if (cardForm.getDuo() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
-                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
-                    && (cardForm.getMinAtk() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null) || (cardForm.getMaxHp() != null)
+                    || (cardForm.getMaxAtk() != null) || (cardForm.getMinHp() != null)
+                    || (cardForm.getMinAtk() != null)) {
                 sql += ", duo = :duo";
             } else {
                 sql += " duo = :duo";
@@ -588,12 +588,12 @@ public class CardDaoJdbcImpl implements CardDao {
         //magic1BuffdebuffGroupingに指定があればsqlに追加する
         Set<String> magic1BuffdebuffGrouping = new HashSet<>();
         if (cardForm.getMagic1BuffdebuffGrouping() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
-                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
-                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null) || (cardForm.getMaxHp() != null)
+                    || (cardForm.getMaxAtk() != null) || (cardForm.getMinHp() != null)
+                    || (cardForm.getMinAtk() != null) || (cardForm.getDuo() != null)) {
                 sql += ", magic1_buffdebuff_grouping =:magic1BuffdebuffGrouping";
             } else {
                 sql += " magic1_buffdebuff_grouping =:magic1BuffdebuffGrouping";
@@ -604,14 +604,14 @@ public class CardDaoJdbcImpl implements CardDao {
         //magic2BuffdebuffGroupingに指定があればsqlに追加する
         Set<String> magic2BuffdebuffGrouping = new HashSet<>();
         if (cardForm.getMagic2BuffdebuffGrouping() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
-                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
-                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
-                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
-                    && (cardForm.getMagic1BuffdebuffGrouping() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null) || (cardForm.getMaxHp() != null)
+                    || (cardForm.getMaxAtk() != null) || (cardForm.getMinHp() != null)
+                    || (cardForm.getMinAtk() != null) || (cardForm.getDuo() != null)
+                    || (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    || (cardForm.getMagic1BuffdebuffGrouping() != null)) {
                 sql += ", magic2_buffdebuff_grouping =:magic2BuffdebuffGrouping";
             } else {
                 sql += " magic2_buffdebuff_grouping =:magic2BuffdebuffGrouping";
@@ -622,14 +622,14 @@ public class CardDaoJdbcImpl implements CardDao {
         //magic3BuffdebuffGroupingに指定があればsqlに追加する
         Set<String> magic3BuffdebuffGrouping = new HashSet<>();
         if (cardForm.getMagic3BuffdebuffGrouping() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
-                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
-                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
-                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
-                    && (cardForm.getMagic2BuffdebuffGrouping() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null) || (cardForm.getMaxHp() != null)
+                    || (cardForm.getMaxAtk() != null) || (cardForm.getMinHp() != null)
+                    || (cardForm.getMinAtk() != null) || (cardForm.getDuo() != null)
+                    || (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    || (cardForm.getMagic2BuffdebuffGrouping() != null)) {
                 sql += ", magic3_buffdebuff_grouping =:magic3BuffdebuffGrouping";
             } else {
                 sql += " magic3_buffdebuff_grouping =:magic3BuffdebuffGrouping";
@@ -640,15 +640,15 @@ public class CardDaoJdbcImpl implements CardDao {
         //validFlgに指定があればsqlに追加する
         Set<Boolean> validFlg = new HashSet<>();
         if (cardForm.getValidFlg() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
-                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
-                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
-                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
-                    && (cardForm.getMagic2BuffdebuffGrouping() != null)
-                    && (cardForm.getMagic3BuffdebuffGrouping() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null) || (cardForm.getMaxHp() != null)
+                    || (cardForm.getMaxAtk() != null) || (cardForm.getMinHp() != null)
+                    || (cardForm.getMinAtk() != null) || (cardForm.getDuo() != null)
+                    || (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    || (cardForm.getMagic2BuffdebuffGrouping() != null)
+                    || (cardForm.getMagic3BuffdebuffGrouping() != null)) {
                 sql += ", valid_flg = :validFlg";
             } else {
                 sql += " valid_flg = :validFlg";
@@ -663,16 +663,16 @@ public class CardDaoJdbcImpl implements CardDao {
         //buddy1Groupingに指定があればsqlに追加する
         Set<Integer> buddy1Grouping = new HashSet<>();
         if (cardForm.getBuddy1Grouping() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
-                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
-                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
-                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
-                    && (cardForm.getMagic2BuffdebuffGrouping() != null)
-                    && (cardForm.getMagic3BuffdebuffGrouping() != null)
-                    && (cardForm.getValidFlg() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null) || (cardForm.getMaxHp() != null)
+                    || (cardForm.getMaxAtk() != null) || (cardForm.getMinHp() != null)
+                    || (cardForm.getMinAtk() != null) || (cardForm.getDuo() != null)
+                    || (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    || (cardForm.getMagic2BuffdebuffGrouping() != null)
+                    || (cardForm.getMagic3BuffdebuffGrouping() != null)
+                    || (cardForm.getValidFlg() != null)) {
                 sql += ", buddy1_grouping =:buddy1Grouping";
             } else {
                 sql += " buddy1_grouping =:buddy1Grouping";
@@ -683,16 +683,16 @@ public class CardDaoJdbcImpl implements CardDao {
         //buddy2Groupingに指定があればsqlに追加する
         Set<Integer> buddy2Grouping = new HashSet<>();
         if (cardForm.getBuddy2Grouping() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
-                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
-                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
-                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
-                    && (cardForm.getMagic2BuffdebuffGrouping() != null)
-                    && (cardForm.getMagic3BuffdebuffGrouping() != null)
-                    && (cardForm.getValidFlg() != null) && (cardForm.getBuddy1Grouping() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null) || (cardForm.getMaxHp() != null)
+                    || (cardForm.getMaxAtk() != null) || (cardForm.getMinHp() != null)
+                    || (cardForm.getMinAtk() != null) || (cardForm.getDuo() != null)
+                    || (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    || (cardForm.getMagic2BuffdebuffGrouping() != null)
+                    || (cardForm.getMagic3BuffdebuffGrouping() != null)
+                    || (cardForm.getValidFlg() != null) || (cardForm.getBuddy1Grouping() != null)) {
                 sql += ", buddy2_grouping =:buddy2Grouping";
             } else {
                 sql += " buddy2_grouping =:buddy2Grouping";
@@ -703,17 +703,17 @@ public class CardDaoJdbcImpl implements CardDao {
         //buddy3Groupingに指定があればsqlに追加する
         Set<Integer> buddy3Grouping = new HashSet<>();
         if (cardForm.getBuddy3Grouping() != null) {
-            if ((cardForm.getRare() != null) && (cardForm.getType() != null) && (cardForm.getBuddy1() != null)
-                    && (cardForm.getBuddy2() != null) && (cardForm.getBuddy3() != null)
-                    && (cardForm.getMagic1() != null) && (cardForm.getMagic2() != null)
-                    && (cardForm.getMagic3() != null) && (cardForm.getMaxHp() != null)
-                    && (cardForm.getMaxAtk() != null) && (cardForm.getMinHp() != null)
-                    && (cardForm.getMinAtk() != null) && (cardForm.getDuo() != null)
-                    && (cardForm.getMagic1BuffdebuffGrouping() != null)
-                    && (cardForm.getMagic2BuffdebuffGrouping() != null)
-                    && (cardForm.getMagic3BuffdebuffGrouping() != null)
-                    && (cardForm.getValidFlg() != null) && (cardForm.getBuddy1Grouping() != null)
-                    && (cardForm.getBuddy2Grouping() != null)) {
+            if ((cardForm.getRare() != null) || (cardForm.getType() != null) || (cardForm.getBuddy1() != null)
+                    || (cardForm.getBuddy2() != null) || (cardForm.getBuddy3() != null)
+                    || (cardForm.getMagic1() != null) || (cardForm.getMagic2() != null)
+                    || (cardForm.getMagic3() != null) || (cardForm.getMaxHp() != null)
+                    || (cardForm.getMaxAtk() != null) || (cardForm.getMinHp() != null)
+                    || (cardForm.getMinAtk() != null) || (cardForm.getDuo() != null)
+                    || (cardForm.getMagic1BuffdebuffGrouping() != null)
+                    || (cardForm.getMagic2BuffdebuffGrouping() != null)
+                    || (cardForm.getMagic3BuffdebuffGrouping() != null)
+                    || (cardForm.getValidFlg() != null) || (cardForm.getBuddy1Grouping() != null)
+                    || (cardForm.getBuddy2Grouping() != null)) {
                 sql += ", buddy3_grouping =:buddy3Grouping";
             } else {
                 sql += " buddy3_grouping =:buddy3Grouping";

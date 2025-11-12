@@ -28,16 +28,15 @@ window.addEventListener('load', function () {
   });
 
   // 未チェック取得処理
-  function getNotCheckboxes() {
+  function getCheckboxes() {
     let checkboxes = [];
-    $('input[type="checkbox"]:checked').each(function (index) {
+    $('input[type="checkbox"]:checked').each(function (index, elm) {
       console.log(
         '$(input[type="checkbox"]:checked):%o',
         $('input[type="checkbox"]:checked')
       );
-      const baseElementName = $('input[type="checkbox"]:checked')
-        .attr('name')
-        .replace('input', '');
+      console.log('elm:%o', elm);
+      const baseElementName = $(elm).attr('name').replace('input', '');
       console.log('baseElementName:%o', baseElementName);
 
       const elementName =
@@ -45,9 +44,7 @@ window.addEventListener('load', function () {
         baseElementName.substring(1);
       console.log('elementName:%o', elementName);
 
-      const elementId = $('input[type="checkbox"]:checked')
-        .attr('id')
-        .replace('input', 'select');
+      const elementId = $(elm).attr('id').replace('input', 'select');
       console.log('elementId:%o', elementId);
 
       const selectValue = $('#' + elementId).val();
@@ -86,7 +83,7 @@ window.addEventListener('load', function () {
         .parent()
         .find('#' + formName);
       console.log('form:%o', form);
-      const checkboxes = getNotCheckboxes();
+      const checkboxes = getCheckboxes();
 
       // 既存の form を削除（2重送信防止）
       $(this).parent().parent().find('.selectbox').remove();
