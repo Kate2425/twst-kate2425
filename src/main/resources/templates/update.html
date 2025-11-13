@@ -457,8 +457,8 @@
                                     th:value="${record.tableName.name}" />
                                 <input type="hidden" th:name="name"
                                     th:value="${record.name.name}" />
-                                <input type="hidden" th:name="tableViewName"
-                                    th:value="${record.tableName.viewName}" />
+                                <input type="hidden" th:name="clothingName"
+                                    th:value="${{record.clothingName}}" />
                                 <input type="hidden" th:name="characterViewName"
                                     th:value="${record.name.viewName}" />
                                 <button th:formaction="@{/update}"

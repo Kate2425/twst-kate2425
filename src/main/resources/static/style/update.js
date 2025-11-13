@@ -6,9 +6,6 @@ window.addEventListener('load', function () {
     console.log('initialize');
   });
 
-  const tableViewName = $('input[name="tableViewName"]').val();
-  console.log('tableViewName:%o', tableViewName);
-
   //表示処理
   $(function () {
     //チェックボックスがクリックされたとき
@@ -35,20 +32,15 @@ window.addEventListener('load', function () {
         '$(input[type="checkbox"]:checked):%o',
         $('input[type="checkbox"]:checked')
       );
-      console.log('elm:%o', elm);
       const baseElementName = $(elm).attr('name').replace('input', '');
-      console.log('baseElementName:%o', baseElementName);
 
       const elementName =
         baseElementName.substring(0, 1).toLowerCase() +
         baseElementName.substring(1);
-      console.log('elementName:%o', elementName);
 
       const elementId = $(elm).attr('id').replace('input', 'select');
-      console.log('elementId:%o', elementId);
 
       const selectValue = $('#' + elementId).val();
-      console.log('selectValue:%o', selectValue);
 
       let temp = {};
       temp.name = elementName;
@@ -67,14 +59,21 @@ window.addEventListener('load', function () {
       }
 
       e.preventDefault(); // ボタンのデフォルト送信を無効化
-      characterViewName = $(this)
+
+      const clothingName = $(this)
+        .parent()
+        .parent()
+        .find('input[name="clothingName"]')
+        .val();
+      console.log('clothingName:%o', clothingName);
+
+      const characterViewName = $(this)
         .parent()
         .parent()
         .find('input[name="characterViewName"]')
         .val();
       console.log('characterViewName:%o', characterViewName);
-      let message =
-        tableViewName + ' ' + characterViewName + 'を更新しました。';
+      let message = characterViewName + ' ' + clothingName + 'を更新しました。';
 
       const formName = $(this).attr('id').replace('submit', 'cardForm');
       console.log('formName:%o', formName);
