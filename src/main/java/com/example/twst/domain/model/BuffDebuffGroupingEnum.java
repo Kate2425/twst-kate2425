@@ -456,6 +456,11 @@ public enum BuffDebuffGroupingEnum {
         ATK_DOWN_MEDIUM_ENEMY_1T_AND_ATK_UP_SMALL_SELF_1T(" 3 & 35", "ATK DOWN＆ATK UP", "1＆1", "中＆小", "相手＆自",
                         "ATK DOWN（中）（相手/1T）＆ATK UP（小）（自/1T）"),
         /**
+         * ダメージDOWN（中）（相手/1T）＆HP回復（極小）
+         */
+        DAMAGE_DOWN_MEDIUM_ENEMY_1T_AND_HP_RECOVER_MINIMUM("22 & 67", "ダメージDOWN＆HP回復", "1＆1", "中＆極小", "相手＆-",
+                        "ダメージDOWN（中）（相手/1T）＆HP回復（極小）"),
+        /**
          * ATK UP（小）（自/1T）＆ダメージDOWN（小）（相手/1T）.
          */
         ATK_UP_SMALL_SELF_1T_AND_DAMAGE_DOWN_SMALL_ENEMY_1T("35 & 21", "ATK_UP＆ダメージDOWN", "1＆1", "小＆小",
@@ -557,6 +562,11 @@ public enum BuffDebuffGroupingEnum {
         CURSE_LARGE_ENEMY_2T_AND_DAMAGE_UP_SMALL_SELF_1T("80 & 58", "呪い＆ダメージUP", "2＆1", "大＆小", "相手＆自",
                         "呪い（大）（相手/2T）＆ダメージUP（小）（自/1T）"),
         /**
+         * 呪い無効（味方/1T）＆ATK DOWN（小）（相手/1T）
+         */
+        ANNUL_CURSE_FRIEND_1T_AND_ATK_DOWN_SMALL_ENEMY_1T("82 & 2", "呪い無効＆ATK DOWN", "1＆1", "-＆小", "味方＆相手",
+                        "呪い無効（味方/1T）＆ATK DOWN（小）（相手/1T）"),
+        /**
          * 呪い無効（味方/1T）＆ATK UP（小）（自/1T）
          */
         ANNUL_CURSE_FRIEND_1T_AND_ATK_UP_SMALL_SELF_1T("82 & 35", "呪い無効＆ATK_UP", "1＆1", "-＆小", "味方＆自",
@@ -582,8 +592,13 @@ public enum BuffDebuffGroupingEnum {
         ANNUAL_FREEZE_FRIEND_1T_AND_ATK_UP_SMALL_FRIEND_1T("84 & 40", "凍結無効＆ATK_UP", "1＆1", "-＆小", "味方＆味方",
                         "凍結無効（味方/1T）＆ATK UP（小）（味方/1T）"),
         /**
-         * 暗闇無効（自/1T）＆HP継続回復（小）（自/3T）
-         */
+         * 暗闇無効（自/1T）＆ATK DOWN（中）（相手/1T）
+          */
+        ANNUAL_DARKNESS_SELF_1T_AND_ATK_DOWN_MEDIUM_ENEMY_1T("86 & 3", "暗闇無効＆ATK_DOWN", "1＆1", "-＆小", "自＆相手",
+                        " 暗闇無効（自/1T）＆ATK DOWN（中）（相手/1T）"),
+        /**
+        * 暗闇無効（自/1T）＆HP継続回復（小）（自/3T）
+        */
         ANNUAL_DARKNESS_SELF_1T_AND_HP_CONTINUOUS_RECOVER_SMALL_SELF_3T("86 & 71", "暗闇無効＆HP継続回復", "1＆3",
                         "-＆小", "自＆自", "暗闇無効（自/1T）＆HP継続回復（小）（自/3T）"),
         /**
@@ -610,6 +625,11 @@ public enum BuffDebuffGroupingEnum {
          */
         REMOVE_DEBUFF_FRIEND_AND_ATK_UP_SMALL_SELF_1T("88 & 35", "デバフ解除＆ATK_UP", "-＆1", "-＆小", "味方＆自",
                         "デバフ解除（味方）＆ATK UP（小）（自/1T）"),
+        /**
+         * デバフ解除（味方）＆HP継続回復（小）（自/3T）
+         */
+        REMOVE_DEBUFF_FRIEND_AND_HP_CONTINUOUS_RECOVER_SMALL_SELF_3T("88 & 71", "デバフ解除＆HP継続回復", "-＆3", "-＆小", "味方＆自",
+                        "デバフ解除（味方）＆HP継続回復（小）（自/3T）"),
         /**
          * ATK UP（小）（自/1T）＆ATK UP（小）（自/3T）＆ATK UP（小）（自/5T）
          */
@@ -774,13 +794,13 @@ public enum BuffDebuffGroupingEnum {
                 return valueList;
         }
 
-        public static int getFreeze(BuffDebuffGroupingEnum buffDebuffGrouping1) {
-                int count = 0;
-                if (buffDebuffGrouping1.getType().equals("凍結")) {
-                        count = 1;
-                }
-                return count;
-        }
+        // public static int getFreeze(BuffDebuffGroupingEnum buffDebuffGrouping1) {
+        //         int count = 0;
+        //         if (buffDebuffGrouping1.getType().equals("凍結")) {
+        //                 count = 1;
+        //         }
+        //         return count;
+        // }
 
         /**
          * constructor.
